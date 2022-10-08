@@ -12,7 +12,7 @@ namespace VirtualGameStore.Models
         public DateTime? BirthDate { get; set; }
         [PersonalData]
         public bool IsEmailMarketingEnabled { get; set; }
-        [PersonalData]
+
         public Gender? Gender { get; set; }
     }
 }

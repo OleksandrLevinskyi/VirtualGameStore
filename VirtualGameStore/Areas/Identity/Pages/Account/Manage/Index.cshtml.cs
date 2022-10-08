@@ -1,6 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
+﻿#nullable disable
 
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using VirtualGameStore.Data;
 using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
@@ -17,13 +18,16 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ApplicationDbContext _context;
 
         public IndexModel(
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         public string Username { get; set; }
@@ -54,12 +58,21 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Receive promotional emails")]
             public bool IsEmailMarketingEnabled { get; set; }
+
+            [Display(Name = "Gender")]
+            public int? GenderId { get; set; }
         }
+        public SelectList GenderSl { get; set; }
 
         private async Task LoadAsync(User user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+
+            var selectedGender = await _context.Genders.Where(g => user.Gender != null && user.Gender.Id == g.Id).FirstOrDefaultAsync();
+
+            var gendersQuery = await _context.Genders.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
+            GenderSl = new SelectList(gendersQuery, nameof(Gender.Id), nameof(Gender.Name), selectedGender);
 
             Username = userName;
 
@@ -70,12 +83,17 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                 LastName = user.LastName,
                 BirthDate = user.BirthDate,
                 IsEmailMarketingEnabled = user.IsEmailMarketingEnabled,
+                GenderId = selectedGender?.Id
             };
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _context.Users
+                .Where(u => User.Identity != null && u.Email == User.Identity.Name)
+                .Include(u => u.Gender)
+                .FirstOrDefaultAsync();
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -114,6 +132,10 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             user.LastName = Input.LastName;
             user.BirthDate = Input.BirthDate;
             user.IsEmailMarketingEnabled = Input.IsEmailMarketingEnabled;
+            if (Input.GenderId != null)
+            {
+                user.Gender = await _context.Genders.Where(g => g.Id == Input.GenderId).FirstOrDefaultAsync();
+            }
 
             await _userManager.UpdateAsync(user);
 
