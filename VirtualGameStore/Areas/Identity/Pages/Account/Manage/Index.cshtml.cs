@@ -26,39 +26,34 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string Username { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+            [DataType(DataType.Text)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [DataType(DataType.Date)]
+            [Display(Name = "Birth Date")]
+            public DateTime? BirthDate { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Receive promotional emails")]
+            public bool IsEmailMarketingEnabled { get; set; }
         }
 
         private async Task LoadAsync(User user)
@@ -70,7 +65,11 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
+                IsEmailMarketingEnabled = user.IsEmailMarketingEnabled,
             };
         }
 
@@ -110,6 +109,13 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            user.BirthDate = Input.BirthDate;
+            user.IsEmailMarketingEnabled = Input.IsEmailMarketingEnabled;
+
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
