@@ -60,7 +60,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             public bool IsEmailMarketingEnabled { get; set; }
 
             [Display(Name = "Gender")]
-            public int? GenderId { get; set; }
+            public int GenderId { get; set; }
         }
         public SelectList GenderSl { get; set; }
 
@@ -83,16 +83,21 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                 LastName = user.LastName,
                 BirthDate = user.BirthDate,
                 IsEmailMarketingEnabled = user.IsEmailMarketingEnabled,
-                GenderId = selectedGender?.Id
+                GenderId = selectedGender?.Id ?? 0
             };
+        }
+
+        private Task<User> GetUser()
+        {
+            return _context.Users
+                .Where(u => User.Identity != null && u.Email == User.Identity.Name)
+                .Include(u => u.Gender)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _context.Users
-                .Where(u => User.Identity != null && u.Email == User.Identity.Name)
-                .Include(u => u.Gender)
-                .FirstOrDefaultAsync();
+            var user = await GetUser();
 
             if (user == null)
             {
@@ -105,7 +110,8 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await GetUser();
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -132,10 +138,9 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             user.LastName = Input.LastName;
             user.BirthDate = Input.BirthDate;
             user.IsEmailMarketingEnabled = Input.IsEmailMarketingEnabled;
-            if (Input.GenderId != null)
-            {
-                user.Gender = await _context.Genders.Where(g => g.Id == Input.GenderId).FirstOrDefaultAsync();
-            }
+            user.Gender = await _context.Genders
+                .Where(g => g.Id == Input.GenderId)
+                .FirstOrDefaultAsync();
 
             await _userManager.UpdateAsync(user);
 

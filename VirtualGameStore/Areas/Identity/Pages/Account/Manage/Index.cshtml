@@ -34,7 +34,7 @@
                 <label asp-for="Input.GenderId" class="control-label"></label>
                 <select asp-for="Input.GenderId" class="form-control"
                         asp-items="@Model.GenderSl">
-                    <option value="">-- Select a gender --</option>
+                    <option value="0"></option>
                 </select>
                 <span asp-validation-for="Input.GenderId" class="text-danger" />
             </div>
