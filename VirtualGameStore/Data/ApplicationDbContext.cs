@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Data
 {
@@ -9,5 +10,7 @@ namespace VirtualGameStore.Data
             : base(options)
         {
         }
+
+        public DbSet<Game> Games { get; set; }
     }
 }
