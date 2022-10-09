@@ -93,7 +93,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             }
 
             return _context.Users
-                .Where(u => u.Email == User.Identity.Name)
+                .Where(u => u.UserName == User.Identity.Name)
                 .Include(u => u.Gender)
                 .FirstOrDefaultAsync(); 
         }
