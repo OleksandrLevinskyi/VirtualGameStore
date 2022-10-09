@@ -60,7 +60,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             public bool IsEmailMarketingEnabled { get; set; }
 
             [Display(Name = "Gender")]
-            public int GenderId { get; set; }
+            public int? GenderId { get; set; }
         }
         public SelectList GenderSl { get; set; }
 
@@ -69,10 +69,8 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            var selectedGender = await _context.Genders.Where(g => user.Gender != null && user.Gender.Id == g.Id).FirstOrDefaultAsync();
-
             var gendersQuery = await _context.Genders.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
-            GenderSl = new SelectList(gendersQuery, nameof(Gender.Id), nameof(Gender.Name), selectedGender);
+            GenderSl = new SelectList(gendersQuery, nameof(Gender.Id), nameof(Gender.Name), user.Gender);
 
             Username = userName;
 
@@ -83,16 +81,21 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                 LastName = user.LastName,
                 BirthDate = user.BirthDate,
                 IsEmailMarketingEnabled = user.IsEmailMarketingEnabled,
-                GenderId = selectedGender?.Id ?? 0
+                GenderId = user.Gender?.Id
             };
         }
 
         private Task<User> GetUser()
         {
+            if (User.Identity == null)
+            {
+                return null;
+            }
+
             return _context.Users
-                .Where(u => User.Identity != null && u.Email == User.Identity.Name)
+                .Where(u => u.Email == User.Identity.Name)
                 .Include(u => u.Gender)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(); 
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -138,7 +141,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             user.LastName = Input.LastName;
             user.BirthDate = Input.BirthDate;
             user.IsEmailMarketingEnabled = Input.IsEmailMarketingEnabled;
-            user.Gender = await _context.Genders
+            user.Gender = Input.GenderId == user.Gender?.Id ? user.Gender : await _context.Genders
                 .Where(g => g.Id == Input.GenderId)
                 .FirstOrDefaultAsync();
 

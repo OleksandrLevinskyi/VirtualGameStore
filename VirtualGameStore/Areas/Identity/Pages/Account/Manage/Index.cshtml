@@ -30,12 +30,12 @@
                 <label asp-for="Input.BirthDate" class="form-label"></label>
                 <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="Input.GenderId" class="control-label"></label>
-                <select asp-for="Input.GenderId" class="form-control"
+            <div class="form-floating mb-3">
+                <select asp-for="Input.GenderId" class="form-select"
                         asp-items="@Model.GenderSl">
-                    <option value="0"></option>
+                    <option value=""></option>
                 </select>
+                <label asp-for="Input.GenderId" class="control-label"></label>
                 <span asp-validation-for="Input.GenderId" class="text-danger" />
             </div>
             <div class="mb-3 form-check">
