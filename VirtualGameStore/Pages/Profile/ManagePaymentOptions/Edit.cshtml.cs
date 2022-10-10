@@ -18,6 +18,7 @@ namespace VirtualGameStore.Pages.Profile.ManagePaymentOptions
         public EditModel(VirtualGameStore.Data.ApplicationDbContext context)
         {
             _context = context;
+            _context.PaymentOptions.Include(x => x.User);
         }
 
         [BindProperty]
@@ -43,6 +44,10 @@ namespace VirtualGameStore.Pages.Profile.ManagePaymentOptions
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            
+            var key = $"{nameof(PaymentOption)}.{nameof(PaymentOption.User)}";
+            ModelState.ClearValidationState(key);
+            ModelState.MarkFieldSkipped(key);
             if (!ModelState.IsValid)
             {
                 return Page();
