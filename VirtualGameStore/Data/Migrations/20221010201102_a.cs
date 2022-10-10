@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VirtualGameStore.Data.Migrations
 {
-    public partial class UserAndPaymentOptions : Migration
+    public partial class a : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,7 +35,7 @@ namespace VirtualGameStore.Data.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "PaymentOption",
+                name: "PaymentOptions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -49,9 +49,9 @@ namespace VirtualGameStore.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentOption", x => x.Id);
+                    table.PrimaryKey("PK_PaymentOptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PaymentOption_AspNetUsers_UserId",
+                        name: "FK_PaymentOptions_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -59,15 +59,15 @@ namespace VirtualGameStore.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentOption_UserId",
-                table: "PaymentOption",
+                name: "IX_PaymentOptions_UserId",
+                table: "PaymentOptions",
                 column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PaymentOption");
+                name: "PaymentOptions");
 
             migrationBuilder.DropColumn(
                 name: "BirthDate",
