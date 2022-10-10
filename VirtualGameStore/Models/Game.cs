@@ -22,6 +22,7 @@ namespace VirtualGameStore.Models
         public bool IsDigital { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Stock must be greater than or equal to 0.")]
         public int Stock { get; set; }
     }
 }
