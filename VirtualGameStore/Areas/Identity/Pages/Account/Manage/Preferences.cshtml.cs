@@ -29,13 +29,15 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
         public string StatusMessage { get; set; }
 
         public IEnumerable<GamePlatform> GamePlatforms { get; set; }
+        public IEnumerable<GameCategory> GameCategories { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
         public class InputModel
         {
-            public IEnumerable<int> FavoritePlatformIds { get; set; }
+            public IEnumerable<int> FavoritePlatformIds { get; set; } = new List<int>();
+            public IEnumerable<int> FavoriteCategoryIds { get; set; } = new List<int>();
         }
 
         private async Task<User?> GetUser()
@@ -48,17 +50,23 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             return await _context.Users
                 .Where(u => u.UserName == User.Identity.Name)
                 .Include(u => u.FavoritePlatforms)
+                .Include(u => u.FavoriteCategories)
                 .FirstOrDefaultAsync();
         }
 
         private async Task LoadAsync(User user)
         {
             GamePlatforms = await _context.GamePlatforms.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
+            GameCategories = await _context.GameCategories.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
 
 
             Input = new InputModel
             {
                 FavoritePlatformIds = user.FavoritePlatforms
+                .ToList()
+                .Select(p => p.Id),
+
+                FavoriteCategoryIds = user.FavoriteCategories
                 .ToList()
                 .Select(p => p.Id)
             };
@@ -95,6 +103,10 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
 
             user.FavoritePlatforms = await _context.GamePlatforms
                 .Where(p => Input.FavoritePlatformIds.Contains(p.Id))
+                .ToListAsync();
+
+            user.FavoriteCategories = await _context.GameCategories
+                .Where(c => Input.FavoriteCategoryIds.Contains(c.Id))
                 .ToListAsync();
 
             await _userManager.UpdateAsync(user);

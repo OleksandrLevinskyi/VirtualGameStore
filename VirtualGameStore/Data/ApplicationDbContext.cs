@@ -11,6 +11,7 @@ namespace VirtualGameStore.Data
         public DbSet<Game> Games { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<GamePlatform> GamePlatforms { get; set; }
+        public DbSet<GameCategory> GameCategories { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
