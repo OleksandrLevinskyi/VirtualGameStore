@@ -18,6 +18,7 @@ namespace VirtualGameStore.Models
         public bool IsEmailMarketingEnabled { get; set; }
 
         public Gender? Gender { get; set; }
+        public IEnumerable<GamePlatform> FavoritePlatforms { get; set; }
 
         public List<Event>? Events { get; set; }
 
