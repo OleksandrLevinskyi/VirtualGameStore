@@ -28,5 +28,22 @@ namespace VirtualGameStore.Pages.Games
                 Games = await _context.Games.ToListAsync();
             }
         }
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null || _context.Games == null)
+            {
+                return NotFound();
+            }
+            var game = await _context.Games.FindAsync(id);
+
+            if (game != null)
+            {
+                _context.Games.Remove(game);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Index");
+        }
     }
 }
