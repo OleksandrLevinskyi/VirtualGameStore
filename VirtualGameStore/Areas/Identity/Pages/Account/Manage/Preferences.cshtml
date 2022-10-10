@@ -1,0 +1,38 @@
+﻿@page
+@model PreferencesModel
+
+@{
+    ViewData["Title"] = "Preferences";
+    ViewData["ActivePage"] = ManageNavPages.Preferences;
+}
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="preferences-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5>Favorite Platforms</h5>
+            @foreach (var platform in Model.GamePlatforms)
+            {
+            <div class="form-check-inline">
+                <input name="Input.FavoritePlatformIds"
+                   id="platform-@platform.Id"
+                   type="checkbox"
+                   value="@platform.Id"
+                   checked="@Model.Input.FavoritePlatformIds.Contains(platform.Id)"
+            />
+                    <label for="platform-@platform.Id" class="form-label">@platform.Name</label>
+               
+            </div>
+            }
+            <button id="update-preferences-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
