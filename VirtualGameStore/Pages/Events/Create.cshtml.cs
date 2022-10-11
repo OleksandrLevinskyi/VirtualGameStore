@@ -13,7 +13,6 @@ using System.Security.Claims;
 
 namespace VirtualGameStore.Pages.Events
 {
-    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly VirtualGameStore.Data.ApplicationDbContext _context;
