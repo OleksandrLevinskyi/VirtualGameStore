@@ -47,6 +47,41 @@
                     </div>
                 </div>
             </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Shipping Address</h5>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.Address1" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.Address1" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.Address1" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.Address2" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.Address2" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.Address2" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.City" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.City" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.City" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.Province" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.Province" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.Province" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.Country" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.Country" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.Country" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.PostalCode" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.PostalCode" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.PostalCode" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
 
             <button id="update-addresses-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>

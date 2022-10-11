@@ -34,7 +34,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             public Address BillingAddress { get; set; }
-            //public Address ShippingAddress { get; set; }
+            public Address ShippingAddress { get; set; }
         }
 
         private async Task<User?> GetUser()
@@ -56,7 +56,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 BillingAddress = user.BillingAddress ?? new Address(),
-                //ShippingAddress = user.ShippingAddress ?? new Address()
+                ShippingAddress = user.ShippingAddress ?? new Address()
             };
         }
 
@@ -89,7 +89,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             }
 
             user.BillingAddress = Input.BillingAddress;
-            //user.ShippingAddress = Input.ShippingAddress;
+            user.ShippingAddress = Input.ShippingAddress;
 
             await _userManager.UpdateAsync(user);
 
