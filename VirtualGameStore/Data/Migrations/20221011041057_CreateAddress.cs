@@ -21,7 +21,7 @@ namespace VirtualGameStore.Data.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Address",
+                name: "Addresses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -35,7 +35,7 @@ namespace VirtualGameStore.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
@@ -49,32 +49,32 @@ namespace VirtualGameStore.Data.Migrations
                 column: "ShippingAddressId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_Address_BillingAddressId",
+                name: "FK_AspNetUsers_Addresses_BillingAddressId",
                 table: "AspNetUsers",
                 column: "BillingAddressId",
-                principalTable: "Address",
+                principalTable: "Addresses",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_Address_ShippingAddressId",
+                name: "FK_AspNetUsers_Addresses_ShippingAddressId",
                 table: "AspNetUsers",
                 column: "ShippingAddressId",
-                principalTable: "Address",
+                principalTable: "Addresses",
                 principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_Address_BillingAddressId",
+                name: "FK_AspNetUsers_Addresses_BillingAddressId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_Address_ShippingAddressId",
+                name: "FK_AspNetUsers_Addresses_ShippingAddressId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Addresses");
 
             migrationBuilder.DropIndex(
                 name: "IX_AspNetUsers_BillingAddressId",

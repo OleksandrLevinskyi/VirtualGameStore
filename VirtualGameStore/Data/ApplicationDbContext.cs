@@ -43,5 +43,7 @@ namespace VirtualGameStore.Data
                 .WithMany(e => e.Registrations)
                 .HasForeignKey(r => r.EventId);
         }
+        public DbSet<Gender> Genders { get; set; }
+        public DbSet<Address> Addresses { get; set; }
     }
 }
