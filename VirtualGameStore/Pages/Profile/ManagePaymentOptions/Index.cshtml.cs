@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +13,13 @@ namespace VirtualGameStore.Pages.Profile.ManagePaymentOptions
 {
     public class IndexModel : PageModel
     {
-        private readonly VirtualGameStore.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public IndexModel(VirtualGameStore.Data.ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IList<PaymentOption> PaymentOption { get;set; } = default!;
@@ -25,7 +28,10 @@ namespace VirtualGameStore.Pages.Profile.ManagePaymentOptions
         {
             if (_context.PaymentOptions != null)
             {
-                PaymentOption = await _context.PaymentOptions.ToListAsync();
+                var user = await _userManager.GetUserAsync(User);
+                PaymentOption = await _context.PaymentOptions
+                    .Where(p => p.User.Id == user.Id)
+                    .ToListAsync();
             }
         }
     }
