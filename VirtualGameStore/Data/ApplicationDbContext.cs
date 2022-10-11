@@ -8,6 +8,8 @@ namespace VirtualGameStore.Data
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<Registration> Registrations { get; set; }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<Gender> Genders { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
