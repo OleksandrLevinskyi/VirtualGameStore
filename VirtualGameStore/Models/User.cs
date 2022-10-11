@@ -33,5 +33,17 @@ namespace VirtualGameStore.Models
 
             return BirthDate < DateTime.Now;
         }
+        public IEnumerable<GameCategory> FavoriteCategories { get; set; }
+
+        public bool ArePreferencesEmpty
+        {
+            get => !FavoritePlatforms.Any() || !FavoriteCategories.Any();
+        }
+
+        public void ResetPreferences()
+        {
+            FavoriteCategories = new List<GameCategory>();
+            FavoritePlatforms = new List<GamePlatform>();
+        }
     }
 }
