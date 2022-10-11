@@ -11,6 +11,8 @@ namespace VirtualGameStore.Data
         {
         }
 
+        public DbSet<Game> Games { get; set; }
+
         public DbSet<Gender> Genders { get; set; }
     }
 }
