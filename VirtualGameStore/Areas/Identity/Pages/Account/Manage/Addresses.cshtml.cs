@@ -35,6 +35,8 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
         {
             public Address BillingAddress { get; set; }
             public Address ShippingAddress { get; set; }
+            [Display(Name = "Use this as my shipping address")]
+            public bool AreAddressesEqual { get; set; }
         }
 
         private async Task<User?> GetUser()
@@ -56,8 +58,15 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 BillingAddress = user.BillingAddress ?? new Address(),
-                ShippingAddress = user.ShippingAddress ?? new Address()
+                ShippingAddress = user.ShippingAddress == null || user.AreAddressesEqual ? new Address() : user.ShippingAddress,
+                AreAddressesEqual = user.AreAddressesEqual
             };
+
+            if (user.AreAddressesEqual)
+            {
+                Input.ShippingAddress = new Address();
+            }
+
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -88,10 +97,30 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            var previousBillingAddress = user.BillingAddress;
+            var previousShippingAddress = user.ShippingAddress;
+
+            if (Input.AreAddressesEqual)
+            {
+                Input.ShippingAddress = Input.BillingAddress;
+            }
+
             user.BillingAddress = Input.BillingAddress;
             user.ShippingAddress = Input.ShippingAddress;
 
             await _userManager.UpdateAsync(user);
+
+            if (previousBillingAddress != null && previousBillingAddress.Id != user.BillingAddress?.Id)
+            {
+                _context.Addresses.Remove(previousBillingAddress);
+            }
+
+            if (previousShippingAddress != null && previousShippingAddress.Id != user.ShippingAddress?.Id)
+            {
+                _context.Addresses.Remove(previousShippingAddress);
+            }
+
+            await _context.SaveChangesAsync();
 
             StatusMessage = "Your preferences have been updated";
             return RedirectToPage();

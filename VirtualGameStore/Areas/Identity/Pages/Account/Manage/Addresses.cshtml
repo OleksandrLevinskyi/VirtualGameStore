@@ -45,9 +45,14 @@
                         <label asp-for="Input.BillingAddress.PostalCode" class="form-label"></label>
                         <span asp-validation-for="Input.BillingAddress.PostalCode" class="text-danger"></span>
                     </div>
+                    <div class="mb-3 form-check">
+                        <input asp-for="Input.AreAddressesEqual" class="form-check-input" />
+                        <label asp-for="Input.AreAddressesEqual" class="form-label"></label>
+                        <span asp-validation-for="Input.AreAddressesEqual" class="text-danger"></span>
+                    </div>
                 </div>
             </div>
-            <div class="card mb-3">
+            <div id="shipping-address-card" hidden="@Model.Input.AreAddressesEqual" class="card mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Shipping Address</h5>
                     <div class="form-floating mb-3">
@@ -93,3 +98,9 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     }
+
+<script>
+    const sameAddressessCheckbox = document.getElementById('Input_AreAddressesEqual')
+    const shippingAddressCard = document.getElementById('shipping-address-card')
+    sameAddressessCheckbox.onchange = (e) => shippingAddressCard.hidden = e.target.checked
+</script>
