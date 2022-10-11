@@ -10,5 +10,7 @@ namespace VirtualGameStore.Data
             : base(options)
         {
         }
+
+        public DbSet<Gender> Genders { get; set; }
     }
 }
