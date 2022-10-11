@@ -8,7 +8,7 @@ namespace VirtualGameStore.Models
         [Key]
         public int Id { get; set; }
 
-        public string CreatorId { get; set; }
+        public string? CreatorId { get; set; }
 
         public string Name { get; set; }
 
@@ -16,8 +16,8 @@ namespace VirtualGameStore.Models
 
         public DateTime DateTime { get; set; }
 
-        public User Creator { get; set; }
+        public User? Creator { get; set; }
 
-        public List<Registration> Registrations { get; set; }
+        public List<Registration>? Registrations { get; set; }
     }
 }
