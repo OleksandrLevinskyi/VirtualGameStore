@@ -14,5 +14,15 @@ namespace VirtualGameStore.Models
         public bool IsEmailMarketingEnabled { get; set; }
 
         public Gender? Gender { get; set; }
+
+        public bool IsBirthDateValid()
+        {
+            if (BirthDate == null)
+            {
+                return false;
+            }
+
+            return BirthDate < DateTime.Now;
+        }
     }
 }
