@@ -29,5 +29,22 @@ namespace VirtualGameStore.Pages.Events
                 .Include(e => e.Creator).ToListAsync();
             }
         }
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null || _context.Events == null)
+            {
+                return NotFound();
+            }
+            var foundEvent = await _context.Events.FindAsync(id);
+
+            if (foundEvent != null)
+            {
+                _context.Events.Remove(foundEvent);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Index");
+        }
     }
 }
