@@ -42,8 +42,14 @@
         float: left;
         display: inline;
     }
-    
-    .creditcard_number {
+    .creditcard:not(:hover)  .creditcard_number:before {
+        margin-top: 4px;
+        content: "**** **** ****";
+        background: #91deae;
+        position: absolute;
+    }
+    .creditcard_number {    
+        position: relative;
         font-family: monospace;
         font-size: 24px;
     }
@@ -54,12 +60,14 @@
         font-size: 20px;
     }
     
-    .creditcard_name, .creditcard_addr {
+    .creditcard_name {
         display: table-caption;
-        width: 90%;
+        width: 100%;
     }
     
     .creditcard_addr {
+        display: table-caption;
+        width: 90%;
         margin: 5%;
     }
 </style>
