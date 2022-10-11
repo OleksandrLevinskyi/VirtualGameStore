@@ -16,6 +16,8 @@ namespace VirtualGameStore.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             builder.Entity<Event>()
                 .HasOne<User>(e => e.Creator)
                 .WithMany(u => u.Events)

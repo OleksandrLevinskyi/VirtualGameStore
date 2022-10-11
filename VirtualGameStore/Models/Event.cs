@@ -8,8 +8,7 @@ namespace VirtualGameStore.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public int CreatorId { get; set; }
+        public string? CreatorId { get; set; }
 
         [Required]
         public string? Name { get; set; }
