@@ -3,12 +3,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace VirtualGameStore.Data.Migrations
+namespace VirtualGameStore.data.migrations
 {
-    public partial class InitalMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Address1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Province = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -110,6 +128,8 @@ namespace VirtualGameStore.Data.Migrations
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsEmailMarketingEnabled = table.Column<bool>(type: "bit", nullable: false),
                     GenderId = table.Column<int>(type: "int", nullable: true),
+                    BillingAddressId = table.Column<int>(type: "int", nullable: true),
+                    ShippingAddressId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -128,6 +148,16 @@ namespace VirtualGameStore.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Addresses_BillingAddressId",
+                        column: x => x.BillingAddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Addresses_ShippingAddressId",
+                        column: x => x.ShippingAddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Genders_GenderId",
                         column: x => x.GenderId,
@@ -348,9 +378,19 @@ namespace VirtualGameStore.Data.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_BillingAddressId",
+                table: "AspNetUsers",
+                column: "BillingAddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_GenderId",
                 table: "AspNetUsers",
                 column: "GenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_ShippingAddressId",
+                table: "AspNetUsers",
+                column: "ShippingAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -428,6 +468,9 @@ namespace VirtualGameStore.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "Genders");
