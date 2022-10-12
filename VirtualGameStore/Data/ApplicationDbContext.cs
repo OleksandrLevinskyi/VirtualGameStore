@@ -10,6 +10,8 @@ namespace VirtualGameStore.Data
         public DbSet<Registration> Registrations { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Gender> Genders { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Platform> Platforms { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -34,6 +36,16 @@ namespace VirtualGameStore.Data
                 .HasOne<Event>(r => r.Event)
                 .WithMany(e => e.Registrations)
                 .HasForeignKey(r => r.EventId);
+
+            builder.Entity<Game>()
+                .HasOne<Platform>(g => g.Platform)
+                .WithMany(p => p.Games)
+                .HasForeignKey(g => g.PlatformId);
+
+            builder.Entity<Game>()
+                .HasOne<Category>(g => g.Category)
+                .WithMany(p => p.Games)
+                .HasForeignKey(g => g.CategoryId);
         }
     }
 }
