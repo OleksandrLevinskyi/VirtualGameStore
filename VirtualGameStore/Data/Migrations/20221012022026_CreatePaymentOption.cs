@@ -1,39 +1,13 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace VirtualGameStore.Data.Migrations
 {
-    public partial class a : Migration
+    public partial class CreatePaymentOption : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<DateTime>(
-                name: "BirthDate",
-                table: "AspNetUsers",
-                type: "datetime2",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "FirstName",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: true);
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsEmailMarketingEnabled",
-                table: "AspNetUsers",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.AddColumn<string>(
-                name: "LastName",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "PaymentOptions",
                 columns: table => new
@@ -42,7 +16,7 @@ namespace VirtualGameStore.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CardNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpiryDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HolderFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HolderLastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BillingAddress = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -68,22 +42,6 @@ namespace VirtualGameStore.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "PaymentOptions");
-
-            migrationBuilder.DropColumn(
-                name: "BirthDate",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "FirstName",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "IsEmailMarketingEnabled",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "LastName",
-                table: "AspNetUsers");
         }
     }
 }
