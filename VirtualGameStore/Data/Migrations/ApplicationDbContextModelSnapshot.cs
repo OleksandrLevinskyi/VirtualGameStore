@@ -265,6 +265,35 @@ namespace VirtualGameStore.Data.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Events");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.Game", b =>
                 {
                     b.Property<int>("Id")
@@ -295,7 +324,7 @@ namespace VirtualGameStore.Data.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("VirtualGameStore.Models.Gender", b =>
+            modelBuilder.Entity("VirtualGameStore.Models.GameCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -309,10 +338,11 @@ namespace VirtualGameStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genders");
+                    b.ToTable("GameCategories");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
+            modelBuilder.Entity("VirtualGameStore.Models.GamePlatform", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -334,20 +364,20 @@ namespace VirtualGameStore.Data.Migrations
 
                     b.Property<string>("HolderLastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("PaymentOptions");
+                    b.ToTable("GamePlatforms");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Platform", b =>
+            modelBuilder.Entity("VirtualGameStore.Models.Gender", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -362,6 +392,7 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Platforms");
+                    b.ToTable("Genders");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Registration", b =>
@@ -411,6 +442,18 @@ namespace VirtualGameStore.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEmailMarketingEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -488,6 +531,22 @@ namespace VirtualGameStore.Data.Migrations
                 });
 
             modelBuilder.Entity("CategoryUser", b =>
+            modelBuilder.Entity("GameCategoryUser", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.GameCategory", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteCategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GamePlatformUser", b =>
                 {
                     b.HasOne("VirtualGameStore.Models.Category", null)
                         .WithMany()
@@ -564,21 +623,6 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasOne("VirtualGameStore.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PlatformUser", b =>
-                {
-                    b.HasOne("VirtualGameStore.Models.Platform", null)
-                        .WithMany()
-                        .HasForeignKey("FavoritePlatformsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VirtualGameStore.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
