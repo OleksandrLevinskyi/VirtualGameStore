@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,10 +15,12 @@ namespace VirtualGameStore.Pages.Profile.ManagePaymentOptions
     public class EditModel : PageModel
     {
         private readonly VirtualGameStore.Data.ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public EditModel(VirtualGameStore.Data.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
             _context.PaymentOptions.Include(x => x.User);
         }
 
@@ -44,10 +47,26 @@ namespace VirtualGameStore.Pages.Profile.ManagePaymentOptions
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            if (int.TryParse(Request.Query["id"], out int id))
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var dbPaymentOption = await _context.PaymentOptions.FirstOrDefaultAsync(p => p.Id == id);
+                if (dbPaymentOption is not null && user is not null && user.Id == dbPaymentOption.UserId)
+                {
+                    dbPaymentOption.CardNumber = PaymentOption.CardNumber;
+                    dbPaymentOption.ExpiryDate = PaymentOption.ExpiryDate;
+                    dbPaymentOption.HolderFirstName = PaymentOption.HolderFirstName;
+                    dbPaymentOption.HolderLastName = PaymentOption.HolderLastName;
+                    PaymentOption = dbPaymentOption;
+                    var key = $"{nameof(PaymentOption)}.{nameof(PaymentOption.User)}";
+                    ModelState.ClearValidationState(key);
+                    ModelState.ClearValidationState(key + "Id");
+                    ModelState.MarkFieldSkipped(key);
+                    ModelState.MarkFieldSkipped(key + "Id");
+                }
+            }
             
-            var key = $"{nameof(PaymentOption)}.{nameof(PaymentOption.User)}";
-            ModelState.ClearValidationState(key);
-            ModelState.MarkFieldSkipped(key);
+            
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -71,7 +90,7 @@ namespace VirtualGameStore.Pages.Profile.ManagePaymentOptions
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("PaymentOptions");
         }
 
         private bool PaymentOptionExists(int id)

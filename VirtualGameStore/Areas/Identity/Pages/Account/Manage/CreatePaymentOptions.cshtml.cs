@@ -39,9 +39,12 @@ namespace VirtualGameStore.Pages.Profile.ManagePaymentOptions
             if (user is not null)
             {
                 var key = $"{nameof(PaymentOption)}.{nameof(PaymentOption.User)}";
+                PaymentOption.UserId = user.Id;
                 PaymentOption.User = user;
                 ModelState.ClearValidationState(key);
+                ModelState.ClearValidationState(key + "Id");
                 ModelState.MarkFieldSkipped(key);
+                ModelState.MarkFieldSkipped(key + "Id");
             }
             if (!ModelState.IsValid || _context.PaymentOptions == null || PaymentOption == null)
             {
@@ -51,7 +54,7 @@ namespace VirtualGameStore.Pages.Profile.ManagePaymentOptions
             _context.PaymentOptions.Add(PaymentOption);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("PaymentOptions");
         }
     }
 }

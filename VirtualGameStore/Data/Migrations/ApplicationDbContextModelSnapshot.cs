@@ -159,6 +159,35 @@ namespace VirtualGameStore.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Events");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.Game", b =>
                 {
                     b.Property<int>("Id")
@@ -204,6 +233,67 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genders");
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpiryDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HolderFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HolderLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PaymentOptions");
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.Registration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateTimeRegistered")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Registrations");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.User", b =>
@@ -288,126 +378,6 @@ namespace VirtualGameStore.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("VirtualGameStore.Models.Event", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("VirtualGameStore.Models.Registration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateTimeRegistered")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Registrations");
-                });
-
-            modelBuilder.Entity("VirtualGameStore.Models.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -459,15 +429,6 @@ namespace VirtualGameStore.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VirtualGameStore.Models.User", b =>
-                {
-                    b.HasOne("VirtualGameStore.Models.Gender", "Gender")
-                        .WithMany()
-                        .HasForeignKey("GenderId");
-
-                    b.Navigation("Gender");
-                });
-
             modelBuilder.Entity("VirtualGameStore.Models.Event", b =>
                 {
                     b.HasOne("VirtualGameStore.Models.User", "Creator")
@@ -475,6 +436,17 @@ namespace VirtualGameStore.Data.Migrations
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.User", "User")
+                        .WithMany("PaymentOptions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Registration", b =>
@@ -494,6 +466,15 @@ namespace VirtualGameStore.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.User", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId");
+
+                    b.Navigation("Gender");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.Event", b =>
                 {
                     b.Navigation("Registrations");
@@ -502,6 +483,8 @@ namespace VirtualGameStore.Data.Migrations
             modelBuilder.Entity("VirtualGameStore.Models.User", b =>
                 {
                     b.Navigation("Events");
+
+                    b.Navigation("PaymentOptions");
 
                     b.Navigation("Registrations");
                 });

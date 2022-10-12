@@ -23,7 +23,8 @@ namespace VirtualGameStore.Data
 
             builder.Entity<PaymentOption>()
                 .HasOne(x => x.User)
-                .WithMany(x => x.PaymentOptions);
+                .WithMany(x => x.PaymentOptions)
+                .HasForeignKey(x => x.UserId);
             
             builder.Entity<Event>()
                 .HasOne<User>(e => e.Creator)

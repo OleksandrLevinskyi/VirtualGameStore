@@ -6,6 +6,8 @@ namespace VirtualGameStore.Models
     public class PaymentOption
     {
         public int Id { get; set; }
+        
+        public string UserId { get; set; }
         public User User { get; set; }
 
         // We can do `[CreditCard]` but then it has to truly be valid
@@ -14,7 +16,7 @@ namespace VirtualGameStore.Models
         public string CardNumber { get; set; }
 
         [DisplayName("Expiration Date")]
-        [RegularExpression("^\\d{2}/\\d{2}", ErrorMessage = "Expiry date must be in the format '00/00'")]
+        [RegularExpression("^(0[1-9]|1[012])/\\d{2}$", ErrorMessage = "Expiry date must be in the format '00/00' and be a valid month/year")]
         public string ExpiryDate { get; set; }
 
         [DisplayName("First Name")]
@@ -22,8 +24,5 @@ namespace VirtualGameStore.Models
 
         [DisplayName("Last Name")]
         public string HolderLastName { get; set; }
-        
-        [DisplayName("Billing Address")]
-        public string BillingAddress { get; set; }
     }
 }
