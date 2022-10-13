@@ -19,13 +19,16 @@ namespace VirtualGameStore.Pages.Games
             _context = context;
         }
 
-        public IList<Game> Games { get;set; } = default!;
+        public IList<Game> Games { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
             if (_context.Games != null)
             {
-                Games = await _context.Games.ToListAsync();
+                Games = await _context.Games
+                    .Include(g => g.Platforms)
+                    .Include(g => g.Categories)
+                    .ToListAsync();
             }
         }
 

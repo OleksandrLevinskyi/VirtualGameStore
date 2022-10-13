@@ -10,12 +10,6 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-@if (ViewBag.StatusMessage != null)
-{
-    <div class="alert alert-success" role="alert">
-        @ViewBag.StatusMessage
-    </div>
-}
 
 @if (!Model.Games.Any()){
     <p>No games available. Please add a new game.</p>
@@ -40,14 +34,20 @@ else
                 <th>
                     @Html.DisplayNameFor(model => model.Games[0].Stock)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Games[0].Platforms)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Games[0].Categories)
+                </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Games)
             {
-                string target = "#modal" + item.Id;
                 string modalId = "modal" + item.Id;
+
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -65,9 +65,21 @@ else
                         @Html.DisplayFor(modelItem => item.Stock)
                     </td>
                     <td>
+                        @foreach (var platform in item.Platforms)
+                        {
+                            <span class="badge bg-primary">@platform.Name</span>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var category in item.Categories)
+                        {
+                            <span class="badge bg-success">@category.Name</span>
+                        }
+                    </td>
+                    <td>
                         <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
 
-                        <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="@target">
+                        <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="#@modalId">
                             Delete
                         </button>
 
