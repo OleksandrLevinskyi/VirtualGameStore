@@ -1,0 +1,56 @@
+﻿@page
+@model VirtualGameStore.Pages.Games.IndexModel
+
+@{
+    ViewData["Title"] = "Games";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@if (!Model.Games.Any())
+{
+    <p>No games available at the moment.</p>
+}
+else
+{
+    <div class="container">
+        @for (int i = 0; i < Model.Games.Count; i++)
+        {
+            var item = Model.Games[i];
+
+            <div class="row">
+                <div class="column">
+                    <div class="card" style="width: 18rem;">
+                        @*<img src="..." class="card-img-top" alt="...">*@
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                @Html.DisplayFor(modelItem => item.Name)
+                                @if (item.IsDigital)
+                                {
+                                    <i class="bi bi-laptop"></i>
+                                }
+                            </h5>
+
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                            <h6>@Html.DisplayFor(modelItem => item.Price)</h6>
+                            <p>Left in stock: @Html.DisplayFor(modelItem => item.Stock)</p>
+
+                            @foreach (var platform in item.Platforms)
+                            {
+                                <span class="badge bg-primary">@platform.Name</span>
+                            }
+                            @foreach (var category in item.Categories)
+                            {
+                                <span class="badge bg-success">@category.Name</span>
+                            }
+
+                            <br />
+
+                            <a href="#" class="btn btn-primary">Add to Cart <i class="bi bi-cart"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
