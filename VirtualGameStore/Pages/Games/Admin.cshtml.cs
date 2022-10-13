@@ -13,11 +13,11 @@ using VirtualGameStore.Models;
 namespace VirtualGameStore.Pages.Games
 {
     [Authorize(Roles = "Employee")]
-    public class IndexModel : PageModel
+    public class AdminModel : PageModel
     {
         private readonly ApplicationDbContext _context;
 
-        public IndexModel(ApplicationDbContext context)
+        public AdminModel(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -49,7 +49,7 @@ namespace VirtualGameStore.Pages.Games
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Admin");
         }
     }
 }

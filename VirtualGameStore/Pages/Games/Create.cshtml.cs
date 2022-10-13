@@ -79,7 +79,7 @@ namespace VirtualGameStore.Pages.Games
             _context.Games.Add(Game);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Admin");
         }
     }
 }

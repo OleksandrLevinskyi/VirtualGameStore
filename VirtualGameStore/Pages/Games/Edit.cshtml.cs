@@ -116,7 +116,7 @@ namespace VirtualGameStore.Pages.Games
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Admin");
         }
 
         private bool GameExists(int id)
