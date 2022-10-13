@@ -30,13 +30,15 @@ else
                     </h5>
 
                     <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                    <h6>@Html.DisplayFor(modelItem => item.Price)</h6>
                     <p>Left in stock: @Html.DisplayFor(modelItem => item.Stock)</p>
 
                     @foreach (var platform in item.Platforms)
                     {
                         <span class="badge bg-primary">@platform.Name</span>
                     }
+
+                    <br />
+
                     @foreach (var category in item.Categories)
                     {
                         <span class="badge bg-success">@category.Name</span>
@@ -44,7 +46,8 @@ else
 
                     <br />
 
-                    <a href="#" class="btn btn-primary">Add to Cart <i class="bi bi-cart"></i></a>
+                    <h5 class="mt-1">@Html.DisplayFor(modelItem => item.Price)</h5>
+                    <a href="#" class="btn btn-primary mt-1">Add to Cart <i class="bi bi-cart"></i></a>
                 </div>
             </div>
         }
