@@ -1,0 +1,55 @@
+﻿@page
+@model VirtualGameStore.Pages.Events.IndexModel
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@if (!Model.Events.Any())
+{
+    <p>No events available at the moment.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Events[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Events[0].Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Events[0].DateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Events[0].Creator)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Events)
+            {
+                string modalId = "modal" + item.Id;
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Creator.FirstName) @Html.DisplayFor(modelItem => item.Creator.LastName)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
