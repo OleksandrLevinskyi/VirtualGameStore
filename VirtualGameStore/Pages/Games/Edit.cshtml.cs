@@ -77,28 +77,39 @@ namespace VirtualGameStore.Pages.Games
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            Game.Platforms = await _context.Platforms
+            var game = await _context.Games
+                .Include(g => g.Platforms)
+                .Include(g => g.Categories)
+                .FirstOrDefaultAsync(m => m.Id == Game.Id);
+
+            game.Platforms = await _context.Platforms
                   .Where(p => Input.PlatformIds.Contains(p.Id))
                   .ToListAsync();
 
-            Game.Categories = await _context.Categories
+            game.Categories = await _context.Categories
                 .Where(c => Input.CategoryIds.Contains(c.Id))
                 .ToListAsync();
 
             if (
                 !ModelState.IsValid ||
-                Game.Categories.Count == 0 ||
-                Game.Platforms.Count == 0
+                Input.CategoryIds.Count == 0 ||
+                Input.PlatformIds.Count == 0
                 )
             {
-                await LoadAsync(Game);
+                await LoadAsync(game);
 
                 ViewData["StatusMessage"] = "Game must have at least one category and platform selected.";
 
                 return Page();
             }
 
-            _context.Attach(Game).State = EntityState.Modified;
+            game.Name = Game.Name;
+            game.Description = Game.Description;
+            game.Price = Game.Price;
+            game.IsDigital = Game.IsDigital;
+            game.Stock = Game.Stock;
+
+            _context.Games.Update(game);
 
             try
             {
