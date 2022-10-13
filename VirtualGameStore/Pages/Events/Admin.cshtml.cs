@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +12,12 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Pages.Events
 {
-    public class IndexModel : PageModel
+    [Authorize(Roles = "Employee")]
+    public class AdminModel : PageModel
     {
         private readonly VirtualGameStore.Data.ApplicationDbContext _context;
 
-        public IndexModel(VirtualGameStore.Data.ApplicationDbContext context)
+        public AdminModel(VirtualGameStore.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -45,7 +48,7 @@ namespace VirtualGameStore.Pages.Events
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Admin");
         }
     }
 }
