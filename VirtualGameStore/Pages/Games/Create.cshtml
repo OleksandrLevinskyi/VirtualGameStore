@@ -9,16 +9,16 @@
 
 <hr />
 
-@if (ViewBag.StatusMessage != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @ViewBag.StatusMessage
-    </div>
-}
-
 <div class="row">
     <div class="col-md-4">
         <form method="post">
+            @if (ViewBag.StatusMessage != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.StatusMessage
+                </div>
+            }
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Game.Name" class="control-label"></label>
@@ -45,40 +45,39 @@
                 <input asp-for="Game.Stock" class="form-control" />
                 <span asp-validation-for="Game.Stock" class="text-danger"></span>
             </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Supported Platforms</h5>
-                    @foreach (var platform in Model.Platforms)
-                    {
-                        <div class="form-check-inline">
-                            <input name="Input.PlatformIds"
-                               id="platform-@platform.Id"
-                               type="checkbox"
-                               value="@platform.Id"
-                               checked="@Model.Input.PlatformIds.Contains(platform.Id)" />
-                            <label for="platform-@platform.Id" class="form-label">@platform.Name</label>
 
-                        </div>
-                    }
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Related Categories</h5>
-                    @foreach (var category in Model.Categories)
-                    {
-                        <div class="form-check-inline">
-                            <input name="Input.CategoryIds"
-                               id="category-@category.Id"
-                               type="checkbox"
-                               value="@category.Id"
-                               checked="@Model.Input.CategoryIds.Contains(category.Id)" />
-                            <label for="category-@category.Id" class="form-label">@category.Name</label>
+            <hr />
 
-                        </div>
-                    }
+            <h5 class="card-title">Supported Platforms</h5>
+            @foreach (var platform in Model.Platforms)
+            {
+                <div class="form-check-inline">
+                    <input name="Input.PlatformIds"
+                       id="platform-@platform.Id"
+                       type="checkbox"
+                       value="@platform.Id"
+                       checked="@Model.Input.PlatformIds.Contains(platform.Id)" />
+                    <label for="platform-@platform.Id" class="form-label">@platform.Name</label>
+
                 </div>
-            </div>
+            }
+
+            <hr />
+
+            <h5 class="card-title">Related Categories</h5>
+            @foreach (var category in Model.Categories)
+            {
+                <div class="form-check-inline">
+                    <input name="Input.CategoryIds"
+                       id="category-@category.Id"
+                       type="checkbox"
+                       value="@category.Id"
+                       checked="@Model.Input.CategoryIds.Contains(category.Id)" />
+                    <label for="category-@category.Id" class="form-label">@category.Name</label>
+
+                </div>
+            }
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

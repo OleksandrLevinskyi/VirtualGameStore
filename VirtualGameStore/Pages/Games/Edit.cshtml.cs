@@ -23,6 +23,29 @@ namespace VirtualGameStore.Pages.Games
         [BindProperty]
         public Game Game { get; set; } = default!;
 
+        [BindProperty]
+        public InputModel Input { get; set; }
+        public List<Platform> Platforms { get; set; }
+        public List<Category> Categories { get; set; }
+
+        public class InputModel
+        {
+            public List<int> PlatformIds { get; set; } = new List<int>();
+            public List<int> CategoryIds { get; set; } = new List<int>();
+        }
+
+        private async Task LoadAsync(Game game)
+        {
+            Platforms = await _context.Platforms.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
+            Categories = await _context.Categories.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
+
+            Input = new InputModel()
+            {
+                PlatformIds = game.Platforms.Select(p => p.Id).ToList(),
+                CategoryIds = game.Categories.Select(p => p.Id).ToList()
+            };
+        }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Games == null)
@@ -30,12 +53,20 @@ namespace VirtualGameStore.Pages.Games
                 return NotFound();
             }
 
-            var game =  await _context.Games.FirstOrDefaultAsync(m => m.Id == id);
+            var game = await _context.Games
+                .Include(g =>g.Platforms)
+                .Include(g =>g.Categories)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (game == null)
             {
                 return NotFound();
             }
+
             Game = game;
+
+            await LoadAsync(Game);
+
             return Page();
         }
 
@@ -43,8 +74,24 @@ namespace VirtualGameStore.Pages.Games
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            Game.Platforms = await _context.Platforms
+                  .Where(p => Input.PlatformIds.Contains(p.Id))
+                  .ToListAsync();
+
+            Game.Categories = await _context.Categories
+                .Where(c => Input.CategoryIds.Contains(c.Id))
+                .ToListAsync();
+
+            if (
+                !ModelState.IsValid ||
+                Game.Categories.Count == 0 ||
+                Game.Platforms.Count == 0
+                )
             {
+                await LoadAsync(Game);
+
+                ViewData["StatusMessage"] = "Game must have at least one category and platform selected.";
+
                 return Page();
             }
 
@@ -71,7 +118,7 @@ namespace VirtualGameStore.Pages.Games
 
         private bool GameExists(int id)
         {
-          return _context.Games.Any(e => e.Id == id);
+            return _context.Games.Any(e => e.Id == id);
         }
     }
 }
