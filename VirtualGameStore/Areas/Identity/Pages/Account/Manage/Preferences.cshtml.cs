@@ -28,8 +28,8 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
         [TempData]
         public string StatusMessage { get; set; }
 
-        public IEnumerable<GamePlatform> GamePlatforms { get; set; }
-        public IEnumerable<GameCategory> GameCategories { get; set; }
+        public IEnumerable<Platform> GamePlatforms { get; set; }
+        public IEnumerable<Category> GameCategories { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -56,8 +56,8 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(User user)
         {
-            GamePlatforms = await _context.GamePlatforms.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
-            GameCategories = await _context.GameCategories.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
+            GamePlatforms = await _context.Platforms.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
+            GameCategories = await _context.Categories.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
 
 
             Input = new InputModel
@@ -101,11 +101,11 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             }
 
 
-            user.FavoritePlatforms = await _context.GamePlatforms
+            user.FavoritePlatforms = await _context.Platforms
                 .Where(p => Input.FavoritePlatformIds.Contains(p.Id))
                 .ToListAsync();
 
-            user.FavoriteCategories = await _context.GameCategories
+            user.FavoriteCategories = await _context.Categories
                 .Where(c => Input.FavoriteCategoryIds.Contains(c.Id))
                 .ToListAsync();
 

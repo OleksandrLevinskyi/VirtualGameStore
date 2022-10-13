@@ -14,15 +14,15 @@ namespace VirtualGameStore.Test
         {
             var user = new User()
             {
-                FavoriteCategories = new List<GameCategory>()
+                FavoriteCategories = new List<Category>()
                 {
-                    new GameCategory() { Id = 1, Name = "Racing" },
-                    new GameCategory() { Id = 2, Name = "RPG" }
+                    new Category() { Id = 1, Name = "Racing" },
+                    new Category() { Id = 2, Name = "RPG" }
                 },
-                FavoritePlatforms = new List<GamePlatform>()
+                FavoritePlatforms = new List<Platform>()
                 {
-                    new GamePlatform() { Id = 1, Name = "Xbox" },
-                    new GamePlatform() { Id = 2, Name = "PC" }
+                    new Platform() { Id = 1, Name = "Xbox" },
+                    new Platform() { Id = 2, Name = "PC" }
                 }
             };
 
@@ -37,8 +37,8 @@ namespace VirtualGameStore.Test
         {
             var user = new User()
             {
-                FavoriteCategories = new List<GameCategory>(),
-                FavoritePlatforms = new List<GamePlatform>()
+                FavoriteCategories = new List<Category>(),
+                FavoritePlatforms = new List<Platform>()
             };
 
             var arePreferencesEmpty = user.ArePreferencesEmpty;
@@ -51,15 +51,15 @@ namespace VirtualGameStore.Test
         {
             var user = new User()
             {
-                FavoriteCategories = new List<GameCategory>()
+                FavoriteCategories = new List<Category>()
                 {
-                    new GameCategory() { Id = 1, Name = "Racing" },
-                    new GameCategory() { Id = 2, Name = "RPG" }
+                    new Category() { Id = 1, Name = "Racing" },
+                    new Category() { Id = 2, Name = "RPG" }
                 },
-                FavoritePlatforms = new List<GamePlatform>()
+                FavoritePlatforms = new List<Platform>()
                 {
-                    new GamePlatform() { Id = 1, Name = "Xbox" },
-                    new GamePlatform() { Id = 2, Name = "PC" }
+                    new Platform() { Id = 1, Name = "Xbox" },
+                    new Platform() { Id = 2, Name = "PC" }
                 }
             };
 
