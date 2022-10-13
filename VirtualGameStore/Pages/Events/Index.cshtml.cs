@@ -19,14 +19,15 @@ namespace VirtualGameStore.Pages.Events
             _context = context;
         }
 
-        public IList<Event> Events { get;set; } = default!;
+        public IList<Event> Events { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
             if (_context.Events != null)
             {
                 Events = await _context.Events
-                .Include(e => e.Creator).ToListAsync();
+                .Include(e => e.Creator).
+                ToListAsync();
             }
         }
 

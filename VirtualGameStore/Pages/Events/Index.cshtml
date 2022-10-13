@@ -51,7 +51,7 @@ else
                         @Html.DisplayFor(modelItem => item.DateTime)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Creator.Id)
+                        @Html.DisplayFor(modelItem => item.Creator.FirstName) @Html.DisplayFor(modelItem => item.Creator.LastName)
                     </td>
                     <td>
                         <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
