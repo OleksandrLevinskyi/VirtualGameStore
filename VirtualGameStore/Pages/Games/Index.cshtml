@@ -25,7 +25,7 @@ else
                         @Html.DisplayFor(modelItem => item.Name)
                         @if (item.IsDigital)
                         {
-                            <i class="bi bi-laptop"></i>
+                            <span class="badge bg-dark">digital</span>
                         }
                     </h5>
 
@@ -47,7 +47,7 @@ else
                     <br />
 
                     <h5 class="mt-1">@Html.DisplayFor(modelItem => item.Price)</h5>
-                    <a href="#" class="btn btn-primary mt-1">Add to Cart <i class="bi bi-cart"></i></a>
+                    <a href="#" class="btn btn-primary mt-1">Add to Cart</a>
                 </div>
             </div>
         }
