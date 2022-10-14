@@ -27,8 +27,6 @@ namespace VirtualGameStore.Models
 
         public Address? ShippingAddress { get; set; }
 
-        public IEnumerable<GameCategory> FavoriteCategories { get; set; }
-
         public bool AreAddressesEqual { get => BillingAddress?.Id == ShippingAddress?.Id; }
 
         public bool IsBirthDateValid()
