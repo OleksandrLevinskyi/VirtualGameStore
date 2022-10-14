@@ -219,6 +219,42 @@ namespace VirtualGameStore.Data.Migrations
                     b.ToTable("PlatformUser");
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -398,6 +434,9 @@ namespace VirtualGameStore.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BillingAddressId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
@@ -450,6 +489,9 @@ namespace VirtualGameStore.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ShippingAddressId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -458,6 +500,8 @@ namespace VirtualGameStore.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BillingAddressId");
 
                     b.HasIndex("GenderId");
 
@@ -468,6 +512,8 @@ namespace VirtualGameStore.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ShippingAddressId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -622,11 +668,23 @@ namespace VirtualGameStore.Data.Migrations
 
             modelBuilder.Entity("VirtualGameStore.Models.User", b =>
                 {
+                    b.HasOne("VirtualGameStore.Models.Address", "BillingAddress")
+                        .WithMany()
+                        .HasForeignKey("BillingAddressId");
+
                     b.HasOne("VirtualGameStore.Models.Gender", "Gender")
                         .WithMany()
                         .HasForeignKey("GenderId");
 
+                    b.HasOne("VirtualGameStore.Models.Address", "ShippingAddress")
+                        .WithMany()
+                        .HasForeignKey("ShippingAddressId");
+
+                    b.Navigation("BillingAddress");
+
                     b.Navigation("Gender");
+
+                    b.Navigation("ShippingAddress");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Event", b =>

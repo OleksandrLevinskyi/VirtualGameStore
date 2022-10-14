@@ -1,0 +1,106 @@
+﻿@page
+@model AddressesModel
+
+@{
+    ViewData["Title"] = "Addresses";
+    ViewData["ActivePage"] = ManageNavPages.Addresses;
+}
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="addresses-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Billing Address</h5>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.BillingAddress.Address1" class="form-control" />
+                        <label asp-for="Input.BillingAddress.Address1" class="form-label"></label>
+                        <span asp-validation-for="Input.BillingAddress.Address1" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.BillingAddress.Address2" class="form-control" />
+                        <label asp-for="Input.BillingAddress.Address2" class="form-label"></label>
+                        <span asp-validation-for="Input.BillingAddress.Address2" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.BillingAddress.City" class="form-control" />
+                        <label asp-for="Input.BillingAddress.City" class="form-label"></label>
+                        <span asp-validation-for="Input.BillingAddress.City" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.BillingAddress.Province" class="form-control" />
+                        <label asp-for="Input.BillingAddress.Province" class="form-label"></label>
+                        <span asp-validation-for="Input.BillingAddress.Province" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.BillingAddress.Country" class="form-control" />
+                        <label asp-for="Input.BillingAddress.Country" class="form-label"></label>
+                        <span asp-validation-for="Input.BillingAddress.Country" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.BillingAddress.PostalCode" class="form-control" />
+                        <label asp-for="Input.BillingAddress.PostalCode" class="form-label"></label>
+                        <span asp-validation-for="Input.BillingAddress.PostalCode" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input asp-for="Input.AreAddressesEqual" class="form-check-input" />
+                        <label asp-for="Input.AreAddressesEqual" class="form-label"></label>
+                        <span asp-validation-for="Input.AreAddressesEqual" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="shipping-address-card" hidden="@Model.Input.AreAddressesEqual" class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Shipping Address</h5>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.Address1" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.Address1" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.Address1" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.Address2" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.Address2" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.Address2" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.City" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.City" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.City" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.Province" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.Province" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.Province" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.Country" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.Country" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.Country" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ShippingAddress.PostalCode" class="form-control" />
+                        <label asp-for="Input.ShippingAddress.PostalCode" class="form-label"></label>
+                        <span asp-validation-for="Input.ShippingAddress.PostalCode" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="update-addresses-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+<script>
+    const sameAddressessCheckbox = document.getElementById('Input_AreAddressesEqual')
+    const shippingAddressCard = document.getElementById('shipping-address-card')
+    sameAddressessCheckbox.onchange = (e) => shippingAddressCard.hidden = e.target.checked
+</script>

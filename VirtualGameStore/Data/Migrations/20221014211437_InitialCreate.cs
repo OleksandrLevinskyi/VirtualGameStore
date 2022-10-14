@@ -5,10 +5,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VirtualGameStore.Data.Migrations
 {
-    public partial class InitialCreation : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<int>(
+                name: "BillingAddressId",
+                table: "AspNetUsers",
+                type: "int",
+                nullable: true);
+
             migrationBuilder.AddColumn<DateTime>(
                 name: "BirthDate",
                 table: "AspNetUsers",
@@ -39,6 +45,30 @@ namespace VirtualGameStore.Data.Migrations
                 table: "AspNetUsers",
                 type: "nvarchar(max)",
                 nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "ShippingAddressId",
+                table: "AspNetUsers",
+                type: "int",
+                nullable: true);
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Address1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Province = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Categories",
@@ -263,9 +293,19 @@ namespace VirtualGameStore.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_BillingAddressId",
+                table: "AspNetUsers",
+                column: "BillingAddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_GenderId",
                 table: "AspNetUsers",
                 column: "GenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_ShippingAddressId",
+                table: "AspNetUsers",
+                column: "ShippingAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryGame_GamesId",
@@ -308,6 +348,20 @@ namespace VirtualGameStore.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUsers_Addresses_BillingAddressId",
+                table: "AspNetUsers",
+                column: "BillingAddressId",
+                principalTable: "Addresses",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUsers_Addresses_ShippingAddressId",
+                table: "AspNetUsers",
+                column: "ShippingAddressId",
+                principalTable: "Addresses",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUsers_Genders_GenderId",
                 table: "AspNetUsers",
                 column: "GenderId",
@@ -318,8 +372,19 @@ namespace VirtualGameStore.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUsers_Addresses_BillingAddressId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUsers_Addresses_ShippingAddressId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_AspNetUsers_Genders_GenderId",
                 table: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "CategoryGame");
@@ -355,7 +420,19 @@ namespace VirtualGameStore.Data.Migrations
                 name: "Events");
 
             migrationBuilder.DropIndex(
+                name: "IX_AspNetUsers_BillingAddressId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropIndex(
                 name: "IX_AspNetUsers_GenderId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropIndex(
+                name: "IX_AspNetUsers_ShippingAddressId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "BillingAddressId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
@@ -376,6 +453,10 @@ namespace VirtualGameStore.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "LastName",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "ShippingAddressId",
                 table: "AspNetUsers");
         }
     }

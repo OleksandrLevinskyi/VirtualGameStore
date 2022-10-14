@@ -17,6 +17,7 @@ namespace  VirtualGameStore.Areas.Identity.Pages.Account.Manage
         public static string ExternalLogins => "ExternalLogins";
         public static string PersonalData => "PersonalData";
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
+        public static string Addresses => "Addresses";
         public static string Preferences => "Preferences";
 
         public static string PaymentOptions => "PaymentOptions";
@@ -39,6 +40,7 @@ namespace  VirtualGameStore.Areas.Identity.Pages.Account.Manage
         public static string PaymentOptionsNavClass(ViewContext viewContext) => PageNavClass(viewContext, PaymentOptions);
         public static string CreatePaymentOptionsNavClass(ViewContext viewContext) => PageNavClass(viewContext, CreatePaymentOptions);
         public static string EditPaymentOptionsNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditPaymentOptions);
+        public static string AddressesNavClass(ViewContext viewContext) => PageNavClass(viewContext, Addresses);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {

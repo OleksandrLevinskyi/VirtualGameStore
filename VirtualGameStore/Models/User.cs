@@ -16,13 +16,18 @@ namespace VirtualGameStore.Models
 
         [PersonalData]
         public bool IsEmailMarketingEnabled { get; set; }
-
         public Gender? Gender { get; set; }
         public IEnumerable<Platform> FavoritePlatforms { get; set; }
 
         public List<Event>? Events { get; set; }
 
         public List<Registration>? Registrations { get; set; }
+
+        public Address? BillingAddress { get; set; }
+
+        public Address? ShippingAddress { get; set; }
+
+        public bool AreAddressesEqual { get => BillingAddress?.Id == ShippingAddress?.Id; }
 
         public bool IsBirthDateValid()
         {
