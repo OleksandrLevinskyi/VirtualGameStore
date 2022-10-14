@@ -35,6 +35,8 @@ namespace VirtualGameStore.Models
         }
         public IEnumerable<Category> FavoriteCategories { get; set; }
 
+        public virtual IEnumerable<PaymentOption> PaymentOptions { get; }
+
         public bool ArePreferencesEmpty
         {
             get => !FavoritePlatforms.Any() || !FavoriteCategories.Any();

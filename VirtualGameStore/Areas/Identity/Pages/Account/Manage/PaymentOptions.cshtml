@@ -1,0 +1,124 @@
+@page
+@using System.Text.RegularExpressions
+@model VirtualGameStore.Pages.Profile.ManagePaymentOptions.IndexModel
+
+@functions { 
+    // static string CcWithSpaces(string s) => $"{s[..4]} {s[4..8]} {s[8..12]} {s[12..]}";
+    // The commented out code above displays the card without the stars
+}
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    .creditcard_container {
+        display: inline-block;
+        border-radius: 16px;
+        margin: 12px;
+    }
+    
+    .creditcard {
+      color: #fff;
+      margin: 0;
+      background: #fff;
+      font-weight: 400;
+      font-size: 0.875em;
+      overflow: hidden;
+      display: flex;
+      background: linear-gradient(175deg, #8c8c8c, #595959);
+      box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
+      border-radius: 1rem;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 200px;
+      width: 340px;
+    }
+    
+    .creditcard .creditcard_head {
+      display: flex;
+      justify-content: space-between;
+      margin: 16px 16px 0 20px;
+    }
+    .creditcard .creditcard_head .creditcard_title {
+      font-weight: 600;
+      font-size: 20px;
+      margin: 0 auto 0 0;
+    }
+    .creditcard .creditcard_main {
+      margin: 24px 16px 0 20px;
+    }
+    .creditcard .creditcard_main .creditcard_number-title {
+      color: #cccccc;
+    }
+    .creditcard .creditcard_main .creditcard_number {
+      font-family: monospace;
+      font-size: 28px;
+    }
+    .creditcard .creditcard_date {
+      font-family: monospace;
+      display: flex;
+      max-width: 100px;
+      justify-content: space-between;
+      margin: 0 64px 0 auto;
+      font-size: 18px;
+    }
+    .creditcard .creditcard_name {
+      font-family: monospace;
+      margin: 0 0 24px 24px;
+    }
+</style>
+<div>
+    <h3 style="display: inline-block">Manage Payment Options</h3>
+    <a  style="display: inline-block; margin: 0 0 8px 12px" asp-page="CreatePaymentOptions" class="btn btn-primary">Add</a>
+</div>
+    
+@foreach (var item in Model.PaymentOption)
+{
+    string target = "#modal" + item.Id;
+    string modalId = "modal" + item.Id;
+    
+    <div class="creditcard_container">
+        <div class="creditcard">
+            <div class="creditcard_head">
+                <div class="creditcard_title">Credit Card</div>
+                <a class="btn btn-secondary" asp-page="EditPaymentOptions" asp-route-id="@item.Id">
+                    Edit
+                </a>
+                <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="@target">
+                    Delete
+                </button>
+            </div>
+            <div class="creditcard_main">
+                <div class="creditcard_number-title">Card number:</div>
+                <div class="creditcard_number">@item.CardNumber[0]*** **** **** @item.CardNumber[12..]</div>
+            </div>
+            <div class="creditcard_date">
+                @item.ExpiryDate
+            </div>
+            <div class="creditcard_name">
+                @item.HolderLastName, @item.HolderFirstName
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the card ending in @item.CardNumber[12..]?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <form asp-route-id="@item.Id" method="post">
+                        <input type="hidden" name="delete" value="true"/>
+                        <input type="submit" value="Delete" class="btn btn-danger"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

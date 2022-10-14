@@ -12,6 +12,7 @@ namespace VirtualGameStore.Data
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Platform> Platforms { get; set; }
+        public DbSet<PaymentOption> PaymentOptions { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -21,6 +22,11 @@ namespace VirtualGameStore.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<PaymentOption>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.PaymentOptions)
+                .HasForeignKey(x => x.UserId);
 
             builder.Entity<Event>()
                 .HasOne<User>(e => e.Creator)

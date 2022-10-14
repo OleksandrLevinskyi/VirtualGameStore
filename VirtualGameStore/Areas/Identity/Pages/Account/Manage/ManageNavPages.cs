@@ -19,6 +19,14 @@ namespace  VirtualGameStore.Areas.Identity.Pages.Account.Manage
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
         public static string Preferences => "Preferences";
 
+        public static string PaymentOptions => "PaymentOptions";
+        public static string CreatePaymentOptions => "CreatePaymentOptions";
+        public static string EditPaymentOptions => "EditPaymentOptions";
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
         public static string EmailNavClass(ViewContext viewContext) => PageNavClass(viewContext, Email);
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
@@ -28,6 +36,9 @@ namespace  VirtualGameStore.Areas.Identity.Pages.Account.Manage
         public static string PersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, PersonalData);
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
         public static string PreferencesNavClass(ViewContext viewContext) => PageNavClass(viewContext, Preferences);
+        public static string PaymentOptionsNavClass(ViewContext viewContext) => PageNavClass(viewContext, PaymentOptions);
+        public static string CreatePaymentOptionsNavClass(ViewContext viewContext) => PageNavClass(viewContext, CreatePaymentOptions);
+        public static string EditPaymentOptionsNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditPaymentOptions);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {

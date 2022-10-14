@@ -204,6 +204,35 @@ namespace VirtualGameStore.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Events");
+                });
+
             modelBuilder.Entity("PlatformUser", b =>
                 {
                     b.Property<int>("FavoritePlatformsId")
@@ -312,7 +341,7 @@ namespace VirtualGameStore.Data.Migrations
                     b.ToTable("Genders");
                 });
 
-            modelBuilder.Entity("VirtualGameStore.Models.Platform", b =>
+            modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -320,13 +349,33 @@ namespace VirtualGameStore.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExpiryDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HolderFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HolderLastName")
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Platforms");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PaymentOptions");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Registration", b =>
@@ -557,6 +606,17 @@ namespace VirtualGameStore.Data.Migrations
                     b.Navigation("Creator");
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.User", "User")
+                        .WithMany("PaymentOptions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.Registration", b =>
                 {
                     b.HasOne("VirtualGameStore.Models.Event", "Event")
@@ -591,6 +651,8 @@ namespace VirtualGameStore.Data.Migrations
             modelBuilder.Entity("VirtualGameStore.Models.User", b =>
                 {
                     b.Navigation("Events");
+
+                    b.Navigation("PaymentOptions");
 
                     b.Navigation("Registrations");
                 });
