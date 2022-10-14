@@ -13,43 +13,21 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Events[0].Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Events[0].Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Events[0].DateTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Events[0].Creator)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Events)
-            {
-                string modalId = "modal" + item.Id;
-
-                <tr>
-                    <td>
+    <div class="d-flex flex-wrap justify-content-center">
+        @foreach (var item in Model.Events)
+        {
+            <div class="card w-25 m-3">
+                <div class="card-body">
+                    <h5 class="card-title">
                         @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Creator.FirstName) @Html.DisplayFor(modelItem => item.Creator.LastName)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </h5>
+
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <p>@Html.DisplayNameFor(model => model.Events[0].DateTime): @Html.DisplayFor(modelItem => item.DateTime)</p>
+
+                    <a href="#" class="btn btn-primary mt-1">Register <i class="bi bi-cart"></i></a>
+                </div>
+            </div>
+        }
+    </div>
 }
