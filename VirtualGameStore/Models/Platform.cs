@@ -9,5 +9,6 @@ namespace VirtualGameStore.Models
         public string Name { get; set; } = string.Empty;
 
         public List<Game> Games { get; set; }
+        public IEnumerable<User> Users { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace VirtualGameStore.Models
         public bool IsEmailMarketingEnabled { get; set; }
 
         public Gender? Gender { get; set; }
+        public IEnumerable<Platform> FavoritePlatforms { get; set; }
 
         public List<Event>? Events { get; set; }
 
@@ -31,6 +32,18 @@ namespace VirtualGameStore.Models
             }
 
             return BirthDate < DateTime.Now;
+        }
+        public IEnumerable<Category> FavoriteCategories { get; set; }
+
+        public bool ArePreferencesEmpty
+        {
+            get => !FavoritePlatforms.Any() || !FavoriteCategories.Any();
+        }
+
+        public void ResetPreferences()
+        {
+            FavoriteCategories = new List<Category>();
+            FavoritePlatforms = new List<Platform>();
         }
     }
 }

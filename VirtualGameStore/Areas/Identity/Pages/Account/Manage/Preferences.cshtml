@@ -1,0 +1,59 @@
+﻿@page
+@model PreferencesModel
+
+@{
+    ViewData["Title"] = "Preferences";
+    ViewData["ActivePage"] = ManageNavPages.Preferences;
+}
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="preferences-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Favorite Platforms</h5>
+                    @foreach (var platform in Model.GamePlatforms)
+                    {
+                        <div class="form-check-inline">
+                            <input name="Input.FavoritePlatformIds"
+                               id="platform-@platform.Id"
+                               type="checkbox"
+                               value="@platform.Id"
+                               checked="@Model.Input.FavoritePlatformIds.Contains(platform.Id)" />
+                            <label for="platform-@platform.Id" class="form-label">@platform.Name</label>
+
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Favorite Categories</h5>
+                    @foreach (var category in Model.GameCategories)
+                    {
+                        <div class="form-check-inline">
+                            <input name="Input.FavoriteCategoryIds"
+                               id="category-@category.Id"
+                               type="checkbox"
+                               value="@category.Id"
+                               checked="@Model.Input.FavoriteCategoryIds.Contains(category.Id)" />
+                            <label for="category-@category.Id" class="form-label">@category.Name</label>
+
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <button id="update-preferences-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

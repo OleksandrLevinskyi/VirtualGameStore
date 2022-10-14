@@ -22,6 +22,21 @@ namespace VirtualGameStore.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CategoryUser", b =>
+                {
+                    b.Property<int>("FavoriteCategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FavoriteCategoriesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("CategoryUser");
+                });
+
             modelBuilder.Entity("CategoryGame", b =>
                 {
                     b.Property<int>("CategoriesId")
@@ -187,6 +202,21 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("PlatformUser", b =>
+                {
+                    b.Property<int>("FavoritePlatformsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FavoritePlatformsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("PlatformUser");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Category", b =>
@@ -407,6 +437,21 @@ namespace VirtualGameStore.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("CategoryUser", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Category", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteCategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CategoryGame", b =>
                 {
                     b.HasOne("VirtualGameStore.Models.Category", null)
@@ -484,6 +529,21 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasOne("VirtualGameStore.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlatformUser", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Platform", null)
+                        .WithMany()
+                        .HasForeignKey("FavoritePlatformsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
