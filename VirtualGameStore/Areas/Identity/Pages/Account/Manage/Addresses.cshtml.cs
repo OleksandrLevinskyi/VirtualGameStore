@@ -91,18 +91,23 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            if (!ModelState.IsValid)
-            {
-                await LoadAsync(user);
-                return Page();
-            }
-
             var previousBillingAddress = user.BillingAddress;
             var previousShippingAddress = user.ShippingAddress;
 
             if (Input.AreAddressesEqual)
             {
                 Input.ShippingAddress = Input.BillingAddress;
+                ModelState.Keys.Where(k => k.Contains(nameof(Input.ShippingAddress))).ToList().ForEach(k =>
+                {
+                    ModelState.ClearValidationState(k);
+                    ModelState.MarkFieldSkipped(k);
+                });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await LoadAsync(user);
+                return Page();
             }
 
             user.BillingAddress = Input.BillingAddress;
