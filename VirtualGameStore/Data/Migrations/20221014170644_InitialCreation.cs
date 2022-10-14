@@ -41,6 +41,19 @@ namespace VirtualGameStore.Data.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
@@ -115,6 +128,43 @@ namespace VirtualGameStore.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Platforms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Platforms", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoryUser",
+                columns: table => new
+                {
+                    FavoriteCategoriesId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoryUser", x => new { x.FavoriteCategoriesId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_CategoryUser_AspNetUsers_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CategoryUser_Categories_FavoriteCategoriesId",
+                        column: x => x.FavoriteCategoriesId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Registrations",
                 columns: table => new
                 {
@@ -140,10 +190,92 @@ namespace VirtualGameStore.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CategoryGame",
+                columns: table => new
+                {
+                    CategoriesId = table.Column<int>(type: "int", nullable: false),
+                    GamesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoryGame", x => new { x.CategoriesId, x.GamesId });
+                    table.ForeignKey(
+                        name: "FK_CategoryGame_Categories_CategoriesId",
+                        column: x => x.CategoriesId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CategoryGame_Games_GamesId",
+                        column: x => x.GamesId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GamePlatform",
+                columns: table => new
+                {
+                    GamesId = table.Column<int>(type: "int", nullable: false),
+                    PlatformsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GamePlatform", x => new { x.GamesId, x.PlatformsId });
+                    table.ForeignKey(
+                        name: "FK_GamePlatform_Games_GamesId",
+                        column: x => x.GamesId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GamePlatform_Platforms_PlatformsId",
+                        column: x => x.PlatformsId,
+                        principalTable: "Platforms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlatformUser",
+                columns: table => new
+                {
+                    FavoritePlatformsId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlatformUser", x => new { x.FavoritePlatformsId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_PlatformUser_AspNetUsers_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlatformUser_Platforms_FavoritePlatformsId",
+                        column: x => x.FavoritePlatformsId,
+                        principalTable: "Platforms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_GenderId",
                 table: "AspNetUsers",
                 column: "GenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoryGame_GamesId",
+                table: "CategoryGame",
+                column: "GamesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoryUser_UsersId",
+                table: "CategoryUser",
+                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_CreatorId",
@@ -151,9 +283,19 @@ namespace VirtualGameStore.Data.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GamePlatform_PlatformsId",
+                table: "GamePlatform",
+                column: "PlatformsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PaymentOptions_UserId",
                 table: "PaymentOptions",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlatformUser_UsersId",
+                table: "PlatformUser",
+                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Registrations_EventId",
@@ -180,7 +322,13 @@ namespace VirtualGameStore.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Games");
+                name: "CategoryGame");
+
+            migrationBuilder.DropTable(
+                name: "CategoryUser");
+
+            migrationBuilder.DropTable(
+                name: "GamePlatform");
 
             migrationBuilder.DropTable(
                 name: "Genders");
@@ -189,7 +337,19 @@ namespace VirtualGameStore.Data.Migrations
                 name: "PaymentOptions");
 
             migrationBuilder.DropTable(
+                name: "PlatformUser");
+
+            migrationBuilder.DropTable(
                 name: "Registrations");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Games");
+
+            migrationBuilder.DropTable(
+                name: "Platforms");
 
             migrationBuilder.DropTable(
                 name: "Events");
