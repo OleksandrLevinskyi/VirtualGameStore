@@ -12,11 +12,12 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Pages.Games
 {
-    public class IndexModel : PageModel
+    [Authorize(Roles = "Employee")]
+    public class AdminModel : PageModel
     {
         private readonly ApplicationDbContext _context;
 
-        public IndexModel(ApplicationDbContext context)
+        public AdminModel(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -32,6 +33,23 @@ namespace VirtualGameStore.Pages.Games
                     .Include(g => g.Categories)
                     .ToListAsync();
             }
+        }
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null || _context.Games == null)
+            {
+                return NotFound();
+            }
+            var game = await _context.Games.FindAsync(id);
+
+            if (game != null)
+            {
+                _context.Games.Remove(game);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Admin");
         }
     }
 }
