@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +14,7 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Pages.Events
 {
+    [Authorize(Roles = "Employee")]
     public class EditModel : PageModel
     {
         private readonly VirtualGameStore.Data.ApplicationDbContext _context;
@@ -31,13 +34,13 @@ namespace VirtualGameStore.Pages.Events
                 return NotFound();
             }
 
-            var foundEvent =  await _context.Events.FirstOrDefaultAsync(m => m.Id == id);
+            var foundEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == id);
             if (foundEvent == null)
             {
                 return NotFound();
             }
             Event = foundEvent;
-           ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 
@@ -69,12 +72,12 @@ namespace VirtualGameStore.Pages.Events
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Admin");
         }
 
         private bool EventExists(int id)
         {
-          return _context.Events.Any(e => e.Id == id);
+            return _context.Events.Any(e => e.Id == id);
         }
     }
 }

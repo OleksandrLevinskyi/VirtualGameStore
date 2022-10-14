@@ -13,6 +13,7 @@ using System.Security.Claims;
 
 namespace VirtualGameStore.Pages.Events
 {
+    [Authorize(Roles = "Employee")]
     public class CreateModel : PageModel
     {
         private readonly VirtualGameStore.Data.ApplicationDbContext _context;
@@ -24,18 +25,18 @@ namespace VirtualGameStore.Pages.Events
 
         public IActionResult OnGet()
         {
-        ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 
         [BindProperty]
         public Event Event { get; set; }
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
@@ -45,7 +46,7 @@ namespace VirtualGameStore.Pages.Events
             _context.Events.Add(Event);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Admin");
         }
     }
 }

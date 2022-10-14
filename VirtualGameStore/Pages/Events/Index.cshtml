@@ -7,13 +7,9 @@
 
 <h1>@ViewBag.Title</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-
 @if (!Model.Events.Any())
 {
-    <p>No events available. Please add a new event.</p>
+    <p>No events available at the moment.</p>
 }
 else
 {
@@ -32,7 +28,6 @@ else
                 <th>
                     @Html.DisplayNameFor(model => model.Events[0].Creator)
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -51,34 +46,7 @@ else
                         @Html.DisplayFor(modelItem => item.DateTime)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Creator.Id)
-                    </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-
-                        <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="#@modalId">
-                            Delete
-                        </button>
-
-                        <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Event</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Are you sure you want to delete "@item.Name" event?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <form asp-route-id="@item.Id" method="post">
-                                            <input type="submit" value="Delete" class="btn btn-danger" />
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @Html.DisplayFor(modelItem => item.Creator.FirstName) @Html.DisplayFor(modelItem => item.Creator.LastName)
                     </td>
                 </tr>
             }
