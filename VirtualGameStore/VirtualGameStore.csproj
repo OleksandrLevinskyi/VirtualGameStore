@@ -23,7 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Profile\ManagePaymentOptions" />
+    <Compile Remove="Data\Migrations\20221012011802_AddCategoryAndPlatform.cs" />
+    <Compile Remove="Data\Migrations\20221013033101_FixGamePlatformCategoryRelationships.cs" />
   </ItemGroup>
 
 </Project>
