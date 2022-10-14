@@ -1,0 +1,110 @@
+﻿@page
+@model VirtualGameStore.Pages.Games.AdminModel
+
+@{
+    ViewData["Title"] = "Games";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+@if (!Model.Games.Any()){
+    <p>No games available. Please add a new game.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Games[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Games[0].Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Games[0].Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Games[0].IsDigital)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Games[0].Stock)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Games[0].Platforms)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Games[0].Categories)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Games)
+            {
+                string modalId = "modal" + item.Id;
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsDigital)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                    <td>
+                        @foreach (var platform in item.Platforms)
+                        {
+                            <span class="badge bg-primary">@platform.Name</span>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var category in item.Categories)
+                        {
+                            <span class="badge bg-success">@category.Name</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+
+                        <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="#@modalId">
+                            Delete
+                        </button>
+
+                        <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete "@item.Name" game?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <form asp-route-id="@item.Id" method="post">
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

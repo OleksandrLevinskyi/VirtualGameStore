@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
+using VirtualGameStore.Models.ValidationAttributes;
 
 namespace VirtualGameStore.Models
 {
@@ -14,6 +15,7 @@ namespace VirtualGameStore.Models
 
         public string Description { get; set; }
 
+        [ValidDateTime]
         public DateTime DateTime { get; set; }
 
         public User? Creator { get; set; }

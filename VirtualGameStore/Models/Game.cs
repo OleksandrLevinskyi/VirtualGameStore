@@ -12,6 +12,7 @@ namespace VirtualGameStore.Models
         public string Description { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Price must be greater than or equal to 0.")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public double Price { get; set; }
 
         [Display(Name = "Is Digital")]
@@ -19,5 +20,9 @@ namespace VirtualGameStore.Models
 
         [Range(0, int.MaxValue, ErrorMessage = "Stock must be greater than or equal to 0.")]
         public int Stock { get; set; }
+
+        public List<Category>? Categories { get; set; }
+
+        public List<Platform>? Platforms { get; set; }
     }
 }

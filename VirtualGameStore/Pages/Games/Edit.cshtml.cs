@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +13,7 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Pages.Games
 {
+    [Authorize(Roles = "Employee")]
     public class EditModel : PageModel
     {
         private readonly VirtualGameStore.Data.ApplicationDbContext _context;
@@ -23,6 +26,29 @@ namespace VirtualGameStore.Pages.Games
         [BindProperty]
         public Game Game { get; set; } = default!;
 
+        [BindProperty]
+        public InputModel Input { get; set; }
+        public List<Platform> Platforms { get; set; }
+        public List<Category> Categories { get; set; }
+
+        public class InputModel
+        {
+            public List<int> PlatformIds { get; set; } = new List<int>();
+            public List<int> CategoryIds { get; set; } = new List<int>();
+        }
+
+        private async Task LoadAsync(Game game)
+        {
+            Platforms = await _context.Platforms.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
+            Categories = await _context.Categories.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
+
+            Input = new InputModel()
+            {
+                PlatformIds = game.Platforms.Select(p => p.Id).ToList(),
+                CategoryIds = game.Categories.Select(p => p.Id).ToList()
+            };
+        }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Games == null)
@@ -30,12 +56,20 @@ namespace VirtualGameStore.Pages.Games
                 return NotFound();
             }
 
-            var game =  await _context.Games.FirstOrDefaultAsync(m => m.Id == id);
+            var game = await _context.Games
+                .Include(g =>g.Platforms)
+                .Include(g =>g.Categories)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (game == null)
             {
                 return NotFound();
             }
+
             Game = game;
+
+            await LoadAsync(Game);
+
             return Page();
         }
 
@@ -43,12 +77,39 @@ namespace VirtualGameStore.Pages.Games
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            var game = await _context.Games
+                .Include(g => g.Platforms)
+                .Include(g => g.Categories)
+                .FirstOrDefaultAsync(m => m.Id == Game.Id);
+
+            game.Platforms = await _context.Platforms
+                  .Where(p => Input.PlatformIds.Contains(p.Id))
+                  .ToListAsync();
+
+            game.Categories = await _context.Categories
+                .Where(c => Input.CategoryIds.Contains(c.Id))
+                .ToListAsync();
+
+            if (
+                !ModelState.IsValid ||
+                Input.CategoryIds.Count == 0 ||
+                Input.PlatformIds.Count == 0
+                )
             {
+                await LoadAsync(game);
+
+                ViewData["StatusMessage"] = "Game must have at least one category and platform selected.";
+
                 return Page();
             }
 
-            _context.Attach(Game).State = EntityState.Modified;
+            game.Name = Game.Name;
+            game.Description = Game.Description;
+            game.Price = Game.Price;
+            game.IsDigital = Game.IsDigital;
+            game.Stock = Game.Stock;
+
+            _context.Games.Update(game);
 
             try
             {
@@ -66,12 +127,12 @@ namespace VirtualGameStore.Pages.Games
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Admin");
         }
 
         private bool GameExists(int id)
         {
-          return _context.Games.Any(e => e.Id == id);
+            return _context.Games.Any(e => e.Id == id);
         }
     }
 }

@@ -10,6 +10,8 @@ namespace VirtualGameStore.Data
         public DbSet<Registration> Registrations { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Gender> Genders { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Platform> Platforms { get; set; }
         public DbSet<PaymentOption> PaymentOptions { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -25,7 +27,7 @@ namespace VirtualGameStore.Data
                 .HasOne(x => x.User)
                 .WithMany(x => x.PaymentOptions)
                 .HasForeignKey(x => x.UserId);
-            
+
             builder.Entity<Event>()
                 .HasOne<User>(e => e.Creator)
                 .WithMany(u => u.Events)
