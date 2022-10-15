@@ -92,6 +92,22 @@ namespace VirtualGameStore.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "afe877ff-cf81-4bff-9d50-66238d3a1b9e",
+                            ConcurrencyStamp = "6010635a-cb51-4a21-bb0a-529ece3facbc",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        },
+                        new
+                        {
+                            Id = "9a86cc44-771d-426d-b702-c4a4a93c348f",
+                            ConcurrencyStamp = "00cce6e2-03f1-42cc-805f-91df7dae668e",
+                            Name = "Member",
+                            NormalizedName = "MEMBER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -181,6 +197,18 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
+                            RoleId = "afe877ff-cf81-4bff-9d50-66238d3a1b9e"
+                        },
+                        new
+                        {
+                            UserId = "9a44a14a-47fb-4196-8a45-57fa557fb992",
+                            RoleId = "9a86cc44-771d-426d-b702-c4a4a93c348f"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -270,6 +298,38 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "RPG"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Racing"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Sports"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Simulation"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "FPS"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Fighting"
+                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Event", b =>
@@ -349,6 +409,23 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Male"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Female"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Other"
+                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
@@ -401,6 +478,28 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Platforms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "PC"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Switch"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Xbox"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "PlayStation"
+                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Registration", b =>
@@ -519,6 +618,42 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasIndex("ShippingAddressId");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5e2e9d4a-d8e2-4200-8e13-ef777407f2ca",
+                            Email = "employee@vgs.com",
+                            EmailConfirmed = true,
+                            IsEmailMarketingEnabled = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EMPLOYEE@VGS.COM",
+                            NormalizedUserName = "EMPLOYEE@VGS.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "IOHH3QAG6CBJWWO4LDGAJTSSACV2KNDI",
+                            TwoFactorEnabled = false,
+                            UserName = "employee@vgs.com"
+                        },
+                        new
+                        {
+                            Id = "9a44a14a-47fb-4196-8a45-57fa557fb992",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d91ba7e7-903d-453c-8caf-3ad1907f96c6",
+                            Email = "member@vgs.com",
+                            EmailConfirmed = true,
+                            IsEmailMarketingEnabled = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "MEMBER@VGS.COM",
+                            NormalizedUserName = "MEMBER@VGS.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "HNGZXUROYPX527M6RHWO6OPYCETU2WVK",
+                            TwoFactorEnabled = false,
+                            UserName = "member@vgs.com"
+                        });
                 });
 
             modelBuilder.Entity("CategoryGame", b =>
