@@ -120,6 +120,13 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            var birthDateUser = new User() { BirthDate = Input.BirthDate };
+
+            if (!birthDateUser.IsBirthDateValid())
+            {
+                ModelState.AddModelError("Input.BirthDate", "Birth Date cannot be in the future.");
+            }
+
             if (!ModelState.IsValid)
             {
                 await LoadAsync(user);
