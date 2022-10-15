@@ -39,6 +39,11 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             public bool AreAddressesEqual { get; set; }
         }
 
+        public SelectList ShippingCountrySl { get; set; }
+        public SelectList ShippingProvinceSl { get; set; }
+        public SelectList BillingCountrySl { get; set; }
+        public SelectList BillingProvinceSl { get; set; }
+
         private async Task<User?> GetUser()
         {
             if (User.Identity == null)
@@ -53,6 +58,8 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                 .FirstOrDefaultAsync();
         }
 
+        class ListItem { public string? Text { get; set; } }
+
         private async Task LoadAsync(User user)
         {
             Input = new InputModel
@@ -62,11 +69,22 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                 AreAddressesEqual = user.AreAddressesEqual
             };
 
-            if (user.AreAddressesEqual)
-            {
-                Input.ShippingAddress = new Address();
-            }
+            var countries = new List<ListItem>() { new ListItem() { Text = "Canada" } };
+            var provinces = new List<ListItem>() { new ListItem() { Text = "Ontario" } };
 
+            var textFieldName = nameof(ListItem.Text);
+
+            BillingProvinceSl = new SelectList(provinces, textFieldName, textFieldName,
+                new ListItem() { Text = user.BillingAddress?.Province });
+
+            BillingCountrySl = new SelectList(countries, textFieldName, textFieldName,
+                new ListItem() { Text = user.BillingAddress?.Country });
+
+            ShippingProvinceSl = new SelectList(provinces, textFieldName, textFieldName,
+                new ListItem() { Text = user.ShippingAddress?.Province });
+
+            ShippingCountrySl = new SelectList(countries, textFieldName, textFieldName,
+                new ListItem() { Text = user.ShippingAddress?.Country });
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
