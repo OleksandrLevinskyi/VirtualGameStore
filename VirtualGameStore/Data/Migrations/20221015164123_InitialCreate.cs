@@ -92,7 +92,8 @@ namespace VirtualGameStore.Data.Migrations
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AttendeeLimit = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -292,6 +293,68 @@ namespace VirtualGameStore.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "9a86cc44-771d-426d-b702-c4a4a93c348f", "00cce6e2-03f1-42cc-805f-91df7dae668e", "Member", "MEMBER" },
+                    { "afe877ff-cf81-4bff-9d50-66238d3a1b9e", "6010635a-cb51-4a21-bb0a-529ece3facbc", "Employee", "EMPLOYEE" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "BillingAddressId", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "GenderId", "IsEmailMarketingEnabled", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "ShippingAddressId", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "5abf56ec-8224-42b1-965d-a11bd8d818c7", 0, null, null, "5e2e9d4a-d8e2-4200-8e13-ef777407f2ca", "employee@vgs.com", true, null, null, false, null, false, null, "EMPLOYEE@VGS.COM", "EMPLOYEE@VGS.COM", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "IOHH3QAG6CBJWWO4LDGAJTSSACV2KNDI", null, false, "employee@vgs.com" },
+                    { "9a44a14a-47fb-4196-8a45-57fa557fb992", 0, null, null, "d91ba7e7-903d-453c-8caf-3ad1907f96c6", "member@vgs.com", true, null, null, false, null, true, null, "MEMBER@VGS.COM", "MEMBER@VGS.COM", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "HNGZXUROYPX527M6RHWO6OPYCETU2WVK", null, false, "member@vgs.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "RPG" },
+                    { 2, "Racing" },
+                    { 3, "Sports" },
+                    { 4, "Simulation" },
+                    { 5, "FPS" },
+                    { 6, "Fighting" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Genders",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Male" },
+                    { 2, "Female" },
+                    { 3, "Other" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Platforms",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "PC" },
+                    { 2, "Switch" },
+                    { 3, "Xbox" },
+                    { 4, "PlayStation" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "afe877ff-cf81-4bff-9d50-66238d3a1b9e", "5abf56ec-8224-42b1-965d-a11bd8d818c7" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "9a86cc44-771d-426d-b702-c4a4a93c348f", "9a44a14a-47fb-4196-8a45-57fa557fb992" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_BillingAddressId",
                 table: "AspNetUsers",
@@ -430,6 +493,36 @@ namespace VirtualGameStore.Data.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_AspNetUsers_ShippingAddressId",
                 table: "AspNetUsers");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUserRoles",
+                keyColumns: new[] { "RoleId", "UserId" },
+                keyValues: new object[] { "afe877ff-cf81-4bff-9d50-66238d3a1b9e", "5abf56ec-8224-42b1-965d-a11bd8d818c7" });
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUserRoles",
+                keyColumns: new[] { "RoleId", "UserId" },
+                keyValues: new object[] { "9a86cc44-771d-426d-b702-c4a4a93c348f", "9a44a14a-47fb-4196-8a45-57fa557fb992" });
+
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "9a86cc44-771d-426d-b702-c4a4a93c348f");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "afe877ff-cf81-4bff-9d50-66238d3a1b9e");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUsers",
+                keyColumn: "Id",
+                keyValue: "5abf56ec-8224-42b1-965d-a11bd8d818c7");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUsers",
+                keyColumn: "Id",
+                keyValue: "9a44a14a-47fb-4196-8a45-57fa557fb992");
 
             migrationBuilder.DropColumn(
                 name: "BillingAddressId",

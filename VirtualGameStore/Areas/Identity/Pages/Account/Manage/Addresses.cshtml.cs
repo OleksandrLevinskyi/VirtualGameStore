@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Identity;
@@ -39,6 +41,11 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             public bool AreAddressesEqual { get; set; }
         }
 
+        public SelectList ShippingCountrySl { get; set; }
+        public SelectList ShippingProvinceSl { get; set; }
+        public SelectList BillingCountrySl { get; set; }
+        public SelectList BillingProvinceSl { get; set; }
+
         private async Task<User?> GetUser()
         {
             if (User.Identity == null)
@@ -53,6 +60,14 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                 .FirstOrDefaultAsync();
         }
 
+        class ListItem {
+            public string? Text { get; set; }
+            public ListItem(string? text)
+            {
+                Text = text;
+            }
+        }
+
         private async Task LoadAsync(User user)
         {
             Input = new InputModel
@@ -62,11 +77,33 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
                 AreAddressesEqual = user.AreAddressesEqual
             };
 
-            if (user.AreAddressesEqual)
+            var countries = new List<ListItem>() { new ListItem("Canada") };
+            var provinces = new List<ListItem>()
             {
-                Input.ShippingAddress = new Address();
-            }
+                new ListItem("Alberta"),
+                new ListItem("British Columbia"),
+                new ListItem("Manitoba"),
+                new ListItem("New Brunswick"),
+                new ListItem("Newfoundland and Labrador"),
+                new ListItem("Northwest Territories"),
+                new ListItem("Nova Scotia"),
+                new ListItem("Nunavut"),
+                new ListItem("Ontario"),
+                new ListItem("Prince Edward Island"),
+                new ListItem("Quebec"),
+                new ListItem("Saskatchewan"),
+                new ListItem("Yukon"),
+            };
 
+            var textFieldName = nameof(ListItem.Text);
+
+            BillingProvinceSl = new SelectList(provinces, textFieldName, textFieldName, new ListItem(user.BillingAddress?.Province));
+
+            BillingCountrySl = new SelectList(countries, textFieldName, textFieldName, new ListItem(user.BillingAddress?.Country));
+
+            ShippingProvinceSl = new SelectList(provinces, textFieldName, textFieldName, new ListItem(user.ShippingAddress?.Province));
+
+            ShippingCountrySl = new SelectList(countries, textFieldName, textFieldName, new ListItem(user.ShippingAddress?.Country));
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)

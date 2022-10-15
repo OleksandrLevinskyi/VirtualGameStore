@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VirtualGameStore.Data;
 using VirtualGameStore.Models;
+using VirtualGameStore.ValidationAttributes;
 
 namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
 {
@@ -50,6 +51,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
 
             [DataType(DataType.Date)]
             [Display(Name = "Birth Date")]
+            [DateNotInTheFuture]
             public DateTime? BirthDate { get; set; }
 
             [Phone]
@@ -119,6 +121,13 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+
+            var birthDateUser = new User() { BirthDate = Input.BirthDate };
+
+            //if (!birthDateUser.IsBirthDateValid())
+            //{
+            //    ModelState.AddModelError("Input.BirthDate", "Birth Date cannot be in the future.");
+            //}
 
             if (!ModelState.IsValid)
             {

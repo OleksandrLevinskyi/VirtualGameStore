@@ -12,6 +12,7 @@ namespace VirtualGameStore.Models
         public string Province { get; set; } = string.Empty;
         public string Country { get; set; } = string.Empty;
         [Display(Name = "Postal Code")]
+        [RegularExpression(@"^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$", ErrorMessage = "Postal Code should be in the format L1L 1L1")]
         public string PostalCode { get; set; } = string.Empty;
     }
 }
