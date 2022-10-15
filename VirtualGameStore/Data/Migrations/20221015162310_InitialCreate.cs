@@ -92,7 +92,8 @@ namespace VirtualGameStore.Data.Migrations
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AttendeeLimit = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
