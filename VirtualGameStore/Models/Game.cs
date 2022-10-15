@@ -24,5 +24,10 @@ namespace VirtualGameStore.Models
         public List<Category>? Categories { get; set; }
 
         public List<Platform>? Platforms { get; set; }
+
+        public bool IsAvailable()
+        {
+            return Stock > 0;
+        }
     }
 }

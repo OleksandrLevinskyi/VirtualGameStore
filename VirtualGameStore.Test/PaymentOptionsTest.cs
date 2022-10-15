@@ -3,7 +3,7 @@ using VirtualGameStore.Models.ValidationAttributes;
 
 namespace VirtualGameStore.Test;
 
-public class ValidFutureMonthYearTest
+public class PaymentOptionsTest
 {
     [SetUp]
     public void Setup()
