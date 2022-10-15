@@ -2,7 +2,7 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Test
 {
-    public class EventTest
+    public class EventsTest
     {
         [SetUp]
         public void Setup()
