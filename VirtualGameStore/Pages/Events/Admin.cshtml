@@ -32,6 +32,9 @@ else
                 <th>
                     @Html.DisplayNameFor(model => model.Events[0].Creator)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Events[0].AttendeeLimit)
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -52,6 +55,9 @@ else
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Creator.FirstName) @Html.DisplayFor(modelItem => item.Creator.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AttendeeLimit)
                     </td>
                     <td>
                         <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>

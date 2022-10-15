@@ -29,6 +29,11 @@
                 <span asp-validation-for="Event.DateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Event.AttendeeLimit" class="control-label"></label>
+                <input asp-for="Event.AttendeeLimit" class="form-control" />
+                <span asp-validation-for="Event.AttendeeLimit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
