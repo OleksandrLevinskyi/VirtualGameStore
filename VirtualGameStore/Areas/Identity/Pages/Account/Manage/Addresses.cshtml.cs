@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Identity;
@@ -70,7 +72,22 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account.Manage
             };
 
             var countries = new List<ListItem>() { new ListItem() { Text = "Canada" } };
-            var provinces = new List<ListItem>() { new ListItem() { Text = "Ontario" } };
+            var provinces = new List<ListItem>()
+            {
+                new ListItem() { Text = "Alberta" },
+                new ListItem() { Text = "British Columbia" },
+                new ListItem() { Text = "Manitoba" },
+                new ListItem() { Text = "New Brunswick" },
+                new ListItem() { Text = "Newfoundland and Labrador" },
+                new ListItem() { Text = "Northwest Territories" },
+                new ListItem() { Text = "Nova Scotia" },
+                new ListItem() { Text = "Nunavut" },
+                new ListItem() { Text = "Ontario" },
+                new ListItem() { Text = "Prince Edward Island" },
+                new ListItem() { Text = "Quebec" },
+                new ListItem() { Text = "Saskatchewan" },
+                new ListItem() { Text = "Yukon" }
+            };
 
             var textFieldName = nameof(ListItem.Text);
 
