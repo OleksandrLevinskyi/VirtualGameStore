@@ -1,10 +1,15 @@
-﻿using SkiaSharp;
+﻿// Reference: https://github.com/biggray/CaptchaGen.SkiaSharp/blob/master/src/CaptchaGen.SkiaSharp/CaptchaGenerator.cs
+
+using SkiaSharp;
 using System.Drawing;
+using System.Text;
 
 namespace VirtualGameStore.Captcha
 {
     public class CaptchaGenerator
     {
+        private const int ImageQuality = 10;
+
         protected SKColor PaintColor { get; set; }
         protected SKColor BackgroundColor { get; set; }
         protected SKColor NoisePointColor { get; set; }
@@ -20,90 +25,22 @@ namespace VirtualGameStore.Captcha
         protected Func<(int oldX, int oldY, double distortionLevel), (int newX, int newY)>? DistortionFunc { get; set; }
         protected Func<IEnumerable<(int x, int y)>>? NoisePointMapGenFunc { get; set; }
 
-        public CaptchaGenerator(
-            string paintColorHex = "#808080",
-            string backgroundColorHex = "#F5DEB3",
-            string noisePointColorHex = "#D3D3D3",
-            int imageWidth = 120,
-            int imageHeight = 48,
-            string? fontName = null,
-            int fontSize = 20,
-            bool enableDistortion = true,
-            double minDistortion = 5,
-            double maxDistortion = 15,
-            bool enableNoisePoints = true,
-            double noisePointsPercent = 0.05
-        ) : this(
-            SKColor.Parse(paintColorHex),
-            SKColor.Parse(backgroundColorHex),
-            SKColor.Parse(noisePointColorHex),
-            imageWidth,
-            imageHeight,
-            fontName,
-            fontSize,
-            enableDistortion,
-            minDistortion,
-            maxDistortion,
-            enableNoisePoints,
-            noisePointsPercent
-        )
-        { }
-
-        public CaptchaGenerator(
-            SKColor paintColor,
-            SKColor backgroundColor,
-            SKColor noisePointColor,
-            int imageWidth = 120,
-            int imageHeight = 48,
-            string? fontName = null,
-            int fontSize = 20,
-            bool enableDistortion = true,
-            double minDistortion = 5,
-            double maxDistortion = 15,
-            bool enableNoisePoints = true,
-            double noisePointsPercent = 0.05
-        ) : this(
-            paintColor,
-            backgroundColor,
-            noisePointColor,
-            imageWidth,
-            imageHeight,
-            fontName,
-            fontSize,
-            null,
-            null)
+        public static string GenerateCaptchaCode()
         {
-            MinDistortion = minDistortion;
-            MaxDistortion = maxDistortion;
+            const string allowedCaracters = "2346789ABCDEFGHJKLMNPRTUVWXYZ";
 
-            if (enableDistortion)
-                DistortionFunc =
-                    oldPos =>
-                    {
-                        var newX = (int)(oldPos.oldX + (oldPos.distortionLevel * Math.Sin(Math.PI * oldPos.oldY / 64.0)));
-                        var newY = (int)(oldPos.oldY + (oldPos.distortionLevel * Math.Cos(Math.PI * oldPos.oldX / 64.0)));
-                        if (newX < 0 || newX >= imageWidth) newX = 0;
-                        if (newY < 0 || newY >= imageHeight) newY = 0;
+            Random rand = new();
+            int maxRand = allowedCaracters.Length - 1;
 
-                        return (newX, newY);
-                    };
+            StringBuilder sb = new();
 
-            if (enableNoisePoints)
-                NoisePointMapGenFunc =
-                    () =>
-                    {
-                        var random = new Random();
-                        var noisePointCount = (int)(imageWidth * imageHeight * noisePointsPercent);
-                        var noisePointPosList = Enumerable.Range(0, noisePointCount)
-                            .Select(
-                                x =>
-                                    (
-                                        random.Next(imageWidth),
-                                        random.Next(imageHeight)
-                                    )
-                            ).ToArray();
-                        return noisePointPosList;
-                    };
+            for (int i = 0; i < 4; i++)
+            {
+                int index = rand.Next(maxRand);
+                sb.Append(allowedCaracters[index]);
+            }
+
+            return sb.ToString();
         }
 
         public CaptchaGenerator(
@@ -134,14 +71,14 @@ namespace VirtualGameStore.Captcha
 
         public byte[] GenerateImageAsByteArray(
             string captchaCode,
-            SKEncodedImageFormat imageFormat = SKEncodedImageFormat.Jpeg, int imageQuality = 80
+            SKEncodedImageFormat imageFormat = SKEncodedImageFormat.Jpeg, int imageQuality = ImageQuality
         ) => BuildImage(captchaCode)
             .Encode(imageFormat, imageQuality)
             .ToArray();
 
         public Stream GenerateImageAsStream(
             string captchaCode,
-            SKEncodedImageFormat imageFormat = SKEncodedImageFormat.Jpeg, int imageQuality = 80
+            SKEncodedImageFormat imageFormat = SKEncodedImageFormat.Jpeg, int imageQuality = ImageQuality
         ) => BuildImage(captchaCode)
             .Encode(imageFormat, imageQuality)
             .AsStream();

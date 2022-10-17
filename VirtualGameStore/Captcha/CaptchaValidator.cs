@@ -4,7 +4,7 @@
     {
         public static bool Validate(string userInputCode, HttpContext context)
         {
-            var isValid = userInputCode == context.Session.GetString("CaptchaCode");
+            var isValid = userInputCode.ToLower() == context.Session.GetString("CaptchaCode")?.ToLower();
             context.Session.Remove("CaptchaCode");
             return isValid;
         }

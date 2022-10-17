@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using SkiaSharp;
+using VirtualGameStore.Captcha;
 using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Areas.Identity.Pages.Account
@@ -49,12 +51,18 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        public string Base64CaptchaImage { get; set; }
+
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public class InputModel
         {
+            [Required]
+            [Display(Name = "Verification Code")]
+            public string CapthcaCode { get; set; }
+
             [Required]
             [Display(Name = "Username")]
             public string UserName { get; set; }
@@ -76,17 +84,37 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-
-        public async Task OnGetAsync(string returnUrl = null)
+        private async Task LoadAsync(string returnUrl)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            var captchaGenerator = new CaptchaGenerator(new SKColor(255, 0, 0),
+                                                        new SKColor(255, 255, 0),
+                                                        new SKColor(0, 0, 255));
+
+            var captchaCode = CaptchaGenerator.GenerateCaptchaCode();
+            var captchaImageBites = captchaGenerator.GenerateImageAsByteArray(captchaCode);
+
+            Base64CaptchaImage = Convert.ToBase64String(captchaImageBites);
+            HttpContext.Session.SetString("CaptchaCode", captchaCode);
+        }
+
+
+        public async Task OnGetAsync(string returnUrl = null)
+        {
+            await LoadAsync(returnUrl);
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            if (ModelState.IsValid && !CaptchaValidator.Validate(Input.CapthcaCode, HttpContext))
+            {
+                ModelState.AddModelError($"{nameof(Input)}.{nameof(Input.CapthcaCode)}", "Verification code is invalid.");
+            }
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -128,6 +156,8 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
+            await LoadAsync(returnUrl);
 
             // If we got this far, something failed, redisplay form
             return Page();

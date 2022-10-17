@@ -1,5 +1,6 @@
 ﻿namespace VirtualGameStore.Captcha
 {
+    // TODO: use this class
     public class CaptchaResult
     {
         public string CaptchaCode { get; set; } = string.Empty;
