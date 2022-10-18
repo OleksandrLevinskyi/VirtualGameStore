@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
@@ -97,6 +99,9 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
 
             Base64CaptchaImage = Convert.ToBase64String(captchaImageBites);
             HttpContext.Session.SetString("CaptchaCode", captchaCode);
+
+            var captchaCodeKey = $"{nameof(Input)}.{nameof(Input.CapthcaCode)}";
+            ModelState.SetModelValue(captchaCodeKey, new ValueProviderResult(string.Empty, CultureInfo.InvariantCulture));
         }
 
 
