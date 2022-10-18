@@ -1,4 +1,4 @@
-﻿namespace VirtualGameStore.Captcha
+﻿namespace VirtualGameStore.Services.Captcha
 {
     // TODO: use this class
     public class CaptchaResult

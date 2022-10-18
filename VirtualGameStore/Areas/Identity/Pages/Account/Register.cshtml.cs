@@ -19,8 +19,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SkiaSharp;
-using VirtualGameStore.Captcha;
 using VirtualGameStore.Models;
+using VirtualGameStore.Services.Captcha;
 
 namespace VirtualGameStore.Areas.Identity.Pages.Account
 {

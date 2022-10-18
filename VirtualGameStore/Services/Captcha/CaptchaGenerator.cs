@@ -4,8 +4,9 @@ using SkiaSharp;
 using System.Drawing;
 using System.Text;
 
-namespace VirtualGameStore.Captcha
+namespace VirtualGameStore.Services.Captcha
 {
+    // TODO: simplify methods
     public class CaptchaGenerator
     {
         private const int ImageQuality = 10;
