@@ -26,7 +26,7 @@
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.BirthDate" class="form-control" />
+                <input asp-for="Input.BirthDate" class="form-control" max="9999-12-31" />
                 <label asp-for="Input.BirthDate" class="form-label"></label>
                 <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
             </div>
