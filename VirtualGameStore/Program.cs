@@ -29,8 +29,13 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
 });
 
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+var useEmail = builder.Configuration.GetValue<bool>("UseEmail");
+
+if (true)
+{
+    builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
+}
 
 var app = builder.Build();
 
