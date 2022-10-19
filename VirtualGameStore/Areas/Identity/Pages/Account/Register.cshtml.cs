@@ -54,7 +54,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public string Base64CaptchaImage { get; set; }
+        public string CapthcaBase64ImageSource { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -95,11 +95,10 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
                                                         new SKColor(255, 255, 0),
                                                         new SKColor(0, 0, 255));
 
-            var captchaCode = CaptchaGenerator.GenerateCaptchaCode();
-            var captchaImageBites = captchaGenerator.GenerateImageAsByteArray(captchaCode);
+            var captcha = captchaGenerator.GenerateCaptcha();
 
-            Base64CaptchaImage = Convert.ToBase64String(captchaImageBites);
-            HttpContext.Session.SetString("CaptchaCode", captchaCode);
+            CapthcaBase64ImageSource = captcha.Base64ImageSource;
+            HttpContext.Session.SetString("CaptchaCode", captcha.Code);
 
             var captchaCodeKey = $"{nameof(Input)}.{nameof(Input.CapthcaCode)}";
             ModelState.SetModelValue(captchaCodeKey, new ValueProviderResult(string.Empty, CultureInfo.InvariantCulture));

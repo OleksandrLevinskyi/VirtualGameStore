@@ -70,19 +70,17 @@ namespace VirtualGameStore.Services.Captcha
             NoisePointMapGenFunc = noisePointMapGenFunc;
         }
 
-        public byte[] GenerateImageAsByteArray(
-            string captchaCode,
-            SKEncodedImageFormat imageFormat = SKEncodedImageFormat.Jpeg, int imageQuality = ImageQuality
-        ) => BuildImage(captchaCode)
-            .Encode(imageFormat, imageQuality)
-            .ToArray();
+        public CaptchaData GenerateCaptcha(SKEncodedImageFormat imageFormat = SKEncodedImageFormat.Jpeg,
+            int imageQuality = ImageQuality) 
+        {
+            var captchaCode = GenerateCaptchaCode();
 
-        public Stream GenerateImageAsStream(
-            string captchaCode,
-            SKEncodedImageFormat imageFormat = SKEncodedImageFormat.Jpeg, int imageQuality = ImageQuality
-        ) => BuildImage(captchaCode)
-            .Encode(imageFormat, imageQuality)
-            .AsStream();
+            var bytes = BuildImage(captchaCode)
+                .Encode(imageFormat, imageQuality)
+                .ToArray();
+
+            return new CaptchaData(captchaCode, bytes, imageFormat);
+        }
 
         protected SKImage BuildImage(string captchaCode)
         {

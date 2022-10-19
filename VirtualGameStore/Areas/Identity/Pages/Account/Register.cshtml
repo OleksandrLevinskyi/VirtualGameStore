@@ -34,7 +34,7 @@
 
             <div class="mb-3">
                 <div class="d-flex">
-                    <img src="data:image/jpeg;charset=utf-8;base64,@Model.Base64CaptchaImage" class="me-2 border rounded" />
+                    <img src="@Model.CapthcaBase64ImageSource" class="me-2 border rounded" />
                     <div class="form-floating flex-grow-1">
                         <input asp-for="Input.CapthcaCode" class="form-control" autocomplete="new-password" aria-required="true" />
                         <label asp-for="Input.CapthcaCode"></label>
