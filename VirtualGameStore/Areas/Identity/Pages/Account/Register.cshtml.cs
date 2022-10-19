@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SkiaSharp;
+using VirtualGameStore.Extensions;
 using VirtualGameStore.Models;
 using VirtualGameStore.Services.Captcha;
 
@@ -104,7 +105,6 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
             ModelState.SetModelValue(captchaCodeKey, new ValueProviderResult(string.Empty, CultureInfo.InvariantCulture));
         }
 
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             await LoadAsync(returnUrl);
@@ -115,7 +115,9 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            if (ModelState.IsValid && !CaptchaValidator.Validate(Input.CapthcaCode, HttpContext))
+            var isCaptchaValid = Input.CapthcaCode.ToUpper() == HttpContext.Session.PullString("CaptchaCode");
+
+            if (ModelState.IsValid && !isCaptchaValid)
             {
                 ModelState.AddModelError($"{nameof(Input)}.{nameof(Input.CapthcaCode)}", "Verification code is invalid.");
             }
