@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using VirtualGameStore.Data;
+using VirtualGameStore.Extensions;
 using VirtualGameStore.Models;
 using VirtualGameStore.Services.Email;
 
@@ -29,9 +30,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
 });
 
-var useEmail = builder.Configuration.GetValue<bool>("UseEmail");
-
-if (true)
+if (builder.Configuration.GetUseEmail())
 {
     builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
     builder.Services.AddTransient<IEmailSender, EmailSender>();
