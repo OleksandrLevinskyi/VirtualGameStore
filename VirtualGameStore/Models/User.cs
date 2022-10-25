@@ -23,6 +23,10 @@ namespace VirtualGameStore.Models
         public IEnumerable<Category> FavoriteCategories { get; set; }
         public virtual IEnumerable<PaymentOption> PaymentOptions { get; }
 
+        // TODO: Does the other user need to accept the friendship?
+        public IEnumerable<User> Friends { get; set; }
+        public IEnumerable<User> FriendOf { get; set; }
+
 
         public bool AreAddressesEqual { get => BillingAddress?.Id == ShippingAddress?.Id; }
         public bool ArePreferencesEmpty

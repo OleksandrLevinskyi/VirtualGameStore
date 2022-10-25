@@ -46,6 +46,18 @@ namespace VirtualGameStore.Data
                 .WithMany(e => e.Registrations)
                 .HasForeignKey(r => r.EventId);
 
+            builder.Entity<User>()
+                .HasMany(u => u.Friends)
+                .WithMany(u => u.FriendOf)
+                .UsingEntity<Friendship>(
+                    friendshipEntity => friendshipEntity.HasOne(f => f.User)
+                                                        .WithMany()
+                                                        .HasForeignKey(f => f.UserId)
+                                                        .OnDelete(DeleteBehavior.Cascade),
+                    friendshipEntity => friendshipEntity.HasOne(f => f.Friend)
+                                                        .WithMany()
+                                                        .HasForeignKey(f => f.FriendId));
+
             Seed(builder);
         }
 
