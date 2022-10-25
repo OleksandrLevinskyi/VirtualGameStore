@@ -64,7 +64,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
 
             Email = email;
             // Once you add a real email sender, you should remove this code that lets you confirm the account
-            if (!_configuration.GetUseEmail())
+            if (!_configuration.IsEmailEnabled())
             {
                 DisplayConfirmAccountLink = true;
             }

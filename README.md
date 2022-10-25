@@ -7,7 +7,7 @@ This project is a system for selling games.
 
 ## Setup email
 Sending emails is disabled by default. To enable it, set the following variables in `appsettings.Development.json`:
-* `"UseEmail": true`
+* `"IsEmailEnabled": true`
 * Under `"EmailSettings"`
 	* `"SenderEmail": "<your gmail>"`
 	* `"Password": "<your google app password>"`

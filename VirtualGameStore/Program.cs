@@ -30,7 +30,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
 });
 
-if (builder.Configuration.GetUseEmail())
+if (builder.Configuration.IsEmailEnabled())
 {
     builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
     builder.Services.AddTransient<IEmailSender, EmailSender>();
