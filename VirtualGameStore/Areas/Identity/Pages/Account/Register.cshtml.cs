@@ -114,7 +114,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            var isCaptchaValid = Input.CapthcaCode.ToUpper() == HttpContext.Session.PullString("CaptchaCode");
+            var isCaptchaValid = CaptchaGenerator.IsCaptchaValid(Input.CapthcaCode, HttpContext.Session.PullString("CaptchaCode"));
 
             if (ModelState.IsValid && !isCaptchaValid)
             {

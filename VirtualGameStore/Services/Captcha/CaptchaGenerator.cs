@@ -44,6 +44,11 @@ namespace VirtualGameStore.Services.Captcha
             return sb.ToString();
         }
 
+        public static bool IsCaptchaValid(string actualCode, string expectedCode)
+        {
+            return actualCode.ToUpper() == expectedCode;
+        }
+
         public CaptchaGenerator(
             SKColor paintColor,
             SKColor backgroundColor,
