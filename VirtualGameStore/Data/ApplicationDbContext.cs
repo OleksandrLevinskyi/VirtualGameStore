@@ -135,5 +135,7 @@ namespace VirtualGameStore.Data
         }
 
         public DbSet<VirtualGameStore.Models.Review> Review { get; set; }
+
+        public DbSet<VirtualGameStore.Models.Friendship> Friendship { get; set; }
     }
 }
