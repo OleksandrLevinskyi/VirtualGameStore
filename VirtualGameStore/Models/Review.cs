@@ -14,5 +14,10 @@ namespace VirtualGameStore.Models
         public bool IsApproved { get; set; }
         public Game? Game { get; set; }
         public User? Author { get; set; }
+
+        public bool HasTitleOrComment()
+        {
+            return !String.IsNullOrEmpty(Title) || !String.IsNullOrEmpty(Comment);
+        }
     }
 }

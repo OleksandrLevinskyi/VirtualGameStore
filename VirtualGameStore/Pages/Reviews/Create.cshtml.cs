@@ -31,16 +31,28 @@ namespace VirtualGameStore.Pages.Reviews
 
         [BindProperty]
         public Review Review { get; set; }
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            Review.Title += "";
+            Review.Comment += "";
             Review.AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Review.GameId = 1;
 
             if (!ModelState.IsValid)
             {
+                return Page();
+            }
+
+            if (
+                Review.HasTitleOrComment() &&
+                (String.IsNullOrEmpty(Review.Title.Trim()) || String.IsNullOrEmpty(Review.Comment.Trim()))
+            )
+            {
+                ViewData["StatusMessage"] = "Both review title and comment must be entered together.";
+
                 return Page();
             }
 
