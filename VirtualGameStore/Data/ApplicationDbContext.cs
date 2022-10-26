@@ -120,5 +120,7 @@ namespace VirtualGameStore.Data
                 new Platform() { Id = 3, Name = "Xbox" },
                 new Platform() { Id = 4, Name = "PlayStation" });
         }
+
+        public DbSet<VirtualGameStore.Models.Review> Review { get; set; }
     }
 }
