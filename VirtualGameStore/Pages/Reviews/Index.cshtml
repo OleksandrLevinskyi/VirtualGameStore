@@ -2,14 +2,12 @@
 @model VirtualGameStore.Pages.Reviews.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Reviews";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
+<p>This is a list of reviews to approve/reject. The reviews will show up under Game Details page only if approved. If you reject them, they will be soft deleted.</p>
 
-<p>
-    <a asp-page="Create">Add a Review</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -18,9 +16,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Review[0].Comment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Review[0].IsApproved)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Review[0].Game)
@@ -48,18 +43,37 @@
                     @Html.DisplayFor(modelItem => item.Comment)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsApproved)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Game.Id)
+                    @Html.DisplayFor(modelItem => item.Game.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Author.FirstName) @Html.DisplayFor(modelItem => item.Author.LastName)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <!-- Approve Button -->
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approve-review">
+                        Approve
+                    </button>
+
+                    <div class="modal fade" id="approve-review" tabindex="-1" aria-labelledby="approveReview" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="approveReview">Approve Review</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="fw-bold">[You will not be able to revert this change!]</p>
+                                    <p>Are you sure you want to approve a review by @item.Author.FirstName @item.Author.LastName?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <form asp-route-id="@item.Id" method="post">
+                                        <input type="submit" value="Approve" class="btn btn-success" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
         }
