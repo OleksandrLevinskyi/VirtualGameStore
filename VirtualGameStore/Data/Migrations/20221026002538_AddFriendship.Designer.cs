@@ -12,7 +12,7 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221025224439_AddFriendship")]
+    [Migration("20221026002538_AddFriendship")]
     partial class AddFriendship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -804,7 +804,7 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasOne("VirtualGameStore.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Friend");

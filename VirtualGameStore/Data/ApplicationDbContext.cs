@@ -244,7 +244,5 @@ namespace VirtualGameStore.Data
                 new GamePlatform() { GameId = games[3].Id, PlatformId = platforms[1].Id },
                 new GamePlatform() { GameId = games[3].Id, PlatformId = platforms[3].Id });
         }
-
-        public DbSet<VirtualGameStore.Models.Friendship> Friendship { get; set; }
     }
 }
