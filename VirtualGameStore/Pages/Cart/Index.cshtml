@@ -20,14 +20,14 @@
                     <input type="hidden" name="CartItemInputs[@i].GameId" value="@Model.CartItemInputs[i].GameId" />
 
                     <div class="form-floating mb-3 mb-md-0 me-0 me-md-3">
-                        <select id="game-name-select" name="CartItemInputs[@i].Quantity" class="form-select" asp-items="@Model.ItemInputSelectLists[i]">
+                        <select id="game-name-select-@i" name="CartItemInputs[@i].Quantity" class="form-select" asp-items="@Model.ItemInputSelectLists[i]">
                         </select>
-                        <label for="game-name-select" class="control-label">@Html.DisplayNameFor(model => model.CartItemInputs[i].Quantity)</label>
+                        <label for="game-name-select-@i" class="control-label">@Html.DisplayNameFor(model => model.CartItemInputs[i].Quantity)</label>
                     </div>
 
                     <div class="mb-3 mb-md-0 form-check">
-                        <input id="quantity-input" type="checkbox" name="CartItemInputs[@i].Remove" value="@Model.CartItemInputs[i].Remove" class="form-check-input" />
-                        <label for="quantity-input" class="form-label">@Html.DisplayNameFor(model => model.CartItemInputs[i].Remove)</label>
+                        <input id="quantity-input-@i" type="checkbox" name="CartItemInputs[@i].Remove" value="@Model.CartItemInputs[i].Remove" class="form-check-input" onchange="this.value=this.checked" />
+                        <label for="quantity-input-@i" class="form-label">@Html.DisplayNameFor(model => model.CartItemInputs[i].Remove)</label>
                     </div>
                 </div>
             </div>
@@ -35,39 +35,3 @@
     }
     <button type="submit">Update Cart</button>
 </form>
-
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CartItems[0].Game.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CartItems[0].Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CartItemInputs[0].Remove)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.CartItemInputs.Count(); i++)
-        {
-            var item = Model.CartItemInputs[i];
-            var game = Model.CartItems[i].Game;
-
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => game.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Remove)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-*@
