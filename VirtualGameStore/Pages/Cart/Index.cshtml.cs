@@ -71,6 +71,39 @@ namespace VirtualGameStore.Pages.Cart
             return Page();
         }
 
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var user = await GetUser();
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var cartItemInputsToBeUpdated = CartItemInputs.Where(i => !i.Remove).ToList();
+
+            user.CartItems = user.CartItems.Where(cartItem =>
+            {
+                var shouldBeUpdated = cartItemInputsToBeUpdated.Any(cartItemInput => cartItemInput.GameId == cartItem.GameId);
+                return shouldBeUpdated;
+            }).ToList();
+
+            cartItemInputsToBeUpdated.ForEach(cartItemInput =>
+            {
+                var cartItem = user.GetCartItem(cartItemInput.GameId);
+
+                if (cartItem == null)
+                {
+                    return;
+                }
+                cartItem.Quantity = cartItemInput.Quantity;
+            });
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage();
+        }
+
         public class CartItemInput
         {
             public string GameName { get; set; }
