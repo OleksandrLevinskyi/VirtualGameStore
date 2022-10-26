@@ -27,7 +27,7 @@ namespace VirtualGameStore.Models
         public IEnumerable<User> Friends { get; set; }
         public IEnumerable<User> FriendOf { get; set; }
 
-        public IEnumerable<CartItem> CartItems { get; set; }
+        public IEnumerable<CartItem> CartItems { get; set; } = new List<CartItem>();
 
         public bool AreAddressesEqual { get => BillingAddress?.Id == ShippingAddress?.Id; }
         public bool ArePreferencesEmpty
@@ -49,6 +49,11 @@ namespace VirtualGameStore.Models
         {
             FavoriteCategories = new List<Category>();
             FavoritePlatforms = new List<Platform>();
+        }
+
+        public CartItem? GetCartItem(int? gameId)
+        {
+            return CartItems.Where(i => i.GameId == gameId).FirstOrDefault();
         }
 
         public bool IsFriend(User user)
