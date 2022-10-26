@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VirtualGameStore.Data;
 using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Pages.FriendsAndFamily
 {
-    public class IndexModel : PageModel
+    [Authorize]
+    public class AddModel : PageModel
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
 
-        public IndexModel(ApplicationDbContext context, UserManager<User> userManager)
+        public AddModel(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
-        public IList<User> Friends { get;set; } = default!;
+        [BindProperty]
+        [DisplayName("Username")]
+        public string UserName { get; set; }
 
         private Task<User?> GetUser()
         {
@@ -37,21 +43,13 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            var user = await GetUser();
-
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            Friends = user.Friends.ToList();
-
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string? friendId)
+        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        public async Task<IActionResult> OnPostAsync()
         {
             var user = await GetUser();
 
@@ -60,18 +58,33 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var friend = await _context.Users.FindAsync(friendId);
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var friend = await _context.Users
+                .Where(u => u.UserName == UserName)
+                .FirstOrDefaultAsync();
 
             if (friend == null)
             {
-                return RedirectToPage();
+                ModelState.AddModelError(nameof(UserName), "Member not found.");
+                return Page();
             }
 
-            user.Friends = user.Friends.Where(f => f.Id != friendId).ToList();
+            if (user.Friends.Any(f => f.UserName == UserName))
+            {
+                ModelState.AddModelError(nameof(UserName), "Member is already in your friends and family list.");
+                return Page();
+            }
+
+            user.Friends = user.Friends.Append(friend);
 
             await _context.SaveChangesAsync();
 
-            return RedirectToPage();
+            return RedirectToPage("./Index");
         }
     }
 }
