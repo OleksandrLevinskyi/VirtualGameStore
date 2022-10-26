@@ -46,7 +46,7 @@
 <div>
     <h4>Reviews</h4>
 
-    @if (ViewBag.IsAuthorized ?? false)
+    @if (ViewBag.IsAuthorized)
     {
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#review-creation-form">
             Add Review
@@ -104,13 +104,13 @@
         {
             <div class="card" style="width: 40rem;">
                 <div class="card-body">
-                    <h6 class="card-title">@review.Author.FirstName @review.Author.LastName</h6>
+                    <h6 class="card-title">@review.Author.FirstName @review.Author.LastName [@Html.DisplayFor(model => review.DateTime)]</h6>
                     <input class="rating"
-                   max="5"
-                   step="0.5"
-                   style="--value:@review.Rating"
-                   type="range"
-                   value="@review.Rating">
+                           max="5"
+                           step="0.5"
+                           style="--value:@review.Rating"
+                           type="range"
+                           value="@review.Rating">
                     <p class="card-text">@review.Comment</p>
                 </div>
             </div>

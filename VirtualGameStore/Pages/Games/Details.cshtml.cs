@@ -35,7 +35,7 @@ namespace VirtualGameStore.Pages.Games
             }
 
             var game = await _context.Games
-                .Include(g => g.Reviews)
+                .Include(g => g.Reviews.OrderByDescending(r => r.DateTime))
                 .ThenInclude(r => r.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
