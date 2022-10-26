@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,6 +20,9 @@ namespace VirtualGameStore.Pages.Games
             _context = context;
         }
 
+        [BindProperty]
+        public Review Review { get; set; }
+
         public Game Game { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -33,6 +37,8 @@ namespace VirtualGameStore.Pages.Games
                 .ThenInclude(r => r.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
+            Review = new Review() { GameId = game.Id };
+
             if (game == null)
             {
                 return NotFound();
@@ -43,6 +49,22 @@ namespace VirtualGameStore.Pages.Games
             }
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            Review.Comment = (Review.Comment + "").Trim();
+            Review.AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            _context.Review.Add(Review);
+            await _context.SaveChangesAsync();
+
+            return Redirect("./Details" + "?id=" + Review.GameId);
         }
     }
 }
