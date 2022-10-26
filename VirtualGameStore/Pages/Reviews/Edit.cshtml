@@ -30,6 +30,11 @@
                 <span asp-validation-for="Review.Rating" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Review.Title" class="control-label"></label>
+                <input asp-for="Review.Title" class="form-control" />
+                <span asp-validation-for="Review.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Review.Comment" class="control-label"></label>
                 <input asp-for="Review.Comment" class="form-control" />
                 <span asp-validation-for="Review.Comment" class="text-danger"></span>
