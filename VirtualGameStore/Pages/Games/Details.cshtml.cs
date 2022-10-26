@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +50,8 @@ namespace VirtualGameStore.Pages.Games
                 Game = game;
             }
 
+            ViewData["IsAuthorized"] = User.IsInRole("Member");
+
             return Page();
         }
 
@@ -56,7 +60,7 @@ namespace VirtualGameStore.Pages.Games
             Review.Comment = (Review.Comment + "").Trim();
             Review.AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || !User.IsInRole("Member"))
             {
                 return Page();
             }
