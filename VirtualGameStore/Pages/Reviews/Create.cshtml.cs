@@ -36,23 +36,12 @@ namespace VirtualGameStore.Pages.Reviews
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            Review.Title += "";
-            Review.Comment += "";
+            Review.Comment = (Review.Comment + "").Trim();
             Review.AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Review.GameId = 1;
 
             if (!ModelState.IsValid)
             {
-                return Page();
-            }
-
-            if (
-                Review.HasTitleOrComment() &&
-                (String.IsNullOrEmpty(Review.Title.Trim()) || String.IsNullOrEmpty(Review.Comment.Trim()))
-            )
-            {
-                ViewData["StatusMessage"] = "Both review title and comment must be entered together.";
-
                 return Page();
             }
 
