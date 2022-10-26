@@ -2,7 +2,7 @@
 @model VirtualGameStore.Pages.FriendsAndFamily.IndexModel
 
 @{
-    ViewData["Title"] = "Friends and family list";
+    ViewData["Title"] = "Friends and Family";
     var getModalId = (string id) => $"modal-{id}";
 }
 
@@ -14,7 +14,7 @@
 
 @if (!Model.Friends.Any())
 {
-    <p>The list is empty</p>
+    <p>The list is empty.</p>
 }
 else {
     <table class="table">
