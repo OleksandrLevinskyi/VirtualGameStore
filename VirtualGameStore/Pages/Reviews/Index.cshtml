@@ -36,7 +36,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Rating)
+                    <input class="rating"
+                       max="5"
+                       step="0.5"
+                       style="--value:@item.Rating"
+                       type="range"
+                       value="@item.Rating"
+                       readonly>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Comment)
