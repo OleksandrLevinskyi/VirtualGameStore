@@ -838,7 +838,7 @@ namespace VirtualGameStore.Migrations
                     b.HasOne("VirtualGameStore.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Friend");

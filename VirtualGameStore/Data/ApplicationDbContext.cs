@@ -52,8 +52,7 @@ namespace VirtualGameStore.Data
                 .UsingEntity<Friendship>(
                     friendshipEntity => friendshipEntity.HasOne(f => f.User)
                                                         .WithMany()
-                                                        .HasForeignKey(f => f.UserId)
-                                                        .OnDelete(DeleteBehavior.Cascade),
+                                                        .HasForeignKey(f => f.UserId),
                     friendshipEntity => friendshipEntity.HasOne(f => f.Friend)
                                                         .WithMany()
                                                         .HasForeignKey(f => f.FriendId));
