@@ -21,6 +21,8 @@ namespace VirtualGameStore.Models
         [Range(0, int.MaxValue, ErrorMessage = "Stock must be greater than or equal to 0.")]
         public int Stock { get; set; }
 
+        public List<Review>? Reviews { get; set; }
+
         public List<Category>? Categories { get; set; }
 
         public List<Platform>? Platforms { get; set; }
