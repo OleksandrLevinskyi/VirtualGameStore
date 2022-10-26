@@ -15,6 +15,6 @@ namespace VirtualGameStore.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
         public DateTime DateTime { get; set; }
         public Game? Game { get; set; }
-        public User Author { get; set; }
+        public User? Author { get; set; }
     }
 }

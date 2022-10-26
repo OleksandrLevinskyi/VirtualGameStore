@@ -46,7 +46,7 @@
 <div>
     <h4>Reviews</h4>
 
-    @if (ViewBag.IsAuthorized)
+    @if (ViewBag.IsAuthorized ?? false)
     {
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#review-creation-form">
             Add Review
@@ -64,6 +64,7 @@
                         <form method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Review.GameId" />
+                            <input type="hidden" asp-for="Review.AuthorId" />
                             <div class="form-group">
                                 <label asp-for="Review.Rating" class="control-label"></label>
                                 <input asp-for="Review.Rating"

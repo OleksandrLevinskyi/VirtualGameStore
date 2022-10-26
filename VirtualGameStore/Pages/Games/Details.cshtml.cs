@@ -39,7 +39,7 @@ namespace VirtualGameStore.Pages.Games
                 .ThenInclude(r => r.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            Review = new Review() { GameId = game.Id };
+            Review = new Review() { GameId = game.Id, AuthorId = "none" };
 
             if (game == null)
             {
@@ -59,6 +59,7 @@ namespace VirtualGameStore.Pages.Games
         {
             Review.Comment = (Review.Comment + "").Trim();
             Review.AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Review.DateTime = DateTime.Now;
 
             if (!ModelState.IsValid || !User.IsInRole("Member"))
             {
