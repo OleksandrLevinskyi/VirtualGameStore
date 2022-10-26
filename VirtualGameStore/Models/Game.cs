@@ -31,5 +31,12 @@ namespace VirtualGameStore.Models
         {
             return Stock > 0;
         }
+
+        public float GetOverallRating()
+        {
+            float totalScore = Reviews.Sum(r => r.Rating);
+
+            return (totalScore / Reviews.Count);
+        }
     }
 }

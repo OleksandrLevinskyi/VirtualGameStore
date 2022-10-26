@@ -98,7 +98,15 @@
     }
     else
     {
-        <p>Overall Rating: 4.3</p>
+        string overallRating = Model.Game.GetOverallRating().ToString("0.0");
+
+        <p>Overall Rating: @overallRating</p>
+        <input class="rating"
+           max="5"
+           step="0.5"
+           style="--value:@overallRating"
+           type="range"
+           value="@overallRating">
 
         @foreach (var review in Model.Game.Reviews)
         {
