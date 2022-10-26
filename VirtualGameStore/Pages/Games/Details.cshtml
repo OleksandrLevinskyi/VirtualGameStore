@@ -53,16 +53,19 @@
 
     <p>Overall Rating: 4.3</p>
 
-    <div class="card" style="width: 40rem;">
-        <div class="card-body">
-            <h6 class="card-title">John Smith</h6>
-            <input class="rating"
+    @foreach (var review in Model.Game.Reviews)
+    {
+        <div class="card" style="width: 40rem;">
+            <div class="card-body">
+                <h6 class="card-title">@review.Author.FirstName @review.Author.LastName</h6>
+                <input class="rating"
                    max="5"
                    step="0.5"
-                   style="--value:2.5"
+                   style="--value:@review.Rating"
                    type="range"
-                   value="2.5">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                   value="@review.Rating">
+                <p class="card-text">@review.Comment</p>
+            </div>
         </div>
-    </div>
+    }
 </div>

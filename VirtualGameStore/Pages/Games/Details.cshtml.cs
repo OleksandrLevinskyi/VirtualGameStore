@@ -19,7 +19,7 @@ namespace VirtualGameStore.Pages.Games
             _context = context;
         }
 
-      public Game Game { get; set; }
+        public Game Game { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,15 +28,20 @@ namespace VirtualGameStore.Pages.Games
                 return NotFound();
             }
 
-            var game = await _context.Games.FirstOrDefaultAsync(m => m.Id == id);
+            var game = await _context.Games
+                .Include(g => g.Reviews)
+                .ThenInclude(r => r.Author)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (game == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Game = game;
             }
+
             return Page();
         }
     }
