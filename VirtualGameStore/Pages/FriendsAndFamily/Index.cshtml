@@ -40,9 +40,9 @@ else {
     </div>
 }
 
-@foreach (var item in Model.Friends)
+@foreach (var friend in Model.Friends)
 {
-    <div class="modal fade" id="@getModalId(item.Id)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="@getModalId(friend.Id)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -50,11 +50,11 @@ else {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to remove @item.UserName from your friends and family list?
+                    Are you sure you want to remove @friend.UserName from your friends and family list?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <form asp-route-friendId="@item.Id" method="post">
+                    <form asp-route-friendId="@friend.Id" method="post">
                         <input type="submit" value="Delete" class="btn btn-danger" />
                     </form>
                 </div>
