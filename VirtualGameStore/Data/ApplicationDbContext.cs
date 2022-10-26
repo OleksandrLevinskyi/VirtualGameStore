@@ -15,6 +15,7 @@ namespace VirtualGameStore.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<PaymentOption> PaymentOptions { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<GameCategory> GameCategories { get; set; }
         public DbSet<GamePlatform> GamePlatforms { get; set; }
