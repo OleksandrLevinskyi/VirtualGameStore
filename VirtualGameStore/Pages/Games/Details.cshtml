@@ -44,9 +44,25 @@
     </dl>
 </div>
 <div>
+    <h4>Reviews</h4>
     <p>
         <a asp-page="/Reviews/Create">Add a Review</a>
     </p>
 
     <p>No comments yet.</p>
+
+    <p>Overall Rating: 4.3</p>
+
+    <div class="card" style="width: 40rem;">
+        <div class="card-body">
+            <h6 class="card-title">John Smith</h6>
+            <input class="rating"
+                   max="5"
+                   step="0.5"
+                   style="--value:2.5"
+                   type="range"
+                   value="2.5">
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+    </div>
 </div>
