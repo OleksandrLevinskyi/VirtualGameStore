@@ -49,23 +49,28 @@
         <a asp-page="/Reviews/Create">Add a Review</a>
     </p>
 
-    <p>No comments yet.</p>
-
-    <p>Overall Rating: 4.3</p>
-
-    @foreach (var review in Model.Game.Reviews)
+    @if (!Model.Game.Reviews.Any())
     {
-        <div class="card" style="width: 40rem;">
-            <div class="card-body">
-                <h6 class="card-title">@review.Author.FirstName @review.Author.LastName</h6>
-                <input class="rating"
-                   max="5"
-                   step="0.5"
-                   style="--value:@review.Rating"
-                   type="range"
-                   value="@review.Rating">
-                <p class="card-text">@review.Comment</p>
+        <p>No reviews yet.</p>
+    }
+    else
+    {
+        <p>Overall Rating: 4.3</p>
+
+        @foreach (var review in Model.Game.Reviews)
+        {
+            <div class="card" style="width: 40rem;">
+                <div class="card-body">
+                    <h6 class="card-title">@review.Author.FirstName @review.Author.LastName</h6>
+                    <input class="rating"
+                           max="5"
+                           step="0.5"
+                           style="--value:@review.Rating"
+                           type="range"
+                           value="@review.Rating">
+                    <p class="card-text">@review.Comment</p>
+                </div>
             </div>
-        </div>
+        }
     }
 </div>
