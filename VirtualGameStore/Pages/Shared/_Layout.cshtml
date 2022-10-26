@@ -45,6 +45,12 @@
                                 <a class="nav-link @ViewBag.Color" asp-area="" asp-page="/Events/Index">Events</a>
                             </li>
                         }
+                        @if (User.IsInRole("Member"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @ViewBag.Color" asp-area="" asp-page="/FriendsAndFamily/Index">Friends and Family</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
