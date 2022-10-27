@@ -27,8 +27,8 @@ namespace VirtualGameStore.Pages.Cart
         }
 
         [BindProperty]
-        public IList<CartItemInput> CartItemInputs { get; set; }
-        public IList<SelectList> ItemInputSelectLists { get; set; }
+        public IList<CartItemCard> CartItemCards { get; set; }
+        public IList<SelectList> CartItemQuantitySelectLists { get; set; }
         public IList<CartItem> CartItems { get;set; } = default!;
 
         private Task<User?> GetUser()
@@ -56,7 +56,7 @@ namespace VirtualGameStore.Pages.Cart
 
             CartItems = user.CartItems.ToList();
 
-            CartItemInputs = CartItems.Select(i => new CartItemInput()
+            CartItemCards = CartItems.Select(i => new CartItemCard()
             {
                 GameId = i.GameId,
                 Quantity = i.Quantity,
@@ -64,7 +64,7 @@ namespace VirtualGameStore.Pages.Cart
                 Price = (decimal) i.Game.Price
             }).ToList();
 
-            ItemInputSelectLists = CartItems.Select(i =>
+            CartItemQuantitySelectLists = CartItems.Select(i =>
             {
                 var stock = i.Game.IsDigital ? 1 : Math.Min(i.Game.Stock, 10);
 
@@ -83,23 +83,23 @@ namespace VirtualGameStore.Pages.Cart
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var cartItemInputsToBeUpdated = CartItemInputs.Where(i => !i.Remove).ToList();
-
-            user.CartItems = user.CartItems.Where(cartItem =>
+            user.CartItems = CartItemCards.Aggregate(new List<CartItem>(), (list, itemCard) =>
             {
-                var shouldBeUpdated = cartItemInputsToBeUpdated.Any(cartItemInput => cartItemInput.GameId == cartItem.GameId);
-                return shouldBeUpdated;
-            }).ToList();
+                if (itemCard.Remove)
+                {
+                    return list;
+                }
 
-            cartItemInputsToBeUpdated.ForEach(cartItemInput =>
-            {
-                var cartItem = user.GetCartItem(cartItemInput.GameId);
+                var cartItem = user.GetCartItem(itemCard.GameId);
 
                 if (cartItem == null)
                 {
-                    return;
+                    return list;
                 }
-                cartItem.Quantity = cartItemInput.Quantity;
+
+                cartItem.Quantity = itemCard.Quantity;
+
+                return list.Append(cartItem).ToList();
             });
 
             await _context.SaveChangesAsync();
@@ -107,7 +107,7 @@ namespace VirtualGameStore.Pages.Cart
             return RedirectToPage();
         }
 
-        public class CartItemInput
+        public class CartItemCard
         {
             public string GameName { get; set; }
             [DataType(DataType.Currency)]
