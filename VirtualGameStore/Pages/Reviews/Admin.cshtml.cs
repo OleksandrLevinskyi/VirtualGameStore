@@ -10,11 +10,11 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Pages.Reviews
 {
-    public class IndexModel : PageModel
+    public class AdminModel : PageModel
     {
         private readonly VirtualGameStore.Data.ApplicationDbContext _context;
 
-        public IndexModel(VirtualGameStore.Data.ApplicationDbContext context)
+        public AdminModel(VirtualGameStore.Data.ApplicationDbContext context)
         {
             _context = context;
         }
