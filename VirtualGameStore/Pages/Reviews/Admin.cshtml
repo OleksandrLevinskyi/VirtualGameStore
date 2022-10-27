@@ -32,6 +32,9 @@
     <tbody>
         @foreach (var item in Model.Review)
         {
+            string approvalModalId = $"approve-review-{item.Id}";
+            string rejectionModalId = $"reject-review-{item.Id}";
+
             <tr>
                 <td>
                     <input class="rating"
@@ -56,11 +59,11 @@
                 </td>
                 <td>
                     <!-- Approve Button -->
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approve-review">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#@approvalModalId">
                         Approve
                     </button>
 
-                    <div class="modal fade" id="approve-review" tabindex="-1" aria-labelledby="approveReview" aria-hidden="true">
+                    <div class="modal fade" id="@approvalModalId" tabindex="-1" aria-labelledby="approveReview" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -82,11 +85,11 @@
                     </div>
 
                     <!-- Reject Button -->
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reject-review">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@rejectionModalId">
                         Reject
                     </button>
 
-                    <div class="modal fade" id="reject-review" tabindex="-1" aria-labelledby="rejectReview" aria-hidden="true">
+                    <div class="modal fade" id="@rejectionModalId" tabindex="-1" aria-labelledby="rejectReview" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
