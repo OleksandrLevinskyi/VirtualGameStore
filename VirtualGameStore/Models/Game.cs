@@ -34,9 +34,12 @@ namespace VirtualGameStore.Models
 
         public float GetOverallRating()
         {
-            float totalScore = Reviews.Sum(r => r.Rating);
+            List<Review> approvedReviews = Reviews.Where(r => r.IsApproved == true).ToList();
 
-            return (totalScore / Reviews.Count);
+            float totalScore = approvedReviews.Sum(r => r.Rating);
+            int reviewCount = approvedReviews.Count;
+
+            return (totalScore / reviewCount);
         }
     }
 }
