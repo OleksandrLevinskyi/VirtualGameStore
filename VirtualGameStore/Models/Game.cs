@@ -34,7 +34,17 @@ namespace VirtualGameStore.Models
 
         public float GetOverallRating()
         {
+            if (Reviews == null)
+            {
+                return 0;
+            }
+
             List<Review> approvedReviews = Reviews.Where(r => r.IsApproved == true).ToList();
+
+            if (approvedReviews.Count <= 0)
+            {
+                return 0;
+            }
 
             float totalScore = approvedReviews.Sum(r => r.Rating);
             int reviewCount = approvedReviews.Count;
