@@ -11,9 +11,9 @@ namespace VirtualGameStore.Models
         public string AuthorId { get; set; }
         public float Rating { get; set; }
         public string? Comment { get; set; }
-        public bool IsApproved { get; set; }
+        public bool? IsApproved { get; set; } = null;
 
-        [Display(Name ="Created On/At")]
+        [Display(Name = "Created On/At")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
         public DateTime DateTime { get; set; }
         public Game? Game { get; set; }

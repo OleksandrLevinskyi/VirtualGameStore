@@ -29,6 +29,8 @@ namespace VirtualGameStore.Pages.Reviews
                 Reviews = await _context.Review
                 .Include(r => r.Author)
                 .Include(r => r.Game)
+                .Where(r => r.IsApproved == null)
+                .OrderBy(r => r.DateTime)
                 .ToListAsync();
             }
         }
