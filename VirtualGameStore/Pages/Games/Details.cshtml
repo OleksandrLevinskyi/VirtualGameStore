@@ -63,26 +63,29 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Your review will be posted after the approval from one of our employees. Thank you.</p>
+                        <div class="alert alert-warning" role="alert">
+                            Your review will be posted after the approval from one of our employees.
+                        </div>
+
                         <form method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Review.GameId" />
                             <input type="hidden" asp-for="Review.AuthorId" />
                             <div class="form-group">
-                                <label asp-for="Review.Rating" class="control-label"></label>
+                                <label asp-for="Review.Rating" class="control-label"></label> (hold left mouse key and move over the stars)
                                 <input asp-for="Review.Rating"
                                    class="rating"
                                    max="5"
                                    oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
                                    step="0.5"
-                                   style="--value:2.5"
+                                   style="--value:5"
                                    type="range"
-                                   value="2.5">
+                                   value="5">
                                 <span asp-validation-for="Review.Rating" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="Review.Comment" class="control-label"></label>
-                                <input asp-for="Review.Comment" class="form-control" />
+                            <div class="form-group mb-2">
+                                <label asp-for="Review.Comment" class="control-label"></label> (optional)
+                                <textarea asp-for="Review.Comment" class="form-control" rows="2"></textarea>
                                 <span asp-validation-for="Review.Comment" class="text-danger"></span>
                             </div>
                             <div class="form-group">
