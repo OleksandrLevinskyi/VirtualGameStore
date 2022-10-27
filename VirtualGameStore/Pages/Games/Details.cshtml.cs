@@ -38,7 +38,7 @@ namespace VirtualGameStore.Pages.Games
                 .Include(
                     g => g.Reviews
                     .Where(r => r.IsApproved == true)
-                    .OrderByDescending(r => r.DateTime)
+                    .OrderByDescending(r => r.Rating)
                 )
                 .ThenInclude(r => r.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
