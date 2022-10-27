@@ -23,6 +23,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Review[0].Author)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Review[0].DateTime)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -46,7 +49,10 @@
                     @Html.DisplayFor(modelItem => item.Game.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Author.FirstName) @Html.DisplayFor(modelItem => item.Author.LastName)
+                    @Html.DisplayFor(modelItem => item.Author.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTime)
                 </td>
                 <td>
                     <!-- Approve Button -->

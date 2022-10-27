@@ -13,6 +13,7 @@ namespace VirtualGameStore.Models
         public string? Comment { get; set; }
         public bool IsApproved { get; set; }
 
+        [Display(Name ="Created On/At")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
         public DateTime DateTime { get; set; }
         public Game? Game { get; set; }
