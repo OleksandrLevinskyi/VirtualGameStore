@@ -63,12 +63,38 @@
                                 </div>
                                 <div class="modal-body">
                                     <p class="fw-bold">[You will not be able to revert this change!]</p>
-                                    <p>Are you sure you want to approve a review by @item.Author.FirstName @item.Author.LastName?</p>
+                                    <p>Are you sure you want to approve a review by @item.Author.FirstName?</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <form asp-route-id="@item.Id" method="post">
                                         <input type="submit" value="Approve" class="btn btn-success" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reject Button -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reject-review">
+                        Reject
+                    </button>
+
+                    <div class="modal fade" id="reject-review" tabindex="-1" aria-labelledby="rejectReview" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="rejectReview">Reject Review</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="fw-bold">[You will not be able to revert this change!]</p>
+                                    <p>Are you sure you want to reject a review by @item.Author.FirstName?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <form asp-route-id="@item.Id" method="post">
+                                        <input type="submit" value="Reject" class="btn btn-danger" />
                                     </form>
                                 </div>
                             </div>
