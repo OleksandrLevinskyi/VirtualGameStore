@@ -7,7 +7,6 @@
 
 <h1>@ViewData["Title"]</h1>
 
-
 <form method="post">
     @for (int i = 0; i < Model.CartItemInputs.Count(); i++)
     {
@@ -15,19 +14,19 @@
 
         <div class="card mb-3">
             <div class="card-body d-md-flex justify-content-between align-items-center">
-                <h5 class="card-title">@item.GameName</h5>
+                <h5 class="card-title mb-4 mb-md-0">@item.GameName</h5>
                 <div class="d-md-flex align-items-center">
-                    <input type="hidden" name="CartItemInputs[@i].GameId" value="@Model.CartItemInputs[i].GameId" />
+                    <input type="hidden" asp-for="@Model.CartItemInputs[i].GameId" />
 
                     <div class="form-floating mb-3 mb-md-0 me-0 me-md-3">
-                        <select id="game-name-select-@i" name="CartItemInputs[@i].Quantity" class="form-select" asp-items="@Model.ItemInputSelectLists[i]">
-                        </select>
-                        <label for="game-name-select-@i" class="control-label">@Html.DisplayNameFor(model => model.CartItemInputs[i].Quantity)</label>
+                        <select asp-for="@Model.CartItemInputs[i].Quantity" asp-items="@Model.ItemInputSelectLists[i]" class="form-select pe-md-5 ps-md-4"></select>
+                        <label asp-for="@Model.CartItemInputs[i].Quantity" class="control-label"></label>
+                        <span asp-validation-for="@Model.CartItemInputs[i].Quantity" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3 mb-md-0 form-check">
-                        <input id="quantity-input-@i" type="checkbox" name="CartItemInputs[@i].Remove" value="@Model.CartItemInputs[i].Remove" class="form-check-input" onchange="this.value=this.checked" />
-                        <label for="quantity-input-@i" class="form-label">@Html.DisplayNameFor(model => model.CartItemInputs[i].Remove)</label>
+                    <div class="form-check">
+                        <input asp-for="@Model.CartItemInputs[i].Remove" class="form-check-input" />
+                        <label asp-for="@Model.CartItemInputs[i].Remove" class="form-label"></label>
                     </div>
                 </div>
             </div>
