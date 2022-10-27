@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -107,10 +108,14 @@ namespace VirtualGameStore.Pages.Cart
         public class CartItemInput
         {
             public string GameName { get; set; }
+            [DataType(DataType.Currency)]
             public decimal Price { get; set; }
             public bool Remove { get; set; }
             public int GameId { get; set; }
             public int Quantity { get; set; }
+
+            [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = true)]
+            public decimal Total { get => Price * Quantity; }
         }
     }
 }
