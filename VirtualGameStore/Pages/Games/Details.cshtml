@@ -98,6 +98,13 @@
         </div>
     }
 
+    @if (ViewBag.IsSuccess == true)
+    {
+        <div class="alert alert-success mt-3" role="alert">
+            Your review has been sent for inspection. Thank you!
+        </div>
+    }
+
     @if (!Model.Game.Reviews.Any())
     {
         <p>No reviews yet.</p>

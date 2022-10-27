@@ -27,7 +27,7 @@ namespace VirtualGameStore.Pages.Games
 
         public Game Game { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? isSuccess)
         {
             if (id == null || _context.Games == null)
             {
@@ -54,6 +54,11 @@ namespace VirtualGameStore.Pages.Games
                 Game = game;
             }
 
+            if (isSuccess == true)
+            {
+                ViewData["IsSuccess"] = true;
+            }
+
             ViewData["IsAuthorized"] = User.IsInRole("Member");
 
             return Page();
@@ -73,7 +78,7 @@ namespace VirtualGameStore.Pages.Games
             _context.Review.Add(Review);
             await _context.SaveChangesAsync();
 
-            return Redirect("./Details" + "?id=" + Review.GameId);
+            return Redirect($"./Details?id={Review.GameId}&isSuccess=true");
         }
     }
 }
