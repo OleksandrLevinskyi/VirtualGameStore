@@ -12,25 +12,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Review[0].Rating)
+                @Html.DisplayNameFor(model => model.Reviews[0].Rating)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Review[0].Comment)
+                @Html.DisplayNameFor(model => model.Reviews[0].Comment)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Review[0].Game)
+                @Html.DisplayNameFor(model => model.Reviews[0].Game)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Review[0].Author)
+                @Html.DisplayNameFor(model => model.Reviews[0].Author)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Review[0].DateTime)
+                @Html.DisplayNameFor(model => model.Reviews[0].DateTime)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Review)
+        @foreach (var item in Model.Reviews)
         {
             string approvalModalId = $"approve-review-{item.Id}";
             string rejectionModalId = $"reject-review-{item.Id}";
@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <form asp-route-id="@item.Id" method="post">
+                                    <form asp-route-id="@item.Id" asp-route-isApproved="@true" method="post">
                                         <input type="submit" value="Approve" class="btn btn-success" />
                                     </form>
                                 </div>
@@ -102,7 +102,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <form asp-route-id="@item.Id" method="post">
+                                    <form asp-route-id="@item.Id" asp-route-isApproved="@false" method="post">
                                         <input type="submit" value="Reject" class="btn btn-danger" />
                                     </form>
                                 </div>
