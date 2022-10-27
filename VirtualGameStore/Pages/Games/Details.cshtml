@@ -43,6 +43,9 @@
         </dd>
     </dl>
 </div>
+
+<hr />
+
 <div>
     <h4>Reviews</h4>
 
@@ -100,8 +103,8 @@
     {
         string overallRating = Model.Game.GetOverallRating().ToString("0.0");
 
-        <p>Overall Rating: @overallRating</p>
-        <input class="rating"
+        <p class="fw-bold fs-5 text-center mb-0">Overall Rating: @overallRating</p>
+        <input class="rating m-auto mb-3"
            max="5"
            step="0.5"
            style="--value:@overallRating"
@@ -110,15 +113,15 @@
 
         @foreach (var review in Model.Game.Reviews)
         {
-            <div class="card" style="width: 40rem;">
+            <div class="card m-auto" style="width: 40rem;">
                 <div class="card-body">
-                    <h6 class="card-title">@review.Author.FirstName @review.Author.LastName [@Html.DisplayFor(model => review.DateTime)]</h6>
+                    <h5 class="card-title">@review.Author.FirstName <span class="fs-6 fw-light">[@Html.DisplayFor(model => review.DateTime)]</span></h5>
                     <input class="rating"
-                           max="5"
-                           step="0.5"
-                           style="--value:@review.Rating"
-                           type="range"
-                           value="@review.Rating">
+                   max="5"
+                   step="0.5"
+                   style="--value:@review.Rating"
+                   type="range"
+                   value="@review.Rating">
                     <p class="card-text">@review.Comment</p>
                 </div>
             </div>
