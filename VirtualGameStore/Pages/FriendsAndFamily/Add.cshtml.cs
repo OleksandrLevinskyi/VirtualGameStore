@@ -65,7 +65,7 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
             }
 
             var friend = await _context.Users
-                .Where(u => u.UserName == UserName)
+                .Where(u => u.NormalizedUserName == UserName.Trim().ToUpper())
                 .FirstOrDefaultAsync();
 
             if (friend == null)
