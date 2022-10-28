@@ -3,19 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VirtualGameStore.Data;
 
 #nullable disable
 
-namespace VirtualGameStore.Data.Migrations
+namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221026022725_AddReviewsExtra")]
-    partial class AddReviewsExtra
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -545,18 +543,17 @@ namespace VirtualGameStore.Data.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("GameId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsApproved")
+                    b.Property<bool?>("IsApproved")
                         .HasColumnType("bit");
 
                     b.Property<float>("Rating")
                         .HasColumnType("real");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
