@@ -91,9 +91,9 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            var captchaGenerator = new CaptchaGenerator(new SKColor(255, 0, 0),
-                                                        new SKColor(255, 255, 0),
-                                                        new SKColor(0, 0, 255));
+            var captchaGenerator = new CaptchaGenerator(new SKColor(0, 0, 255),
+                                                        new SKColor(155, 155, 155),
+                                                        new SKColor(0, 0, 0));
 
             var captcha = captchaGenerator.GenerateCaptcha();
 
