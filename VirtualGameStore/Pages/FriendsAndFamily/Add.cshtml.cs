@@ -74,6 +74,12 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
                 return Page();
             }
 
+            if (friend.Id == user.Id)
+            {
+                ModelState.AddModelError(nameof(UserName), "You cannot add yourself.");
+                return Page();
+            }
+
             if (user.Friends.Any(f => f.UserName == UserName))
             {
                 ModelState.AddModelError(nameof(UserName), "Member is already in your friends and family list.");
