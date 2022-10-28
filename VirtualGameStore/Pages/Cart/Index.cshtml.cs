@@ -61,7 +61,8 @@ namespace VirtualGameStore.Pages.Cart
                 GameId = i.GameId,
                 Quantity = i.Quantity,
                 GameName = i.Game.Name,
-                Price = (decimal) i.Game.Price
+                Price = (decimal) i.Game.Price,
+                IsDigital = i.Game.IsDigital
             }).ToList();
 
             CartItemQuantitySelectLists = CartItems.Select(i =>
@@ -115,6 +116,7 @@ namespace VirtualGameStore.Pages.Cart
             public bool Remove { get; set; }
             public int GameId { get; set; }
             public int Quantity { get; set; }
+            public bool IsDigital { get; set; }
 
             [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = true)]
             public decimal Total { get => Price * Quantity; }
