@@ -47,7 +47,7 @@ else
                     <br />
 
                     <h5 class="mt-1">@Html.DisplayFor(modelItem => item.Price)</h5>
-                    <a href="#" class="btn btn-primary mt-1">Add to Cart</a>
+                    <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-primary mt-1">View</a>
                 </div>
             </div>
         }

@@ -28,7 +28,10 @@ namespace VirtualGameStore.Pages.Games
                 return NotFound();
             }
 
-            var game = await _context.Games.FirstOrDefaultAsync(m => m.Id == id);
+            var game = await _context.Games
+                .Include(g => g.Platforms)
+                .Include(g => g.Categories)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (game == null)
             {
                 return NotFound();

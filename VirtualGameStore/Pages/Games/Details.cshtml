@@ -1,49 +1,62 @@
 ﻿@page
+@using Microsoft.CodeAnalysis
 @model VirtualGameStore.Pages.Games.DetailsModel
 
 @{
     ViewData["Title"] = "Details";
+    bool inStock = Model.Game.IsDigital || Model.Game.Stock > 0;
+    bool btnsEnabled = User.IsInRole("Member");
 }
 
-<h1>Details</h1>
+<h1>@Html.DisplayFor(model => model.Game.Name)</h1>
 
-<div>
-    <h4>Game</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Game.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Game.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Game.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Game.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Game.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Game.Price)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Game.IsDigital)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Game.IsDigital)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Game.Stock)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Game.Stock)
-        </dd>
-    </dl>
+<div class="d-flex border-top border-2 mt-3">
+    <div @* Left side of page *@ class="d-inline-block flex-grow-1 mt-2">
+        <h4>@Html.DisplayNameFor(model => model.Game.Description)</h4>
+        <p>@Html.DisplayFor(model => model.Game.Description)</p>
+    </div>
+    <div @* Right side of page *@ class="d-inline-block flex-nowrap border-start border-2 ps-2 pt-3">
+        <div>
+            @if (!btnsEnabled)
+            {
+                <p class="mb-0">You must be a member to</p>
+                <p class="mt-0">Purchase or Wishlist a game.</p>
+            }
+            <div>
+                <button type="button" class="btn btn-success d-inline-block" disabled="@(!(inStock && btnsEnabled))">
+                    Purchase: $@Model.Game.Price
+                </button>
+                <button type="button" class="btn btn-info d-inline-block" disabled="@(!btnsEnabled)">
+                    Wishlist
+                </button>
+            </div>
+            @if (Model.Game.IsDigital == false)
+            {
+                <p><b>Stock: </b>@Model.Game.Stock remaining.</p>
+            }
+        </div>
+        <hr @* Buttons end and general info begins here *@ class="border-2 mb-2"/>
+        <div>
+            <h4>Platforms</h4>
+            <ul>
+                @foreach (var item in Model.Game.Platforms!)
+                {
+                    <li>@item.Name</li>
+                }
+            </ul>
+            <h4>Categories</h4>
+            <ul>
+                @foreach (var item in Model.Game.Categories!)
+                {
+                    <li>@item.Name</li>
+                }
+            </ul>
+            <h4>Media type</h4>
+            <ul>
+                <li>@(Model.Game.IsDigital ? "Digital Download" : "Physical")</li>
+            </ul>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Game?.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+
+<hr/>
