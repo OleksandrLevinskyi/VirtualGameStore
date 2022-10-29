@@ -7,85 +7,100 @@
 
 <h1>@ViewBag.Title</h1>
 
-<form method="post" class="border border-2 border-info p-2">
-    <div class="d-flex">
-        <div class="form-group d-inline-block flex-grow-1">
-            @* <label asp-for="Search!.TextSearch" class="control-label"></label> *@
-            <input asp-for="Search!.TextSearch" class="form-control" placeholder="Search..."/>
-        </div>
-        <div class="form-group d-inline-block ms-2">
-            @* <label asp-for="Search!.MaxPrice" class="control-label"></label> *@
-            <input asp-for="Search!.MaxPrice" class="form-control" type="number" min="0" placeholder="Max Price" step="any"/>
-        </div>
-        <div class="form-group d-inline-block ms-2">
-            <input type="submit" value="Search" class="btn btn-primary"/>
-        </div>
-        <div class="form-group d-inline-block ms-2">
-            <a class="btn btn-secondary" asp-page=".">Clear</a>
-        </div>
-    </div>
-    <div class="form-group d-flex px-1  pt-2">
-        <div class="form-check-inline">
-            Medium:
-        </div>
-        <div class="form-check-inline">
-            <input asp-for="Search!.Medium"
-                   id="medium-any"
-                   type="radio"
-                   value="null"
-                   checked="@(Model.Search?.Medium is null)"/>
-            <label for="medium-any" class="form-label">Any</label>
-        </div>
-        <div class="form-check-inline">
-            <input asp-for="Search!.Medium"
-                   id="medium-digital"
-                   type="radio"
-                   value="true"
-                   checked="@(Model.Search?.Medium)"/>
-            <label for="medium-digital" class="form-label">Digital</label>
-        </div>
-        <div class="form-check-inline">
-            <input asp-for="Search!.Medium"
-                   id="medium-physical"
-                   type="radio"
-                   value="false"
-                   checked="@(!Model.Search?.Medium)"/>
-            <label for="medium-physical" class="form-label">Physical</label>
-        </div>
-    </div>
-    <div class="form-group d-flex px-1">
-        <div class="form-check-inline">
-            Platforms:
-        </div>
-        @foreach (var platform in Model.Platforms)
-        {
-            <div class="form-check-inline">
-                <input name="Search.PlatformIds"
-                       id="platform-@platform.Id"
-                       type="checkbox"
-                       value="@platform.Id"
-                       checked="@(Model.Search != null && Model.Search.PlatformIds.Contains(platform.Id))"/>
-                <label for="platform-@platform.Id" class="form-label">@platform.Name</label>
+<form method="post">
+    <div>
+        <div class="d-flex">
+            <div class="form-group d-inline-block flex-grow-1">
+                @* <label asp-for="Search!.TextSearch" class="control-label"></label> *@
+                <input asp-for="Search!.TextSearch" class="form-control" placeholder="Search..."/>
             </div>
-        }
-    </div>
-    <div class="form-group d-flex px-1">
-        <div class="form-check-inline">
-            Categories:
+            <div class="form-group d-inline-block ms-2">
+                @* <label asp-for="Search!.MaxPrice" class="control-label"></label> *@
+                <input asp-for="Search!.MaxPrice" class="form-control" type="number" min="0" placeholder="Max Price" step="any"/>
+            </div>
+            <div class="form-group d-inline-block ms-2">
+                <input type="submit" value="Search" class="btn btn-primary"/>
+            </div>
+            <div class="form-group d-inline-block ms-2">
+                <a class="btn btn-secondary" asp-page=".">Clear</a>
+            </div>
+            <button class="btn btn-info ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                More / Less
+            </button>
         </div>
-        @foreach (var category in Model.Categories)
-        {
+    </div>
+    @{
+        var maybeShow = Model.Search is null || (
+            Model.Search.Medium is null &&
+            Model.Search.PlatformIds.Count == 0 &&
+            Model.Search.CategoryIds.Count == 0
+        ) ? "" : "show";
+    }
+    <div class="collapse px-1 @maybeShow" id="collapseExample">
+        <div class="form-group d-flex pt-2">
             <div class="form-check-inline">
-                <input name="Search.CategoryIds"
-                       id="category-@category.Id"
-                       type="checkbox"
-                       value="@category.Id"
-                       checked="@(Model.Search != null && Model.Search.CategoryIds.Contains(category.Id))"/>
-                <label for="category-@category.Id" class="form-label">@category.Name</label>
+                Medium:
+            </div>
+            <div class="form-check-inline">
+                <input asp-for="Search!.Medium"
+                       id="medium-any"
+                       type="radio"
+                       value="null"
+                       checked="@(Model.Search?.Medium is null)"/>
+                <label for="medium-any" class="form-label">Any</label>
+            </div>
+            <div class="form-check-inline">
+                <input asp-for="Search!.Medium"
+                       id="medium-digital"
+                       type="radio"
+                       value="true"
+                       checked="@(Model.Search?.Medium)"/>
+                <label for="medium-digital" class="form-label">Digital</label>
+            </div>
+            <div class="form-check-inline">
+                <input asp-for="Search!.Medium"
+                       id="medium-physical"
+                       type="radio"
+                       value="false"
+                       checked="@(!Model.Search?.Medium)"/>
+                <label for="medium-physical" class="form-label">Physical</label>
+            </div>
+        </div>
+        <div class="form-group d-flex">
+            <div class="form-check-inline">
+                Platforms:
+            </div>
+            @foreach (var platform in Model.Platforms)
+            {
+                <div class="form-check-inline">
+                    <input name="Search.PlatformIds"
+                           id="platform-@platform.Id"
+                           type="checkbox"
+                           value="@platform.Id"
+                           checked="@(Model.Search != null && Model.Search.PlatformIds.Contains(platform.Id))"/>
+                    <label for="platform-@platform.Id" class="form-label">@platform.Name</label>
+                </div>
+            }
+        </div>
+        <div class="form-group d-flex">
+            <div class="form-check-inline">
+                Categories:
+            </div>
+            @foreach (var category in Model.Categories)
+            {
+                <div class="form-check-inline">
+                    <input name="Search.CategoryIds"
+                           id="category-@category.Id"
+                           type="checkbox"
+                           value="@category.Id"
+                           checked="@(Model.Search != null && Model.Search.CategoryIds.Contains(category.Id))"/>
+                    <label for="category-@category.Id" class="form-label">@category.Name</label>
 
-            </div>
-        }
+                </div>
+            }
+        </div>
     </div>
+
 </form>
 
 @if (Model.Search is null)
@@ -97,7 +112,8 @@
 }
 else
 {
-    <p>Displaying <b>@Model.Games.Count</b> results from <b>@Model.GameCount</b> total games.</p>
+    <hr/>
+    <h5>Displaying <b>@Model.Games.Count</b> results from <b>@Model.GameCount</b> total games.</h5>
 }
 
 <div class="d-flex flex-wrap justify-content-center">
