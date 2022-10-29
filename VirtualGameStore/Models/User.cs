@@ -28,6 +28,7 @@ namespace VirtualGameStore.Models
         public IEnumerable<User> FriendOf { get; set; }
 
         public IEnumerable<CartItem> CartItems { get; set; } = new List<CartItem>();
+        public IEnumerable<Order> Orders { get; set; }
 
         public bool AreAddressesEqual { get => BillingAddress?.Id == ShippingAddress?.Id; }
         public bool ArePreferencesEmpty
