@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,6 +9,7 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Pages.Checkout
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly VirtualGameStore.Data.ApplicationDbContext _context;
@@ -79,8 +81,23 @@ namespace VirtualGameStore.Pages.Checkout
                 return Page();
             }
 
-            await LoadAsync(user);
-            return Page();
+            var orderItems = user.CartItems.Select(cartItem => new OrderItem()
+            {
+                Game = cartItem.Game,
+                Quantity = cartItem.Quantity,
+                UnitPrice = cartItem.Game.Price,
+            }).ToList();
+
+            var order = new Order()
+            {
+                User = user,
+                Items = orderItems,
+                CreatedAt = DateTime.Now
+            };
+
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("/Checkout/Confirmation");
         }
 
         public class Input
