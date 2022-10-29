@@ -71,15 +71,17 @@ else
         <p>Please select a credit card.</p>
         <form method="post">
             <div class="mb-3">
-                @foreach (var creditCard in Model.CreditCards)
-                {
-                    <div class="form-check">
-                        <input type="radio" asp-for="InputModel.CreditCardId" value="@creditCard.Id" class="form-check-input" />
-                        <label class="form-check-label" asp-for="InputModel.CreditCardId">
-                            @creditCard.CardNumber
-                        </label>
-                    </div>
-                }
+                <div class=" d-flex flex-wrap">
+                    @foreach (var creditCard in Model.CreditCards)
+                    {
+                        <div class="form-check mb-3 me-4">
+                            <input type="radio" id="credit-card-radio-@creditCard.Id" asp-for="InputModel.CreditCardId" value="@creditCard.Id" class="form-check-input" />
+                            <label class="form-check-label" for="credit-card-radio-@creditCard.Id">
+                                <partial name="_CreditCardPartial" model="creditCard" />
+                            </label>
+                        </div>
+                    }
+                </div>
                 <span asp-validation-for="InputModel.CreditCardId" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Finish Checkout</button>
