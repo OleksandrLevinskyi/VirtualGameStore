@@ -49,5 +49,10 @@ namespace VirtualGameStore.Models
             FavoriteCategories = new List<Category>();
             FavoritePlatforms = new List<Platform>();
         }
+
+        public bool IsFriend(User user)
+        {
+            return Friends.Any(f => f.Id == user.Id);
+        }
     }
 }

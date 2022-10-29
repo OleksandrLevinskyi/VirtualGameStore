@@ -80,7 +80,7 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
                 return Page();
             }
 
-            if (user.Friends.Any(f => f.UserName == UserName))
+            if (user.IsFriend(friend))
             {
                 ModelState.AddModelError(nameof(UserName), "Member is already in your friends and family list.");
                 return Page();
