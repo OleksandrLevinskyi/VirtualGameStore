@@ -9,11 +9,11 @@ using VirtualGameStore.Data;
 
 #nullable disable
 
-namespace VirtualGameStore.Data.Migrations
+namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221026002538_AddFriendship")]
-    partial class AddFriendship
+    [Migration("20221029132554_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -378,7 +378,7 @@ namespace VirtualGameStore.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Friendship");
+                    b.ToTable("Friendships");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Game", b =>

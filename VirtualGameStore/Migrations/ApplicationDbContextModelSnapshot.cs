@@ -376,7 +376,7 @@ namespace VirtualGameStore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Friendship");
+                    b.ToTable("Friendships");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Game", b =>
