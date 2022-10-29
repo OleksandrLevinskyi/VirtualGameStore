@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using VirtualGameStore.Data;
 using VirtualGameStore.Models;
 
@@ -19,7 +20,7 @@ namespace VirtualGameStore.Pages.Checkout
         }
 
         [BindProperty]
-        public int CreditCartId { get; set; }
+        public Input InputModel { get; set; }
         public List<PaymentOption> CreditCards { get; set; }
         public List<CartItem> CartItems { get; set; }
         public double Total { get => CartItems.Aggregate(0.0, (total, cartItem) => total + cartItem.Game.Price * cartItem.Quantity); }
@@ -53,10 +54,39 @@ namespace VirtualGameStore.Pages.Checkout
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+            if (ModelState.IsValid)
+            {
+
+            }
 
             await LoadAsync(user);
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var user = await GetUser();
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await LoadAsync(user);
+                return Page();
+            }
+
+            await LoadAsync(user);
+            return Page();
+        }
+
+        public class Input
+        {
+            [Required(ErrorMessage = "You must choose a credit card.")]
+            public int CreditCardId { get; set; }
         }
     }
 }

@@ -13,6 +13,7 @@
 }
 else
 {
+    <h3>Items</h3>
     <table class="table">
         <thead>
             <tr>
@@ -58,4 +59,36 @@ else
             </tr>
         </tfoot>
     </table>
+
+    <h3>Payment Options</h3>
+    @if (!Model.CreditCards.Any())
+    {
+        <p>Please add a credit card to continue the order.</p>
+        <a asp-area="Identity" asp-page="/Account/Manage/PaymentOptions" class="btn btn-primary">Add a credit card</a>
+    }
+    else
+    {
+        <p>Please select a credit card.</p>
+        <form method="post">
+            <div class="mb-3">
+                @foreach (var creditCard in Model.CreditCards)
+                {
+                    <div class="form-check">
+                        <input type="radio" asp-for="InputModel.CreditCardId" value="@creditCard.Id" class="form-check-input" />
+                        <label class="form-check-label" asp-for="InputModel.CreditCardId">
+                            @creditCard.CardNumber
+                        </label>
+                    </div>
+                }
+                <span asp-validation-for="InputModel.CreditCardId" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Finish Checkout</button>
+        </form>
+    }
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
