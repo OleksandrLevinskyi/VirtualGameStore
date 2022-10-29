@@ -1,0 +1,61 @@
+﻿@page
+@model VirtualGameStore.Pages.Checkout.IndexModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h1 class="mb-3">@ViewData["Title"]</h1>
+
+@if (!Model.CartItems.Any())
+{
+    <p>Your cart is empty, there's nothing to checkout.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Game
+                </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CartItems[0].Quantity)
+                </th>
+                <th>
+                    Subtotal
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Game.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Game.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @($"{item.Game.Price * item.Quantity:C2}")
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Total</strong></td>
+                <td>
+                    <strong>@($"{Model.Total:C2}")</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
