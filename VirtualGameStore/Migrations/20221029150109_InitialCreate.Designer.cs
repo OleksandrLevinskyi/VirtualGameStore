@@ -9,11 +9,11 @@ using VirtualGameStore.Data;
 
 #nullable disable
 
-namespace VirtualGameStore.Data.Migrations
+namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221026002538_AddFriendship")]
-    partial class AddFriendship
+    [Migration("20221029150109_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -283,6 +283,33 @@ namespace VirtualGameStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Category", b =>
@@ -784,6 +811,25 @@ namespace VirtualGameStore.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.CartItem", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.User", "User")
+                        .WithMany("CartItems")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.Event", b =>
                 {
                     b.HasOne("VirtualGameStore.Models.User", "Creator")
@@ -868,6 +914,8 @@ namespace VirtualGameStore.Data.Migrations
 
             modelBuilder.Entity("VirtualGameStore.Models.User", b =>
                 {
+                    b.Navigation("CartItems");
+
                     b.Navigation("Events");
 
                     b.Navigation("PaymentOptions");
