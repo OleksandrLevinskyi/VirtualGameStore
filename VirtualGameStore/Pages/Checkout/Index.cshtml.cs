@@ -46,7 +46,7 @@ namespace VirtualGameStore.Pages.Checkout
                 .FirstOrDefaultAsync();
         }
 
-        private void LoadAsync(User user)
+        private void Load(User user)
         {
             CartItems = user.CartItems.ToList();
             CreditCards = user.PaymentOptions.ToList();
@@ -62,12 +62,8 @@ namespace VirtualGameStore.Pages.Checkout
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            if (ModelState.IsValid)
-            {
 
-            }
-
-            LoadAsync(user);
+            Load(user);
 
             return Page();
         }
@@ -83,7 +79,7 @@ namespace VirtualGameStore.Pages.Checkout
 
             if (!ModelState.IsValid)
             {
-                LoadAsync(user);
+                Load(user);
                 return Page();
             }
 
@@ -102,8 +98,9 @@ namespace VirtualGameStore.Pages.Checkout
             };
 
             _context.Orders.Add(order);
+            // TODO: clear cart
             await _context.SaveChangesAsync();
-            return RedirectToPage("/Checkout/Confirmation");
+            return RedirectToPage("/Checkout/Confirmation", new { id = order.Id });
         }
 
         public class Input
