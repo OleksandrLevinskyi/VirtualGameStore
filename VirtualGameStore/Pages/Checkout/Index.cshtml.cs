@@ -26,6 +26,8 @@ namespace VirtualGameStore.Pages.Checkout
         public List<PaymentOption> CreditCards { get; set; }
         public List<CartItem> CartItems { get; set; }
         public double Total { get => CartItems.Aggregate(0.0, (total, cartItem) => total + cartItem.Game.Price * cartItem.Quantity); }
+        public Address? ShippingAddress { get; set; }
+        public Address? BillingAddress { get; set; }
 
         private Task<User?> GetUser()
         {
@@ -39,13 +41,17 @@ namespace VirtualGameStore.Pages.Checkout
                 .Include(u => u.CartItems)
                     .ThenInclude(i => i.Game)
                 .Include(u => u.PaymentOptions)
+                .Include(u => u.BillingAddress)
+                .Include(u => u.ShippingAddress)
                 .FirstOrDefaultAsync();
         }
 
-        private async Task LoadAsync(User user)
+        private void LoadAsync(User user)
         {
             CartItems = user.CartItems.ToList();
             CreditCards = user.PaymentOptions.ToList();
+            ShippingAddress = user.ShippingAddress;
+            BillingAddress = user.BillingAddress;
         }
 
         public async Task<IActionResult> OnGet()
@@ -61,7 +67,7 @@ namespace VirtualGameStore.Pages.Checkout
 
             }
 
-            await LoadAsync(user);
+            LoadAsync(user);
 
             return Page();
         }
@@ -77,7 +83,7 @@ namespace VirtualGameStore.Pages.Checkout
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
+                LoadAsync(user);
                 return Page();
             }
 
