@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Pages.Checkout
 {
+    [Authorize]
     public class ConfirmationModel : PageModel
     {
         private readonly VirtualGameStore.Data.ApplicationDbContext _context;
