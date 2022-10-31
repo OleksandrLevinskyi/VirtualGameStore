@@ -1,4 +1,148 @@
 ﻿@page
 @model VirtualGameStore.Pages.Checkout.ConfirmationModel
 
-<p>confirmed!</p>
+@{
+    ViewData["Title"] = "Order Confirmed";
+}
+
+<h1 class="mb-3">@ViewData["Title"]</h1>
+<p>Thanks for ordering with us!</p>
+<h2>Order details</h2>
+<p>Order date: <strong>@Model.Order.CreatedAt.ToString("yyyy-MM-dd")</strong></p>
+<h3>Address</h3>
+
+<div class="d-md-flex">
+    <div class="card mb-3 me-0 me-md-3">
+        <div class="card-body">
+            <h5 class="card-title">Billing Address</h5>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.BillingAddress.Address1)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.BillingAddress.Address1)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.BillingAddress.Address2)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.BillingAddress.Address2)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.BillingAddress.City)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.BillingAddress.City)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.BillingAddress.Province)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.BillingAddress.Province)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.BillingAddress.Country)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.BillingAddress.Country)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.BillingAddress.PostalCode)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.BillingAddress.PostalCode)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Shipping Address</h5>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ShippingAddress.Address1)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ShippingAddress.Address1)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ShippingAddress.Address2)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ShippingAddress.Address2)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ShippingAddress.City)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ShippingAddress.City)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ShippingAddress.Province)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ShippingAddress.Province)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ShippingAddress.Country)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ShippingAddress.Country)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ShippingAddress.PostalCode)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ShippingAddress.PostalCode)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<h3>Items</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Game
+            </th>
+            <th>
+                Unit Price
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Subtotal
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Order.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Game.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @($"{item.UnitPrice * item.Quantity:C2}")
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3"><strong>Total</strong></td>
+            <td>
+                <strong>@($"{Model.Order.Total:C2}")</strong>
+            </td>
+        </tr>
+    </tfoot>
+</table>
