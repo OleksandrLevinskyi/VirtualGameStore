@@ -97,8 +97,10 @@ namespace VirtualGameStore.Pages.Checkout
                 CreatedAt = DateTime.Now
             };
 
+            user.CartItems = Enumerable.Empty<CartItem>().ToList();
+
             _context.Orders.Add(order);
-            // TODO: clear cart
+
             await _context.SaveChangesAsync();
             return RedirectToPage("/Checkout/Confirmation", new { id = order.Id });
         }
