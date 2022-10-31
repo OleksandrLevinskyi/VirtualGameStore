@@ -12,7 +12,7 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221031162753_InitialCreate")]
+    [Migration("20221031171625_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -486,6 +486,9 @@ namespace VirtualGameStore.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("OrderStatusId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ShippingAddressId")
                         .HasColumnType("int");
 
@@ -496,6 +499,8 @@ namespace VirtualGameStore.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BillingAddressId");
+
+                    b.HasIndex("OrderStatusId");
 
                     b.HasIndex("ShippingAddressId");
 
@@ -531,6 +536,35 @@ namespace VirtualGameStore.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.OrderStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Processing"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Complete"
+                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
@@ -927,6 +961,12 @@ namespace VirtualGameStore.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("VirtualGameStore.Models.OrderStatus", "OrderStatus")
+                        .WithMany()
+                        .HasForeignKey("OrderStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("VirtualGameStore.Models.Address", "ShippingAddress")
                         .WithMany()
                         .HasForeignKey("ShippingAddressId")
@@ -940,6 +980,8 @@ namespace VirtualGameStore.Migrations
                         .IsRequired();
 
                     b.Navigation("BillingAddress");
+
+                    b.Navigation("OrderStatus");
 
                     b.Navigation("ShippingAddress");
 
