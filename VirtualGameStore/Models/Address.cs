@@ -15,5 +15,18 @@ namespace VirtualGameStore.Models
         [Display(Name = "Postal Code")]
         [RegularExpression(@"^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$", ErrorMessage = "Postal Code should be in the format L1L 1L1")]
         public string PostalCode { get; set; } = string.Empty;
+
+        public Address Copy()
+        {
+            return new Address()
+            {
+                Address1 = Address1,
+                Address2 = Address2,
+                City = City,
+                Province = Province,
+                Country = Country,
+                PostalCode = PostalCode
+            };
+        }
     }
 }

@@ -73,6 +73,15 @@ namespace VirtualGameStore.Data
                                                         .WithMany()
                                                         .HasForeignKey(f => f.FriendId));
 
+            builder.Entity<Order>()
+                .HasOne(o => o.BillingAddress)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Order>()
+                .HasOne(o => o.ShippingAddress)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
             Seed(builder);
         }
 

@@ -12,7 +12,7 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221029150109_InitialCreate")]
+    [Migration("20221031162753_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -472,6 +472,67 @@ namespace VirtualGameStore.Migrations
                         });
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BillingAddressId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ShippingAddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BillingAddressId");
+
+                    b.HasIndex("ShippingAddressId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
                 {
                     b.Property<int>("Id")
@@ -858,6 +919,52 @@ namespace VirtualGameStore.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Order", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Address", "BillingAddress")
+                        .WithMany()
+                        .HasForeignKey("BillingAddressId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.Address", "ShippingAddress")
+                        .WithMany()
+                        .HasForeignKey("ShippingAddressId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BillingAddress");
+
+                    b.Navigation("ShippingAddress");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.OrderItem", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.Order", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
                 {
                     b.HasOne("VirtualGameStore.Models.User", "User")
@@ -912,11 +1019,18 @@ namespace VirtualGameStore.Migrations
                     b.Navigation("Registrations");
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Order", b =>
+                {
+                    b.Navigation("Items");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.User", b =>
                 {
                     b.Navigation("CartItems");
 
                     b.Navigation("Events");
+
+                    b.Navigation("Orders");
 
                     b.Navigation("PaymentOptions");
 

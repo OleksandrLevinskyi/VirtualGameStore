@@ -5,6 +5,9 @@
         public int Id { get; set; }
         public string UserId { get; set; }
         public DateTime CreatedAt { get; set; }
+        public Address BillingAddress { get; set; }
+        public Address ShippingAddress { get; set; }
+        // TODO: OrderStatus
 
         public User User { get; set; }
         public IEnumerable<OrderItem> Items { get; set; }

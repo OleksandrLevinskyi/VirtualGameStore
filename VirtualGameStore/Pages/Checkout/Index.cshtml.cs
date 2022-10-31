@@ -94,7 +94,9 @@ namespace VirtualGameStore.Pages.Checkout
             {
                 User = user,
                 Items = orderItems,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                ShippingAddress = user.ShippingAddress!.Copy(),
+                BillingAddress = user.BillingAddress!.Copy()
             };
 
             user.CartItems = Enumerable.Empty<CartItem>().ToList();
