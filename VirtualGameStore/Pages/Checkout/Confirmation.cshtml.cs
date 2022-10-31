@@ -39,7 +39,7 @@ namespace VirtualGameStore.Pages.Checkout
                 .Include(u => u.Orders)
                     .ThenInclude(o => o.BillingAddress)
                 .Include(u => u.Orders)
-                    .ThenInclude(o => o.OrderStatus)
+                    .ThenInclude(o => o.Status)
                 .FirstOrDefaultAsync();
         }
 

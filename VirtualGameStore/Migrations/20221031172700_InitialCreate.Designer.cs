@@ -12,7 +12,7 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221031171625_InitialCreate")]
+    [Migration("20221031172700_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -486,10 +486,10 @@ namespace VirtualGameStore.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrderStatusId")
+                    b.Property<int>("ShippingAddressId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShippingAddressId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -500,9 +500,9 @@ namespace VirtualGameStore.Migrations
 
                     b.HasIndex("BillingAddressId");
 
-                    b.HasIndex("OrderStatusId");
-
                     b.HasIndex("ShippingAddressId");
+
+                    b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
 
@@ -961,16 +961,16 @@ namespace VirtualGameStore.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("VirtualGameStore.Models.OrderStatus", "OrderStatus")
-                        .WithMany()
-                        .HasForeignKey("OrderStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("VirtualGameStore.Models.Address", "ShippingAddress")
                         .WithMany()
                         .HasForeignKey("ShippingAddressId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.OrderStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("VirtualGameStore.Models.User", "User")
@@ -981,9 +981,9 @@ namespace VirtualGameStore.Migrations
 
                     b.Navigation("BillingAddress");
 
-                    b.Navigation("OrderStatus");
-
                     b.Navigation("ShippingAddress");
+
+                    b.Navigation("Status");
 
                     b.Navigation("User");
                 });
