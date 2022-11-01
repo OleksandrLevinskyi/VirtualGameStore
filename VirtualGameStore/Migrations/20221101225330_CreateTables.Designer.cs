@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VirtualGameStore.Data;
 
 #nullable disable
 
-namespace VirtualGameStore.Data.Migrations
+namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221101225330_CreateTables")]
+    partial class CreateTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -528,6 +530,42 @@ namespace VirtualGameStore.Data.Migrations
                     b.ToTable("Registrations");
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("Rating")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Review");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -804,6 +842,25 @@ namespace VirtualGameStore.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Review", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.User", "Author")
+                        .WithMany("Reviews")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.Game", "Game")
+                        .WithMany("Reviews")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Game");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.User", b =>
                 {
                     b.HasOne("VirtualGameStore.Models.Address", "BillingAddress")
@@ -830,6 +887,11 @@ namespace VirtualGameStore.Data.Migrations
                     b.Navigation("Registrations");
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Game", b =>
+                {
+                    b.Navigation("Reviews");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.User", b =>
                 {
                     b.Navigation("Events");
@@ -837,6 +899,8 @@ namespace VirtualGameStore.Data.Migrations
                     b.Navigation("PaymentOptions");
 
                     b.Navigation("Registrations");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

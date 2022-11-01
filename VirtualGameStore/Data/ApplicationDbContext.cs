@@ -15,6 +15,7 @@ namespace VirtualGameStore.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<PaymentOption> PaymentOptions { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -120,5 +121,7 @@ namespace VirtualGameStore.Data
                 new Platform() { Id = 3, Name = "Xbox" },
                 new Platform() { Id = 4, Name = "PlayStation" });
         }
+
+        public DbSet<VirtualGameStore.Models.Review> Review { get; set; }
     }
 }
