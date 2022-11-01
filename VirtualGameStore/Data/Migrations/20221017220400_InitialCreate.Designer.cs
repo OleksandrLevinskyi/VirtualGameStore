@@ -12,7 +12,7 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221015164123_InitialCreate")]
+    [Migration("20221017220400_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -632,12 +632,12 @@ namespace VirtualGameStore.Data.Migrations
                             IsEmailMarketingEnabled = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@VGS.COM",
-                            NormalizedUserName = "EMPLOYEE@VGS.COM",
+                            NormalizedUserName = "EMPLOYEE",
                             PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "IOHH3QAG6CBJWWO4LDGAJTSSACV2KNDI",
                             TwoFactorEnabled = false,
-                            UserName = "employee@vgs.com"
+                            UserName = "employee"
                         },
                         new
                         {
@@ -649,12 +649,12 @@ namespace VirtualGameStore.Data.Migrations
                             IsEmailMarketingEnabled = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "MEMBER@VGS.COM",
-                            NormalizedUserName = "MEMBER@VGS.COM",
+                            NormalizedUserName = "MEMBER",
                             PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "HNGZXUROYPX527M6RHWO6OPYCETU2WVK",
                             TwoFactorEnabled = false,
-                            UserName = "member@vgs.com"
+                            UserName = "member"
                         });
                 });
 

@@ -307,8 +307,8 @@ namespace VirtualGameStore.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BillingAddressId", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "GenderId", "IsEmailMarketingEnabled", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "ShippingAddressId", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "5abf56ec-8224-42b1-965d-a11bd8d818c7", 0, null, null, "5e2e9d4a-d8e2-4200-8e13-ef777407f2ca", "employee@vgs.com", true, null, null, false, null, false, null, "EMPLOYEE@VGS.COM", "EMPLOYEE@VGS.COM", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "IOHH3QAG6CBJWWO4LDGAJTSSACV2KNDI", null, false, "employee@vgs.com" },
-                    { "9a44a14a-47fb-4196-8a45-57fa557fb992", 0, null, null, "d91ba7e7-903d-453c-8caf-3ad1907f96c6", "member@vgs.com", true, null, null, false, null, true, null, "MEMBER@VGS.COM", "MEMBER@VGS.COM", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "HNGZXUROYPX527M6RHWO6OPYCETU2WVK", null, false, "member@vgs.com" }
+                    { "5abf56ec-8224-42b1-965d-a11bd8d818c7", 0, null, null, "5e2e9d4a-d8e2-4200-8e13-ef777407f2ca", "employee@vgs.com", true, null, null, false, null, false, null, "EMPLOYEE@VGS.COM", "EMPLOYEE", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "IOHH3QAG6CBJWWO4LDGAJTSSACV2KNDI", null, false, "employee" },
+                    { "9a44a14a-47fb-4196-8a45-57fa557fb992", 0, null, null, "d91ba7e7-903d-453c-8caf-3ad1907f96c6", "member@vgs.com", true, null, null, false, null, true, null, "MEMBER@VGS.COM", "MEMBER", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "HNGZXUROYPX527M6RHWO6OPYCETU2WVK", null, false, "member" }
                 });
 
             migrationBuilder.InsertData(
