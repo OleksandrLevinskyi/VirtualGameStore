@@ -1,0 +1,124 @@
+﻿@page
+@model VirtualGameStore.Pages.Reviews.AdminModel
+
+@{
+    ViewData["Title"] = "Reviews";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (!Model.Reviews.Any())
+{
+    <p>No reviews to inspect at the moment.</p>
+}
+else
+{
+    <p>This is a list of reviews to approve/reject. The reviews will show up under Game Details page only if approved. If you reject them, they will be soft deleted.</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Reviews[0].Rating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Reviews[0].Comment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Reviews[0].Game)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Reviews[0].Author)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Reviews[0].DateTime)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Reviews)
+            {
+                string approvalModalId = $"approve-review-{item.Id}";
+                string rejectionModalId = $"reject-review-{item.Id}";
+
+                <tr>
+                    <td>
+                        <input class="rating"
+                       max="5"
+                       step="0.5"
+                       style="--value:@item.Rating"
+                       type="range"
+                       value="@item.Rating"
+                       readonly>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Game.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTime)
+                    </td>
+                    <td>
+                        <!-- Approve Button -->
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#@approvalModalId">
+                            Approve
+                        </button>
+
+                        <div class="modal fade" id="@approvalModalId" tabindex="-1" aria-labelledby="approveReview" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="approveReview">Approve Review</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="fw-bold">[You will not be able to revert this change!]</p>
+                                        <p>Are you sure you want to approve a review by @item.Author.FirstName?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <form asp-route-id="@item.Id" asp-route-isApproved="@true" method="post">
+                                            <input type="submit" value="Approve" class="btn btn-success" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Reject Button -->
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@rejectionModalId">
+                            Reject
+                        </button>
+
+                        <div class="modal fade" id="@rejectionModalId" tabindex="-1" aria-labelledby="rejectReview" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="rejectReview">Reject Review</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="fw-bold">[You will not be able to revert this change!]</p>
+                                        <p>Are you sure you want to reject a review by @item.Author.FirstName?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <form asp-route-id="@item.Id" asp-route-isApproved="@false" method="post">
+                                            <input type="submit" value="Reject" class="btn btn-danger" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

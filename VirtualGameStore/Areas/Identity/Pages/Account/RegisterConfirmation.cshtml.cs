@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using VirtualGameStore.Extensions;
 using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Areas.Identity.Pages.Account
@@ -20,11 +21,13 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
     {
         private readonly UserManager<User> _userManager;
         private readonly IEmailSender _sender;
+        private readonly IConfiguration _configuration;
 
-        public RegisterConfirmationModel(UserManager<User> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<User> userManager, IEmailSender sender, IConfiguration configuration)
         {
             _userManager = userManager;
             _sender = sender;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -61,7 +64,11 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
 
             Email = email;
             // Once you add a real email sender, you should remove this code that lets you confirm the account
-            DisplayConfirmAccountLink = true;
+            if (!_configuration.IsEmailEnabled())
+            {
+                DisplayConfirmAccountLink = true;
+            }
+
             if (DisplayConfirmAccountLink)
             {
                 var userId = await _userManager.GetUserIdAsync(user);

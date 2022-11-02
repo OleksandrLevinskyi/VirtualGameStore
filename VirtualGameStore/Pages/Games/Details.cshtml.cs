@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -19,9 +22,12 @@ namespace VirtualGameStore.Pages.Games
             _context = context;
         }
 
-      public Game Game { get; set; }
+        [BindProperty]
+        public Review Review { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public Game Game { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int? id, bool? isSuccess)
         {
             if (id == null || _context.Games == null)
             {
@@ -31,16 +37,50 @@ namespace VirtualGameStore.Pages.Games
             var game = await _context.Games
                 .Include(g => g.Platforms)
                 .Include(g => g.Categories)
+                .Include(
+                    g => g.Reviews
+                    .Where(r => r.IsApproved == true)
+                    .OrderByDescending(r => r.Rating)
+                )
+                .ThenInclude(r => r.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            Review = new Review() { GameId = game.Id, AuthorId = "none" };
+
             if (game == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Game = game;
             }
+
+            if (isSuccess == true)
+            {
+                ViewData["IsSuccess"] = true;
+            }
+
+            ViewData["IsAuthorized"] = User.IsInRole("Member");
+
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            Review.Comment = (Review.Comment + "").Trim();
+            Review.AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Review.DateTime = DateTime.Now;
+
+            if (!ModelState.IsValid || !User.IsInRole("Member"))
+            {
+                return Page();
+            }
+
+            _context.Review.Add(Review);
+            await _context.SaveChangesAsync();
+
+            return Redirect($"./Details?id={Review.GameId}&isSuccess=true");
         }
     }
 }

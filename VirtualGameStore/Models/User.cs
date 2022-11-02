@@ -19,6 +19,8 @@ namespace VirtualGameStore.Models
         public Gender? Gender { get; set; }
         public IEnumerable<Platform> FavoritePlatforms { get; set; }
 
+        public List<Review>? Reviews { get; set; }
+
         public List<Event>? Events { get; set; }
 
         public List<Registration>? Registrations { get; set; }

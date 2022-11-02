@@ -15,6 +15,7 @@ namespace VirtualGameStore.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<PaymentOption> PaymentOptions { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -69,8 +70,8 @@ namespace VirtualGameStore.Data
             var employeeUser = new User()
             {
                 Id = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                UserName = "employee@vgs.com",
-                NormalizedUserName = "EMPLOYEE@VGS.COM",
+                UserName = "employee",
+                NormalizedUserName = "EMPLOYEE",
                 Email = "employee@vgs.com",
                 NormalizedEmail = "EMPLOYEE@VGS.COM",
                 EmailConfirmed = true,
@@ -82,8 +83,8 @@ namespace VirtualGameStore.Data
             var memberUser = new User()
             {
                 Id = "9a44a14a-47fb-4196-8a45-57fa557fb992",
-                UserName = "member@vgs.com",
-                NormalizedUserName = "MEMBER@VGS.COM",
+                UserName = "member",
+                NormalizedUserName = "MEMBER",
                 Email = "member@vgs.com",
                 NormalizedEmail = "MEMBER@VGS.COM",
                 EmailConfirmed = true,
@@ -120,5 +121,7 @@ namespace VirtualGameStore.Data
                 new Platform() { Id = 3, Name = "Xbox" },
                 new Platform() { Id = 4, Name = "PlayStation" });
         }
+
+        public DbSet<VirtualGameStore.Models.Review> Review { get; set; }
     }
 }
