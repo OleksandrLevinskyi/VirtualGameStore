@@ -37,12 +37,12 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Game.IsDigital" /> @Html.DisplayNameFor(model => model.Game.IsDigital)
+                    <input class="form-check-input" asp-for="Game.IsDigital" onchange="document.getElementById('Game_Stock').disabled = this.checked;"/> @Html.DisplayNameFor(model => model.Game.IsDigital)
                 </label>
             </div>
             <div class="form-group">
                 <label asp-for="Game.Stock" class="control-label"></label>
-                <input asp-for="Game.Stock" class="form-control" />
+                <input asp-for="Game.Stock" class="form-control" value="0"/>
                 <span asp-validation-for="Game.Stock" class="text-danger"></span>
             </div>
 

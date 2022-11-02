@@ -34,7 +34,7 @@
             Model.Search.Medium is null &&
             Model.Search.PlatformIds.Count == 0 &&
             Model.Search.CategoryIds.Count == 0
-        ) ? "" : "show";
+            ) ? "" : "show";
     }
     <div class="collapse px-1 @maybeShow" id="collapseExample">
         <div class="form-group d-flex pt-2">
@@ -112,45 +112,51 @@
 }
 else
 {
-    <hr/>
-    <h5>Displaying <b>@Model.Games.Count</b> results from <b>@Model.GameCount</b> total games.</h5>
+    <h6 class="m-1">Displaying <b>@Model.Games.Count</b> results from <b>@Model.GameCount</b> total games.</h6>
 }
 
-<div class="d-flex flex-wrap justify-content-center">
+<div class="d-flex flex-wrap justify-content-center mt-3">
     @for (int i = 0; i < Model.Games.Count; i++)
     {
         var item = Model.Games[i];
 
-        <div class="card w-25 m-3">
-            @*<img src="..." class="card-img-top" alt="...">*@
-            <div class="card-body">
-                <h5 class="card-title">
-                    @Html.DisplayFor(modelItem => item.Name)
-                    @if (item.IsDigital)
-                    {
-                        <span class="badge bg-dark">digital</span>
-                    }
-                </h5>
-
-                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                <p>Left in stock: @Html.DisplayFor(modelItem => item.Stock)</p>
-
-                @foreach (var platform in item.Platforms)
-                {
-                    <span class="badge bg-primary">@platform.Name</span>
-                }
-
-                <br/>
-
-                @foreach (var category in item.Categories)
-                {
-                    <span class="badge bg-success">@category.Name</span>
-                }
-
-                <br/>
-
-                <h5 class="mt-1">@Html.DisplayFor(modelItem => item.Price)</h5>
-                <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-primary mt-1">View</a>
+        <div class="w-25 my-2">
+            <div class="card mx-2 h-100">
+                @*<img src="..." class="card-img-top" alt="...">*@
+                <div @* Card *@ class="card-body">
+                    <div @* Top of card *@>
+                        <h5 class="card-title">
+                            @Html.DisplayFor(modelItem => item.Name)
+                            @if (item.IsDigital)
+                            {
+                                <span class="badge bg-dark">digital</span>
+                            }
+                        </h5>
+                        <hr class="my-1"/>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                    </div>
+                    <div @* Mid of card*@ class="my-2">
+                        @foreach (var platform in item.Platforms)
+                        {
+                            <span class="badge bg-primary">@platform.Name</span>
+                        }
+                        <br/>
+                        @foreach (var category in item.Categories)
+                        {
+                            <span class="badge bg-success">@category.Name</span>
+                        }
+                        <br/>
+                    </div>
+                    <br class="my-4" @*Spacing for end of card*@/>
+                    <div @* End of card *@ class="position-absolute bottom-0 pb-3">
+                        @if (item.IsDigital)
+                        {
+                            <p class="mb-1">Left in stock: @Html.DisplayFor(modelItem => item.Stock)</p>
+                        }
+                        <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-primary d-inline-block">View</a>
+                        <h5 class="mt-1 d-inline-block">@Html.DisplayFor(modelItem => item.Price)</h5>
+                    </div>
+                </div>
             </div>
         </div>
     }
