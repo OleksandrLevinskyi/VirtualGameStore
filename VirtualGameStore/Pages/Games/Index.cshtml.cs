@@ -53,7 +53,7 @@ namespace VirtualGameStore.Pages.Games
                 .AsQueryable();
             
             if (Search!.TextSearch is not null)
-                query = query.Where(g => g.Name.Contains(Search!.TextSearch!));
+                query = query.Where(g => g.Name.Contains(Search!.TextSearch!.Trim()));
 
             if (Search!.MaxPrice is not null)
                 query = query.Where(g => g.Price < Search!.MaxPrice);
