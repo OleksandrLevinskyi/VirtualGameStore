@@ -117,13 +117,43 @@ namespace VirtualGameStore.Data
                 LockoutEnabled = true
             };
 
+            var fooUser = new User()
+            {
+                Id = "d5dafa9f-92a4-43dc-9652-02cf3860d621",
+                UserName = "foo",
+                NormalizedUserName = "FOO",
+                Email = "foo@vgs.com",
+                NormalizedEmail = "FOO@VGS.COM",
+                EmailConfirmed = true,
+                PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", // Password1!
+                SecurityStamp = "WQ7TGOMDYEUVSMNVX2G35VKZ4MPGODG4",
+                ConcurrencyStamp = "0f4fa02d-33c6-48e6-b573-7218fa00c9a2",
+                LockoutEnabled = true
+            };
+
+            var barUser = new User()
+            {
+                Id = "76742c46-0008-4749-af77-5d129b6d88b1",
+                UserName = "bar",
+                NormalizedUserName = "BAR",
+                Email = "bar@vgs.com",
+                NormalizedEmail = "BAR@VGS.COM",
+                EmailConfirmed = true,
+                PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", // Password1!
+                SecurityStamp = "7XDDKAH2YGWTBDC7UVPT76DUXTLQES3E",
+                ConcurrencyStamp = "0c6c0c5a-52ea-4b4c-89cc-8130611f1e54",
+                LockoutEnabled = true
+            };
+
             builder.Entity<IdentityRole>().HasData(employeeRole, memberRole);
 
-            builder.Entity<User>().HasData(employeeUser, memberUser);
+            builder.Entity<User>().HasData(employeeUser, memberUser, fooUser, barUser);
 
             builder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>() { UserId = employeeUser.Id, RoleId = employeeRole.Id },
-                new IdentityUserRole<string>() { UserId = memberUser.Id, RoleId = memberRole.Id });
+                new IdentityUserRole<string>() { UserId = memberUser.Id, RoleId = memberRole.Id },
+                new IdentityUserRole<string>() { UserId = fooUser.Id, RoleId = memberRole.Id },
+                new IdentityUserRole<string>() { UserId = barUser.Id, RoleId = memberRole.Id });
 
             builder.Entity<Gender>().HasData(
                 new Gender() { Id = 1, Name = "Male" },
