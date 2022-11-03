@@ -27,9 +27,9 @@ namespace VirtualGameStore.Pages.Reviews
 
         public async Task OnGetAsync()
         {
-            if (_context.Review != null)
+            if (_context.Reviews != null)
             {
-                Reviews = await _context.Review
+                Reviews = await _context.Reviews
                 .Include(r => r.Author)
                 .Include(r => r.Game)
                 .Where(r => r.IsApproved == null)
@@ -40,12 +40,12 @@ namespace VirtualGameStore.Pages.Reviews
 
         public async Task<IActionResult> OnPostAsync(int? id, bool? isApproved)
         {
-            if (id == null || isApproved == null || _context.Review == null)
+            if (id == null || isApproved == null || _context.Reviews == null)
             {
                 return NotFound();
             }
 
-            var review = await _context.Review.FirstOrDefaultAsync(m => m.Id == id);
+            var review = await _context.Reviews.FirstOrDefaultAsync(m => m.Id == id);
 
             if (review == null)
             {
