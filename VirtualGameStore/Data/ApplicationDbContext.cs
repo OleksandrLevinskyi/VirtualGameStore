@@ -16,6 +16,8 @@ namespace VirtualGameStore.Data
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<PaymentOption> PaymentOptions { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<GameCategory> GameCategories { get; set; }
+        public DbSet<GamePlatform> GamePlatforms { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -45,6 +47,16 @@ namespace VirtualGameStore.Data
                 .HasOne<Event>(r => r.Event)
                 .WithMany(e => e.Registrations)
                 .HasForeignKey(r => r.EventId);
+
+            builder.Entity<Game>()
+                .HasMany(g => g.Categories)
+                .WithMany(c => c.Games)
+                .UsingEntity<GameCategory>();
+
+            builder.Entity<Game>()
+                .HasMany(g => g.Platforms)
+                .WithMany(c => c.Games)
+                .UsingEntity<GamePlatform>();
 
             builder.Entity<User>()
                 .HasMany(u => u.Friends)
@@ -118,19 +130,88 @@ namespace VirtualGameStore.Data
                 new Gender() { Id = 2, Name = "Female" },
                 new Gender() { Id = 3, Name = "Other" });
 
-            builder.Entity<Category>().HasData(
+            var categories = new List<Category>() {
                 new Category() { Id = 1, Name = "RPG" },
                 new Category() { Id = 2, Name = "Racing" },
                 new Category() { Id = 3, Name = "Sports" },
                 new Category() { Id = 4, Name = "Simulation" },
                 new Category() { Id = 5, Name = "FPS" },
-                new Category() { Id = 6, Name = "Fighting" });
+                new Category() { Id = 6, Name = "Fighting" }
+            };
 
-            builder.Entity<Platform>().HasData(
+            builder.Entity<Category>().HasData(categories);
+
+            var platforms = new List<Platform>()
+            {
                 new Platform() { Id = 1, Name = "PC" },
                 new Platform() { Id = 2, Name = "Switch" },
                 new Platform() { Id = 3, Name = "Xbox" },
-                new Platform() { Id = 4, Name = "PlayStation" });
+                new Platform() { Id = 4, Name = "PlayStation" }
+            };
+
+            builder.Entity<Platform>().HasData(platforms);
+
+            var games = new List<Game>()
+            {
+                new Game()
+                {
+                    Id = 1,
+                    Name = "Pacman",
+                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    IsDigital = false,
+                    Price = 15.89,
+                    Stock = 15
+                },
+                new Game()
+                {
+                    Id = 2,
+                    Name = "Tetris",
+                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    IsDigital = false,
+                    Price = 10.26,
+                    Stock = 10
+                },
+                new Game()
+                {
+                    Id = 3,
+                    Name = "Wii Sports",
+                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    IsDigital = true,
+                    Price = 40.5,
+                    Stock = 1
+                },
+                new Game()
+                {
+                    Id = 4,
+                    Name = "Sonic the HedgeHog",
+                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    IsDigital = true,
+                    Price = 3,
+                    Stock = 1
+                }
+            };
+
+            builder.Entity<Game>().HasData(games);
+
+            builder.Entity<GameCategory>().HasData(
+                new GameCategory() { GameId = games[0].Id, CategoryId = categories[0].Id },
+                new GameCategory() { GameId = games[0].Id, CategoryId = categories[1].Id },
+                new GameCategory() { GameId = games[1].Id, CategoryId = categories[3].Id },
+                new GameCategory() { GameId = games[2].Id, CategoryId = categories[3].Id },
+                new GameCategory() { GameId = games[2].Id, CategoryId = categories[4].Id },
+                new GameCategory() { GameId = games[2].Id, CategoryId = categories[5].Id },
+                new GameCategory() { GameId = games[3].Id, CategoryId = categories[2].Id },
+                new GameCategory() { GameId = games[3].Id, CategoryId = categories[3].Id },
+                new GameCategory() { GameId = games[3].Id, CategoryId = categories[5].Id });
+
+            builder.Entity<GamePlatform>().HasData(
+                new GamePlatform() { GameId = games[0].Id, PlatformId = platforms[0].Id },
+                new GamePlatform() { GameId = games[0].Id, PlatformId = platforms[3].Id },
+                new GamePlatform() { GameId = games[1].Id, PlatformId = platforms[2].Id },
+                new GamePlatform() { GameId = games[2].Id, PlatformId = platforms[2].Id },
+                new GamePlatform() { GameId = games[2].Id, PlatformId = platforms[3].Id },
+                new GamePlatform() { GameId = games[3].Id, PlatformId = platforms[1].Id },
+                new GamePlatform() { GameId = games[3].Id, PlatformId = platforms[3].Id });
         }
     }
 }
