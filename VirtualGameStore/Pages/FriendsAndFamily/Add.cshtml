@@ -21,6 +21,18 @@
                 <a asp-page="Index" class="btn btn-link">Cancel</a>
             </div>
         </form>
+        @if (Model.AvailableUsers.Any())
+        {
+            <h4>Available users</h4>
+            <ul>
+                @foreach (var availableUser in Model.AvailableUsers)
+                {
+                    <li>
+                        @availableUser.UserName
+                    </li>
+                }
+            </ul>
+        }
     </div>
 </div>
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +31,8 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
         [DisplayName("Username")]
         public string UserName { get; set; }
 
+        public IEnumerable<User> AvailableUsers { get; set; } = new List<User>();
+
         private Task<User?> GetUser()
         {
             if (User.Identity == null)
@@ -43,8 +46,31 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
                 .FirstOrDefaultAsync();
         }
 
-        public IActionResult OnGet()
+        private async Task LoadAsync(User user)
         {
+            var nonCurrentUsers = await _context.Users.Where(u => u.Id != user.Id).ToListAsync();
+            foreach (var nonCurrentUser in nonCurrentUsers)
+            {
+                var isMember = await _userManager.IsInRoleAsync(nonCurrentUser, "Member");
+                var isFriend = user.Friends.Any(f => f.Id == nonCurrentUser.Id);
+                if (isMember && !isFriend)
+                {
+                    AvailableUsers = AvailableUsers.Append(nonCurrentUser);
+                }
+            }
+        }
+
+        public async Task<IActionResult> OnGet()
+        {
+            var user = await GetUser();
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            await LoadAsync(user);
+
             return Page();
         }
 
@@ -61,6 +87,7 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
 
             if (!ModelState.IsValid)
             {
+                await LoadAsync(user);
                 return Page();
             }
 
@@ -71,18 +98,21 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
             if (friend == null)
             {
                 ModelState.AddModelError(nameof(UserName), "Member not found.");
+                await LoadAsync(user);
                 return Page();
             }
 
             if (friend.Id == user.Id)
             {
                 ModelState.AddModelError(nameof(UserName), "You cannot add yourself.");
+                await LoadAsync(user);
                 return Page();
             }
 
             if (user.IsFriend(friend))
             {
                 ModelState.AddModelError(nameof(UserName), "Member is already in your friends and family list.");
+                await LoadAsync(user);
                 return Page();
             }
 
