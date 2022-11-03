@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VirtualGameStore.Migrations
 {
-    public partial class Seed : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -345,7 +345,7 @@ namespace VirtualGameStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Friendship",
+                name: "Friendships",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -353,15 +353,15 @@ namespace VirtualGameStore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Friendship", x => new { x.FriendId, x.UserId });
+                    table.PrimaryKey("PK_Friendships", x => new { x.FriendId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_Friendship_AspNetUsers_FriendId",
+                        name: "FK_Friendships_AspNetUsers_FriendId",
                         column: x => x.FriendId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Friendship_AspNetUsers_UserId",
+                        name: "FK_Friendships_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
@@ -485,7 +485,9 @@ namespace VirtualGameStore.Migrations
                 values: new object[,]
                 {
                     { "5abf56ec-8224-42b1-965d-a11bd8d818c7", 0, null, null, "5e2e9d4a-d8e2-4200-8e13-ef777407f2ca", "employee@vgs.com", true, null, null, false, null, false, null, "EMPLOYEE@VGS.COM", "EMPLOYEE", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "IOHH3QAG6CBJWWO4LDGAJTSSACV2KNDI", null, false, "employee" },
-                    { "9a44a14a-47fb-4196-8a45-57fa557fb992", 0, null, null, "d91ba7e7-903d-453c-8caf-3ad1907f96c6", "member@vgs.com", true, null, null, false, null, true, null, "MEMBER@VGS.COM", "MEMBER", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "HNGZXUROYPX527M6RHWO6OPYCETU2WVK", null, false, "member" }
+                    { "76742c46-0008-4749-af77-5d129b6d88b1", 0, null, null, "0c6c0c5a-52ea-4b4c-89cc-8130611f1e54", "bar@vgs.com", true, null, null, false, null, true, null, "BAR@VGS.COM", "BAR", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "7XDDKAH2YGWTBDC7UVPT76DUXTLQES3E", null, false, "bar" },
+                    { "9a44a14a-47fb-4196-8a45-57fa557fb992", 0, null, null, "d91ba7e7-903d-453c-8caf-3ad1907f96c6", "member@vgs.com", true, null, null, false, null, true, null, "MEMBER@VGS.COM", "MEMBER", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "HNGZXUROYPX527M6RHWO6OPYCETU2WVK", null, false, "member" },
+                    { "d5dafa9f-92a4-43dc-9652-02cf3860d621", 0, null, null, "0f4fa02d-33c6-48e6-b573-7218fa00c9a2", "foo@vgs.com", true, null, null, false, null, true, null, "FOO@VGS.COM", "FOO", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "WQ7TGOMDYEUVSMNVX2G35VKZ4MPGODG4", null, false, "foo" }
                 });
 
             migrationBuilder.InsertData(
@@ -539,7 +541,9 @@ namespace VirtualGameStore.Migrations
                 values: new object[,]
                 {
                     { "afe877ff-cf81-4bff-9d50-66238d3a1b9e", "5abf56ec-8224-42b1-965d-a11bd8d818c7" },
-                    { "9a86cc44-771d-426d-b702-c4a4a93c348f", "9a44a14a-47fb-4196-8a45-57fa557fb992" }
+                    { "9a86cc44-771d-426d-b702-c4a4a93c348f", "76742c46-0008-4749-af77-5d129b6d88b1" },
+                    { "9a86cc44-771d-426d-b702-c4a4a93c348f", "9a44a14a-47fb-4196-8a45-57fa557fb992" },
+                    { "9a86cc44-771d-426d-b702-c4a4a93c348f", "d5dafa9f-92a4-43dc-9652-02cf3860d621" }
                 });
 
             migrationBuilder.InsertData(
@@ -637,8 +641,8 @@ namespace VirtualGameStore.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Friendship_UserId",
-                table: "Friendship",
+                name: "IX_Friendships_UserId",
+                table: "Friendships",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -703,7 +707,7 @@ namespace VirtualGameStore.Migrations
                 name: "CategoryUser");
 
             migrationBuilder.DropTable(
-                name: "Friendship");
+                name: "Friendships");
 
             migrationBuilder.DropTable(
                 name: "GameCategories");
