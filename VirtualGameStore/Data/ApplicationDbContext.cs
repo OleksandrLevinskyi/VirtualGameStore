@@ -18,6 +18,7 @@ namespace VirtualGameStore.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<GameCategory> GameCategories { get; set; }
         public DbSet<GamePlatform> GamePlatforms { get; set; }
+        public DbSet<Friendship> Friendships { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
