@@ -9,10 +9,22 @@
 }
 
 <h1>@Html.DisplayFor(model => model.Game.Name)</h1>
-
-<div class="d-flex border-top border-2 mt-3">
+<hr class="mb-0"/>
+<div class="d-flex mb-0">
     <div @* Left side of page *@ class="d-inline-block flex-grow-1 mt-2">
-        <h4>@Html.DisplayNameFor(model => model.Game.Description)</h4>
+        <div class="mb-2">
+            <span class="badge bg-dark">@(Model.Game.IsDigital ? "Digital" : "Physical")</span>
+            | 
+            @foreach (var platform in Model.Game.Platforms)
+            {
+                <span class="badge bg-primary">@platform.Name</span>
+            }
+            |
+            @foreach (var category in Model.Game.Categories)
+            {
+                <span class="badge bg-success">@category.Name</span>
+            }
+        </div>
         <p>@Html.DisplayFor(model => model.Game.Description)</p>
     </div>
     <div @* Right side of page *@ class="d-inline-block flex-nowrap border-start border-2 ps-2 pt-3">
@@ -34,32 +46,12 @@
             {
                 <p><b>Stock: </b>@Model.Game.Stock remaining.</p>
             }
-        </div>
-        <hr @* Buttons end and general info begins here *@ class="border-2 mb-2"/>
-        <div>
-            <h4>Platforms</h4>
-            <ul>
-                @foreach (var item in Model.Game.Platforms!)
-                {
-                    <li>@item.Name</li>
-                }
-            </ul>
-            <h4>Categories</h4>
-            <ul>
-                @foreach (var item in Model.Game.Categories!)
-                {
-                    <li>@item.Name</li>
-                }
-            </ul>
-            <h4>Media type</h4>
-            <ul>
-                <li>@(Model.Game.IsDigital ? "Digital Download" : "Physical")</li>
-            </ul>
+
         </div>
     </div>
 </div>
 
-<hr/>
+<hr class="mt-0"/>
 
 <div>
     <h4>Reviews</h4>
@@ -84,18 +76,18 @@
 
                         <form method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" asp-for="Review.GameId" />
-                            <input type="hidden" asp-for="Review.AuthorId" />
+                            <input type="hidden" asp-for="Review.GameId"/>
+                            <input type="hidden" asp-for="Review.AuthorId"/>
                             <div class="form-group">
                                 <label asp-for="Review.Rating" class="control-label"></label> (hold left mouse key and move over the stars)
                                 <input asp-for="Review.Rating"
-                                   class="rating"
-                                   max="5"
-                                   oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
-                                   step="0.5"
-                                   style="--value:5"
-                                   type="range"
-                                   value="5">
+                                       class="rating"
+                                       max="5"
+                                       oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                       step="0.5"
+                                       style="--value:5"
+                                       type="range"
+                                       value="5">
                                 <span asp-validation-for="Review.Rating" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-2">
@@ -104,7 +96,7 @@
                                 <span asp-validation-for="Review.Comment" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
+                                <input type="submit" value="Create" class="btn btn-primary"/>
                             </div>
                         </form>
                     </div>
@@ -130,23 +122,25 @@
 
         <p class="fw-bold fs-5 text-center mb-0">Overall Rating: @overallRating</p>
         <input class="rating m-auto mb-3"
-           max="5"
-           step="0.5"
-           style="--value:@overallRating"
-           type="range"
-           value="@overallRating">
+               max="5"
+               step="0.5"
+               style="--value:@overallRating"
+               type="range"
+               value="@overallRating">
 
         @foreach (var review in Model.Game.Reviews)
         {
             <div class="card m-auto" style="width: 40rem;">
                 <div class="card-body">
-                    <h5 class="card-title">@review.Author.UserName <span class="fs-6 fw-light">[@Html.DisplayFor(model => review.DateTime)]</span></h5>
+                    <h5 class="card-title">
+                        @review.Author.UserName <span class="fs-6 fw-light">[@Html.DisplayFor(model => review.DateTime)]</span>
+                    </h5>
                     <input class="rating"
-                   max="5"
-                   step="0.5"
-                   style="--value:@review.Rating"
-                   type="range"
-                   value="@review.Rating">
+                           max="5"
+                           step="0.5"
+                           style="--value:@review.Rating"
+                           type="range"
+                           value="@review.Rating">
                     <p class="card-text">@review.Comment</p>
                 </div>
             </div>
