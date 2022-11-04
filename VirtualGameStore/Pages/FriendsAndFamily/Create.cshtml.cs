@@ -38,7 +38,7 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
                 return Page();
             }
 
-            _context.Friendship.Add(Friendship);
+            _context.Friendships.Add(Friendship);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

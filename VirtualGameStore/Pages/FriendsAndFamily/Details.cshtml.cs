@@ -23,12 +23,12 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id == null || _context.Friendship == null)
+            if (id == null || _context.Friendships == null)
             {
                 return NotFound();
             }
 
-            var friendship = await _context.Friendship.FirstOrDefaultAsync(m => m.FriendId == id);
+            var friendship = await _context.Friendships.FirstOrDefaultAsync(m => m.FriendId == id);
             if (friendship == null)
             {
                 return NotFound();

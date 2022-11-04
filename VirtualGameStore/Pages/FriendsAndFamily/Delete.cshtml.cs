@@ -24,12 +24,12 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            if (id == null || _context.Friendship == null)
+            if (id == null || _context.Friendships == null)
             {
                 return NotFound();
             }
 
-            var friendship = await _context.Friendship.FirstOrDefaultAsync(m => m.FriendId == id);
+            var friendship = await _context.Friendships.FirstOrDefaultAsync(m => m.FriendId == id);
 
             if (friendship == null)
             {
@@ -44,16 +44,16 @@ namespace VirtualGameStore.Pages.FriendsAndFamily
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
-            if (id == null || _context.Friendship == null)
+            if (id == null || _context.Friendships == null)
             {
                 return NotFound();
             }
-            var friendship = await _context.Friendship.FindAsync(id);
+            var friendship = await _context.Friendships.FindAsync(id);
 
             if (friendship != null)
             {
                 Friendship = friendship;
-                _context.Friendship.Remove(Friendship);
+                _context.Friendships.Remove(Friendship);
                 await _context.SaveChangesAsync();
             }
 
