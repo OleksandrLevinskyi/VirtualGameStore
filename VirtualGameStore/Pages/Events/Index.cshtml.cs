@@ -26,8 +26,17 @@ namespace VirtualGameStore.Pages.Events
         public int EventId { get; set; }
         public IList<Event> Events { get; set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(bool? isSuccess)
         {
+            if (isSuccess == true)
+            {
+                ViewData["StatusMessage"] = "You have successfully registered for the event.";
+            }
+            else if (isSuccess == false)
+            {
+                ViewData["ErrorMessage"] = "Something went wrong. Please try again.";
+            }
+
             if (_context.Events != null)
             {
                 Events = await _context.Events
@@ -44,9 +53,7 @@ namespace VirtualGameStore.Pages.Events
 
             if (!eventExists)
             {
-                ViewData["ErrorMessage"] = "Something went wrong. Please try again.";
-
-                return Page();
+                return Redirect($"./Events/Index?isSuccess=false");
             }
 
             Registration registration = new Registration()
@@ -58,9 +65,7 @@ namespace VirtualGameStore.Pages.Events
             _context.Registrations.Add(registration);
             await _context.SaveChangesAsync();
 
-            ViewData["StatusMessage"] = "You have successfully registered for the event.";
-
-            return RedirectToPage("./Index");
+            return Redirect($"./Events/Index?isSuccess=true");
         }
     }
 }

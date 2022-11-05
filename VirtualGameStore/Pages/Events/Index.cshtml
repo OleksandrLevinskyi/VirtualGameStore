@@ -7,6 +7,20 @@
 
 <h1>@ViewBag.Title</h1>
 
+@if (ViewBag.StatusMessage != null)
+{
+    <div class="alert alert-success mt-3" role="alert">
+        @ViewBag.StatusMessage
+    </div>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger mt-3" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
 @if (!Model.Events.Any())
 {
     <p>No events available at the moment.</p>
@@ -27,7 +41,7 @@ else
                     <p>@Html.DisplayNameFor(model => model.Events[0].AttendeeLimit): @Html.DisplayFor(modelItem => item.AttendeeLimit)</p>
 
                     <form method="post">
-                        <input asp-for="EventId" value="@item.Id" hidden/>
+                        <input asp-for="EventId" value="@item.Id" hidden />
                         <div class="form-group">
                             <input type="submit" value="Register" class="btn btn-primary" />
                         </div>
