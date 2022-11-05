@@ -36,7 +36,7 @@ namespace VirtualGameStore.Pages.Games
         {
             public List<int> PlatformIds { get; set; } = new List<int>();
             public List<int> CategoryIds { get; set; } = new List<int>();
-        }
+        } 
         private async Task LoadAsync()
         {
             Platforms = await _context.Platforms.OrderBy(g => g.Name).AsNoTracking().ToListAsync();
@@ -76,6 +76,10 @@ namespace VirtualGameStore.Pages.Games
                 return Page();
             }
 
+            if (Game.IsDigital)
+            {
+                Game.Stock = 0;
+            }
             _context.Games.Add(Game);
             await _context.SaveChangesAsync();
 

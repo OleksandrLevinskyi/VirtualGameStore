@@ -1,50 +1,57 @@
 ﻿@page
+@using Microsoft.CodeAnalysis
 @model VirtualGameStore.Pages.Games.DetailsModel
 
 @{
     ViewData["Title"] = "Details";
+    bool inStock = Model.Game.IsDigital || Model.Game.Stock > 0;
+    bool btnsEnabled = User.IsInRole("Member");
 }
 
-<h1>Details</h1>
+<h1>@Html.DisplayFor(model => model.Game.Name)</h1>
+<hr class="mb-0"/>
+<div class="d-flex mb-0">
+    <div @* Left side of page *@ class="d-inline-block flex-grow-1 mt-2">
+        <div class="mb-2">
+            <span class="badge bg-dark">@(Model.Game.IsDigital ? "Digital" : "Physical")</span>
+            | 
+            @foreach (var platform in Model.Game.Platforms)
+            {
+                <span class="badge bg-primary">@platform.Name</span>
+            }
+            |
+            @foreach (var category in Model.Game.Categories)
+            {
+                <span class="badge bg-success">@category.Name</span>
+            }
+        </div>
+        <p>@Html.DisplayFor(model => model.Game.Description)</p>
+    </div>
+    <div @* Right side of page *@ class="d-inline-block flex-nowrap text-nowrap border-start border-2 ps-2 pt-3">
+        <div>
+            @if (!btnsEnabled)
+            {
+                <p class="mb-0">You must be a member to</p>
+                <p class="mt-0">Purchase or Wishlist a game.</p>
+            }
+            <div>
+                <button type="button" class="btn btn-success d-inline-block" disabled="@(!(inStock && btnsEnabled))">
+                    Purchase: $@Model.Game.Price
+                </button>
+                <button type="button" class="btn btn-primary d-inline-block" disabled="@(!btnsEnabled)">
+                    Wishlist
+                </button>
+            </div>
+            @if (Model.Game.IsDigital == false)
+            {
+                <p><b>Stock: </b>@Model.Game.Stock remaining.</p>
+            }
 
-<div>
-    <h4>Game</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Game.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Game.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Game.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Game.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Game.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Game.Price)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Game.IsDigital)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Game.IsDigital)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Game.Stock)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Game.Stock)
-        </dd>
-    </dl>
+        </div>
+    </div>
 </div>
 
-<hr />
+<hr class="mt-0"/>
 
 <div>
     <h4>Reviews</h4>
@@ -69,18 +76,18 @@
 
                         <form method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" asp-for="Review.GameId" />
-                            <input type="hidden" asp-for="Review.AuthorId" />
+                            <input type="hidden" asp-for="Review.GameId"/>
+                            <input type="hidden" asp-for="Review.AuthorId"/>
                             <div class="form-group">
                                 <label asp-for="Review.Rating" class="control-label"></label> (hold left mouse key and move over the stars)
                                 <input asp-for="Review.Rating"
-                                   class="rating"
-                                   max="5"
-                                   oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
-                                   step="0.5"
-                                   style="--value:5"
-                                   type="range"
-                                   value="5">
+                                       class="rating"
+                                       max="5"
+                                       oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                       step="0.5"
+                                       style="--value:5"
+                                       type="range"
+                                       value="5">
                                 <span asp-validation-for="Review.Rating" class="text-danger"></span>
                             </div>
                             <div class="form-group mb-2">
@@ -89,7 +96,7 @@
                                 <span asp-validation-for="Review.Comment" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
+                                <input type="submit" value="Create" class="btn btn-primary"/>
                             </div>
                         </form>
                     </div>
@@ -115,23 +122,25 @@
 
         <p class="fw-bold fs-5 text-center mb-0">Overall Rating: @overallRating</p>
         <input class="rating m-auto mb-3"
-           max="5"
-           step="0.5"
-           style="--value:@overallRating"
-           type="range"
-           value="@overallRating">
+               max="5"
+               step="0.5"
+               style="--value:@overallRating"
+               type="range"
+               value="@overallRating">
 
         @foreach (var review in Model.Game.Reviews)
         {
             <div class="card m-auto" style="width: 40rem;">
                 <div class="card-body">
-                    <h5 class="card-title">@review.Author.UserName <span class="fs-6 fw-light">[@Html.DisplayFor(model => review.DateTime)]</span></h5>
+                    <h5 class="card-title">
+                        @review.Author.UserName <span class="fs-6 fw-light">[@Html.DisplayFor(model => review.DateTime)]</span>
+                    </h5>
                     <input class="rating"
-                   max="5"
-                   step="0.5"
-                   style="--value:@review.Rating"
-                   type="range"
-                   value="@review.Rating">
+                           max="5"
+                           step="0.5"
+                           style="--value:@review.Rating"
+                           type="range"
+                           value="@review.Rating">
                     <p class="card-text">@review.Comment</p>
                 </div>
             </div>

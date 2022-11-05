@@ -107,7 +107,7 @@ namespace VirtualGameStore.Pages.Games
             game.Description = Game.Description;
             game.Price = Game.Price;
             game.IsDigital = Game.IsDigital;
-            game.Stock = Game.Stock;
+            game.Stock = Game.IsDigital ? 0 : Game.Stock;
 
             _context.Games.Update(game);
 

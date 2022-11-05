@@ -7,49 +7,161 @@
 
 <h1>@ViewBag.Title</h1>
 
-@if (!Model.Games.Any())
+<form method="post">
+    <div>
+        <div class="d-flex">
+            <div class="form-group d-inline-block flex-grow-1">
+                @* <label asp-for="Search!.TextSearch" class="control-label"></label> *@
+                <input asp-for="Search!.TextSearch" class="form-control" placeholder="Search..."/>
+            </div>
+            <div class="form-group d-inline-block ms-2">
+                @* <label asp-for="Search!.MaxPrice" class="control-label"></label> *@
+                <input asp-for="Search!.MaxPrice" class="form-control" type="number" min="0" placeholder="Max Price" step="any"/>
+            </div>
+            <div class="form-group d-inline-block ms-2">
+                <input type="submit" value="Search" class="btn btn-primary"/>
+            </div>
+            <div class="form-group d-inline-block ms-2">
+                <a class="btn btn-secondary" asp-page=".">Clear</a>
+            </div>
+            <button class="btn btn-info ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Filters
+            </button>
+        </div>
+    </div>
+    @{
+        var maybeShow = Model.Search is null || (
+            Model.Search.Medium is null &&
+            Model.Search.PlatformIds.Count == 0 &&
+            Model.Search.CategoryIds.Count == 0
+            ) ? "" : "show";
+    }
+    <div class="collapse px-1 @maybeShow" id="collapseExample">
+        <div class="form-group d-flex pt-2">
+            <div class="form-check-inline">
+                Medium:
+            </div>
+            <div class="form-check-inline">
+                <input asp-for="Search!.Medium"
+                       id="medium-any"
+                       type="radio"
+                       value="null"
+                       checked="@(Model.Search?.Medium is null)"/>
+                <label for="medium-any" class="form-label">Any</label>
+            </div>
+            <div class="form-check-inline">
+                <input asp-for="Search!.Medium"
+                       id="medium-digital"
+                       type="radio"
+                       value="true"
+                       checked="@(Model.Search?.Medium)"/>
+                <label for="medium-digital" class="form-label">Digital</label>
+            </div>
+            <div class="form-check-inline">
+                <input asp-for="Search!.Medium"
+                       id="medium-physical"
+                       type="radio"
+                       value="false"
+                       checked="@(!Model.Search?.Medium)"/>
+                <label for="medium-physical" class="form-label">Physical</label>
+            </div>
+        </div>
+        <div class="form-group d-flex">
+            <div class="form-check-inline">
+                Platforms:
+            </div>
+            @foreach (var platform in Model.Platforms)
+            {
+                <div class="form-check-inline">
+                    <input name="Search.PlatformIds"
+                           id="platform-@platform.Id"
+                           type="checkbox"
+                           value="@platform.Id"
+                           checked="@(Model.Search != null && Model.Search.PlatformIds.Contains(platform.Id))"/>
+                    <label for="platform-@platform.Id" class="form-label">@platform.Name</label>
+                </div>
+            }
+        </div>
+        <div class="form-group d-flex">
+            <div class="form-check-inline">
+                Categories:
+            </div>
+            @foreach (var category in Model.Categories)
+            {
+                <div class="form-check-inline">
+                    <input name="Search.CategoryIds"
+                           id="category-@category.Id"
+                           type="checkbox"
+                           value="@category.Id"
+                           checked="@(Model.Search != null && Model.Search.CategoryIds.Contains(category.Id))"/>
+                    <label for="category-@category.Id" class="form-label">@category.Name</label>
+
+                </div>
+            }
+        </div>
+    </div>
+
+</form>
+
+@if (Model.Search is null)
 {
-    <p>No games available at the moment.</p>
+    if (!Model.Games.Any())
+    {
+        <p>No games available at the moment.</p>
+    }
 }
 else
 {
-    <div class="d-flex flex-wrap justify-content-center">
-        @for (int i = 0; i < Model.Games.Count; i++)
-        {
-            var item = Model.Games[i];
+    <h6 class="m-1">Displaying <b>@Model.Games.Count</b> results from <b>@Model.GameCount</b> total games.</h6>
+}
 
-            <div class="card w-25 m-3">
+<div class="d-flex flex-wrap justify-content-center mt-3">
+    @for (int i = 0; i < Model.Games.Count; i++)
+    {
+        var item = Model.Games[i];
+
+        <div class="w-25 my-2">
+            <style>
+                .clickable-div:hover {
+                    box-shadow: 0 0 4px 1px #0d6efd;
+                    cursor: pointer;
+                }
+            </style>
+            <div class="card mx-2 h-100 clickable-div" onclick="location.href='/Games/Details?Id=@item.Id'">
                 @*<img src="..." class="card-img-top" alt="...">*@
-                <div class="card-body">
-                    <h5 class="card-title">
-                        @Html.DisplayFor(modelItem => item.Name)
-                        @if (item.IsDigital)
+                <div @* Card *@ class="card-body">
+                    <div @* Top of card *@>
+                        <h5 class="card-title">
+                            @Html.DisplayFor(modelItem => item.Name)
+                            @if (item.IsDigital)
+                            {
+                                <span class="badge bg-dark">digital</span>
+                            }
+                        </h5>
+                        <hr class="my-1"/>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.ShortDescription)</p>
+                    </div>
+                    <div @* Mid of card*@ class="my-2">
+                        @foreach (var platform in item.Platforms)
                         {
-                            <span class="badge bg-dark">digital</span>
+                            <span class="badge bg-primary">@platform.Name</span>
                         }
-                    </h5>
-
-                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                    <p>Left in stock: @Html.DisplayFor(modelItem => item.Stock)</p>
-
-                    @foreach (var platform in item.Platforms)
-                    {
-                        <span class="badge bg-primary">@platform.Name</span>
-                    }
-
-                    <br />
-
-                    @foreach (var category in item.Categories)
-                    {
-                        <span class="badge bg-success">@category.Name</span>
-                    }
-
-                    <br />
-
-                    <h5 class="mt-1">@Html.DisplayFor(modelItem => item.Price)</h5>
-                    <a href="#" class="btn btn-primary mt-1">Add to Cart</a>
+                        <br/>
+                        @foreach (var category in item.Categories)
+                        {
+                            <span class="badge bg-success">@category.Name</span>
+                        }
+                        <br/>
+                    </div>
+                    <div @* End of card *@ class="h-auto">
+                        @if (!item.IsDigital)
+                        {
+                            <p class="mb-1">Left in stock: @Html.DisplayFor(modelItem => item.Stock)</p>
+                        }
+                        <h5>@Html.DisplayFor(modelItem => item.Price)</h5>
+                    </div>
                 </div>
             </div>
-        }
-    </div>
-}
+        </div>
+    }
+</div>

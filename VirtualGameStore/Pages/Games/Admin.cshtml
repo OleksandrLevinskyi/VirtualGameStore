@@ -53,7 +53,7 @@ else
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Description)
+                        @Html.DisplayFor(modelItem => item.ShortDescription)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Price)
@@ -76,7 +76,7 @@ else
                             <span class="badge bg-success">@category.Name</span>
                         }
                     </td>
-                    <td>
+                    <td class="flex-nowrap text-nowrap">
                         <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
 
                         <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="#@modalId">
