@@ -1,4 +1,5 @@
 ﻿@page
+@using System.Security.Claims
 @model VirtualGameStore.Pages.Events.IndexModel
 
 @{
@@ -30,6 +31,8 @@ else
     <div class="d-flex flex-wrap justify-content-center">
         @foreach (var item in Model.Events)
         {
+            string? currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool isUserRegistered = item.Registrations.Any(r => r.UserId == currUserId);
             <div class="card w-25 m-3">
                 <div class="card-body">
                     <h5 class="card-title">
@@ -43,7 +46,7 @@ else
                     <form method="post">
                         <input asp-for="EventId" value="@item.Id" hidden />
                         <div class="form-group">
-                            <input type="submit" value="Register" class="btn btn-primary" />
+                            <input type="submit" value="Register" class="btn btn-primary" disabled="@isUserRegistered" />
                         </div>
                     </form>
                 </div>

@@ -55,7 +55,7 @@ namespace VirtualGameStore.Pages.Events
 
             if (registrationEvent == null || registrationEvent.IsOverAttendeeLimit())
             {
-                return Redirect($"./Events/Index?isSuccess=false");
+                return Redirect($"/Events/Index?isSuccess=false");
             }
 
             Registration registration = new Registration()
@@ -67,7 +67,7 @@ namespace VirtualGameStore.Pages.Events
             _context.Registrations.Add(registration);
             await _context.SaveChangesAsync();
 
-            return Redirect($"./Events/Index?isSuccess=true");
+            return Redirect($"/Events/Index?isSuccess=true");
         }
     }
 }
