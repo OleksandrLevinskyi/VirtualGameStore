@@ -49,9 +49,11 @@ namespace VirtualGameStore.Pages.Events
 
         public async Task<IActionResult> OnPostAsync()
         {
-            bool eventExists = await _context.Events.AnyAsync(e => e.Id == EventId);
+            Event? registrationEvent = await _context.Events
+                .Include(r => r.Registrations)
+                .FirstOrDefaultAsync(e => e.Id == EventId);
 
-            if (!eventExists)
+            if (registrationEvent == null || registrationEvent.IsOverAttendeeLimit())
             {
                 return Redirect($"./Events/Index?isSuccess=false");
             }
