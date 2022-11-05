@@ -49,25 +49,31 @@ namespace VirtualGameStore.Pages.Events
 
         public async Task<IActionResult> OnPostAsync()
         {
+            string? currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Event? registrationEvent = await _context.Events
                 .Include(r => r.Registrations)
                 .FirstOrDefaultAsync(e => e.Id == EventId);
 
+            if (currUserId == null)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
             if (registrationEvent == null || registrationEvent.IsOverAttendeeLimit())
             {
-                return Redirect($"/Events/Index?isSuccess=false");
+                return Redirect("/Events/Index?isSuccess=false");
             }
 
             Registration registration = new Registration()
             {
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                UserId = currUserId,
                 EventId = EventId
             };
 
             _context.Registrations.Add(registration);
             await _context.SaveChangesAsync();
 
-            return Redirect($"/Events/Index?isSuccess=true");
+            return Redirect("/Events/Index?isSuccess=true");
         }
     }
 }
