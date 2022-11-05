@@ -28,6 +28,8 @@ namespace VirtualGameStore.Pages.Events
 
         public async Task OnGetAsync(bool? isSuccess)
         {
+            string? currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (isSuccess == true)
             {
                 ViewData["StatusMessage"] = "You have successfully registered for the event.";
@@ -42,8 +44,9 @@ namespace VirtualGameStore.Pages.Events
                 Events = await _context.Events
                 .Include(e => e.Creator)
                 .Include(e => e.Registrations)
-                //.Where(e => !e.IsOverAttendeeLimit())
                 .ToListAsync();
+
+                Events = Events.Where(e => !e.IsOverAttendeeLimit() || e.Registrations.Any(r => r.UserId == currUserId)).ToList();
             }
         }
 
