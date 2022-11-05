@@ -38,7 +38,7 @@ else
 
                     <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
                     <p>@Html.DisplayNameFor(model => model.Events[0].DateTime): @Html.DisplayFor(modelItem => item.DateTime)</p>
-                    <p>@Html.DisplayNameFor(model => model.Events[0].AttendeeLimit): @Html.DisplayFor(modelItem => item.AttendeeLimit)</p>
+                    <p>Availability: @Html.DisplayFor(modelItem => item.Registrations.Count)/@Html.DisplayFor(modelItem => item.AttendeeLimit)</p>
 
                     <form method="post">
                         <input asp-for="EventId" value="@item.Id" hidden />
