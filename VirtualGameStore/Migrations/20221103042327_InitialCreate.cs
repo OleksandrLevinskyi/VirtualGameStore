@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VirtualGameStore.Migrations
 {
-    public partial class CreateTables : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -119,24 +119,24 @@ namespace VirtualGameStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryGame",
+                name: "GameCategories",
                 columns: table => new
                 {
-                    CategoriesId = table.Column<int>(type: "int", nullable: false),
-                    GamesId = table.Column<int>(type: "int", nullable: false)
+                    GameId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryGame", x => new { x.CategoriesId, x.GamesId });
+                    table.PrimaryKey("PK_GameCategories", x => new { x.CategoryId, x.GameId });
                     table.ForeignKey(
-                        name: "FK_CategoryGame_Categories_CategoriesId",
-                        column: x => x.CategoriesId,
+                        name: "FK_GameCategories_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CategoryGame_Games_GamesId",
-                        column: x => x.GamesId,
+                        name: "FK_GameCategories_Games_GameId",
+                        column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -190,24 +190,24 @@ namespace VirtualGameStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GamePlatform",
+                name: "GamePlatforms",
                 columns: table => new
                 {
-                    GamesId = table.Column<int>(type: "int", nullable: false),
-                    PlatformsId = table.Column<int>(type: "int", nullable: false)
+                    GameId = table.Column<int>(type: "int", nullable: false),
+                    PlatformId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GamePlatform", x => new { x.GamesId, x.PlatformsId });
+                    table.PrimaryKey("PK_GamePlatforms", x => new { x.GameId, x.PlatformId });
                     table.ForeignKey(
-                        name: "FK_GamePlatform_Games_GamesId",
-                        column: x => x.GamesId,
+                        name: "FK_GamePlatforms_Games_GameId",
+                        column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GamePlatform_Platforms_PlatformsId",
-                        column: x => x.PlatformsId,
+                        name: "FK_GamePlatforms_Platforms_PlatformId",
+                        column: x => x.PlatformId,
                         principalTable: "Platforms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -345,6 +345,29 @@ namespace VirtualGameStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Friendships",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FriendId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Friendships", x => new { x.FriendId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_Friendships_AspNetUsers_FriendId",
+                        column: x => x.FriendId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Friendships_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PaymentOptions",
                 columns: table => new
                 {
@@ -392,7 +415,7 @@ namespace VirtualGameStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Review",
+                name: "Reviews",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -406,15 +429,15 @@ namespace VirtualGameStore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Review", x => x.Id);
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Review_AspNetUsers_AuthorId",
+                        name: "FK_Reviews_AspNetUsers_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Review_Games_GameId",
+                        name: "FK_Reviews_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
@@ -462,7 +485,9 @@ namespace VirtualGameStore.Migrations
                 values: new object[,]
                 {
                     { "5abf56ec-8224-42b1-965d-a11bd8d818c7", 0, null, null, "5e2e9d4a-d8e2-4200-8e13-ef777407f2ca", "employee@vgs.com", true, null, null, false, null, false, null, "EMPLOYEE@VGS.COM", "EMPLOYEE", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "IOHH3QAG6CBJWWO4LDGAJTSSACV2KNDI", null, false, "employee" },
-                    { "9a44a14a-47fb-4196-8a45-57fa557fb992", 0, null, null, "d91ba7e7-903d-453c-8caf-3ad1907f96c6", "member@vgs.com", true, null, null, false, null, true, null, "MEMBER@VGS.COM", "MEMBER", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "HNGZXUROYPX527M6RHWO6OPYCETU2WVK", null, false, "member" }
+                    { "76742c46-0008-4749-af77-5d129b6d88b1", 0, null, null, "0c6c0c5a-52ea-4b4c-89cc-8130611f1e54", "bar@vgs.com", true, null, null, false, null, true, null, "BAR@VGS.COM", "BAR", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "7XDDKAH2YGWTBDC7UVPT76DUXTLQES3E", null, false, "bar" },
+                    { "9a44a14a-47fb-4196-8a45-57fa557fb992", 0, null, null, "d91ba7e7-903d-453c-8caf-3ad1907f96c6", "member@vgs.com", true, null, null, false, null, true, null, "MEMBER@VGS.COM", "MEMBER", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "HNGZXUROYPX527M6RHWO6OPYCETU2WVK", null, false, "member" },
+                    { "d5dafa9f-92a4-43dc-9652-02cf3860d621", 0, null, null, "0f4fa02d-33c6-48e6-b573-7218fa00c9a2", "foo@vgs.com", true, null, null, false, null, true, null, "FOO@VGS.COM", "FOO", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "WQ7TGOMDYEUVSMNVX2G35VKZ4MPGODG4", null, false, "foo" }
                 });
 
             migrationBuilder.InsertData(
@@ -476,6 +501,17 @@ namespace VirtualGameStore.Migrations
                     { 4, "Simulation" },
                     { 5, "FPS" },
                     { 6, "Fighting" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Games",
+                columns: new[] { "Id", "Description", "IsDigital", "Name", "Price", "Stock" },
+                values: new object[,]
+                {
+                    { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", false, "Pacman", 15.890000000000001, 15 },
+                    { 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", false, "Tetris", 10.26, 10 },
+                    { 3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", true, "Wii Sports", 40.5, 1 },
+                    { 4, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", true, "Sonic the HedgeHog", 3.0, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -502,12 +538,43 @@ namespace VirtualGameStore.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "afe877ff-cf81-4bff-9d50-66238d3a1b9e", "5abf56ec-8224-42b1-965d-a11bd8d818c7" });
+                values: new object[,]
+                {
+                    { "afe877ff-cf81-4bff-9d50-66238d3a1b9e", "5abf56ec-8224-42b1-965d-a11bd8d818c7" },
+                    { "9a86cc44-771d-426d-b702-c4a4a93c348f", "76742c46-0008-4749-af77-5d129b6d88b1" },
+                    { "9a86cc44-771d-426d-b702-c4a4a93c348f", "9a44a14a-47fb-4196-8a45-57fa557fb992" },
+                    { "9a86cc44-771d-426d-b702-c4a4a93c348f", "d5dafa9f-92a4-43dc-9652-02cf3860d621" }
+                });
 
             migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "9a86cc44-771d-426d-b702-c4a4a93c348f", "9a44a14a-47fb-4196-8a45-57fa557fb992" });
+                table: "GameCategories",
+                columns: new[] { "CategoryId", "GameId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 1 },
+                    { 3, 4 },
+                    { 4, 2 },
+                    { 4, 3 },
+                    { 4, 4 },
+                    { 5, 3 },
+                    { 6, 3 },
+                    { 6, 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "GamePlatforms",
+                columns: new[] { "GameId", "PlatformId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 4 },
+                    { 2, 3 },
+                    { 3, 3 },
+                    { 3, 4 },
+                    { 4, 2 },
+                    { 4, 4 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -564,11 +631,6 @@ namespace VirtualGameStore.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryGame_GamesId",
-                table: "CategoryGame",
-                column: "GamesId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CategoryUser_UsersId",
                 table: "CategoryUser",
                 column: "UsersId");
@@ -579,9 +641,19 @@ namespace VirtualGameStore.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GamePlatform_PlatformsId",
-                table: "GamePlatform",
-                column: "PlatformsId");
+                name: "IX_Friendships_UserId",
+                table: "Friendships",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GameCategories_GameId",
+                table: "GameCategories",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GamePlatforms_PlatformId",
+                table: "GamePlatforms",
+                column: "PlatformId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaymentOptions_UserId",
@@ -604,13 +676,13 @@ namespace VirtualGameStore.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_AuthorId",
-                table: "Review",
+                name: "IX_Reviews_AuthorId",
+                table: "Reviews",
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_GameId",
-                table: "Review",
+                name: "IX_Reviews_GameId",
+                table: "Reviews",
                 column: "GameId");
         }
 
@@ -632,13 +704,16 @@ namespace VirtualGameStore.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CategoryGame");
-
-            migrationBuilder.DropTable(
                 name: "CategoryUser");
 
             migrationBuilder.DropTable(
-                name: "GamePlatform");
+                name: "Friendships");
+
+            migrationBuilder.DropTable(
+                name: "GameCategories");
+
+            migrationBuilder.DropTable(
+                name: "GamePlatforms");
 
             migrationBuilder.DropTable(
                 name: "PaymentOptions");
@@ -650,7 +725,7 @@ namespace VirtualGameStore.Migrations
                 name: "Registrations");
 
             migrationBuilder.DropTable(
-                name: "Review");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

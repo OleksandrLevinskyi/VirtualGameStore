@@ -12,8 +12,8 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221101225330_CreateTables")]
-    partial class CreateTables
+    [Migration("20221103042327_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,21 +23,6 @@ namespace VirtualGameStore.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CategoryGame", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GamesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesId", "GamesId");
-
-                    b.HasIndex("GamesId");
-
-                    b.ToTable("CategoryGame");
-                });
 
             modelBuilder.Entity("CategoryUser", b =>
                 {
@@ -52,21 +37,6 @@ namespace VirtualGameStore.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("CategoryUser");
-                });
-
-            modelBuilder.Entity("GamePlatform", b =>
-                {
-                    b.Property<int>("GamesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlatformsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GamesId", "PlatformsId");
-
-                    b.HasIndex("PlatformsId");
-
-                    b.ToTable("GamePlatform");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -209,6 +179,16 @@ namespace VirtualGameStore.Migrations
                         new
                         {
                             UserId = "9a44a14a-47fb-4196-8a45-57fa557fb992",
+                            RoleId = "9a86cc44-771d-426d-b702-c4a4a93c348f"
+                        },
+                        new
+                        {
+                            UserId = "d5dafa9f-92a4-43dc-9652-02cf3860d621",
+                            RoleId = "9a86cc44-771d-426d-b702-c4a4a93c348f"
+                        },
+                        new
+                        {
+                            UserId = "76742c46-0008-4749-af77-5d129b6d88b1",
                             RoleId = "9a86cc44-771d-426d-b702-c4a4a93c348f"
                         });
                 });
@@ -366,6 +346,21 @@ namespace VirtualGameStore.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("VirtualGameStore.Models.Friendship", b =>
+                {
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FriendId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Friendships");
+                });
+
             modelBuilder.Entity("VirtualGameStore.Models.Game", b =>
                 {
                     b.Property<int>("Id")
@@ -394,6 +389,158 @@ namespace VirtualGameStore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Games");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            IsDigital = false,
+                            Name = "Pacman",
+                            Price = 15.890000000000001,
+                            Stock = 15
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            IsDigital = false,
+                            Name = "Tetris",
+                            Price = 10.26,
+                            Stock = 10
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            IsDigital = true,
+                            Name = "Wii Sports",
+                            Price = 40.5,
+                            Stock = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            IsDigital = true,
+                            Name = "Sonic the HedgeHog",
+                            Price = 3.0,
+                            Stock = 1
+                        });
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.GameCategory", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId", "GameId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("GameCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            GameId = 1
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            GameId = 1
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            GameId = 2
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            GameId = 3
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            GameId = 3
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            GameId = 3
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            GameId = 4
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            GameId = 4
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            GameId = 4
+                        });
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.GamePlatform", b =>
+                {
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlatformId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GameId", "PlatformId");
+
+                    b.HasIndex("PlatformId");
+
+                    b.ToTable("GamePlatforms");
+
+                    b.HasData(
+                        new
+                        {
+                            GameId = 1,
+                            PlatformId = 1
+                        },
+                        new
+                        {
+                            GameId = 1,
+                            PlatformId = 4
+                        },
+                        new
+                        {
+                            GameId = 2,
+                            PlatformId = 3
+                        },
+                        new
+                        {
+                            GameId = 3,
+                            PlatformId = 3
+                        },
+                        new
+                        {
+                            GameId = 3,
+                            PlatformId = 4
+                        },
+                        new
+                        {
+                            GameId = 4,
+                            PlatformId = 2
+                        },
+                        new
+                        {
+                            GameId = 4,
+                            PlatformId = 4
+                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Gender", b =>
@@ -563,7 +710,7 @@ namespace VirtualGameStore.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Review");
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.User", b =>
@@ -691,22 +838,41 @@ namespace VirtualGameStore.Migrations
                             SecurityStamp = "HNGZXUROYPX527M6RHWO6OPYCETU2WVK",
                             TwoFactorEnabled = false,
                             UserName = "member"
+                        },
+                        new
+                        {
+                            Id = "d5dafa9f-92a4-43dc-9652-02cf3860d621",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0f4fa02d-33c6-48e6-b573-7218fa00c9a2",
+                            Email = "foo@vgs.com",
+                            EmailConfirmed = true,
+                            IsEmailMarketingEnabled = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "FOO@VGS.COM",
+                            NormalizedUserName = "FOO",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "WQ7TGOMDYEUVSMNVX2G35VKZ4MPGODG4",
+                            TwoFactorEnabled = false,
+                            UserName = "foo"
+                        },
+                        new
+                        {
+                            Id = "76742c46-0008-4749-af77-5d129b6d88b1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0c6c0c5a-52ea-4b4c-89cc-8130611f1e54",
+                            Email = "bar@vgs.com",
+                            EmailConfirmed = true,
+                            IsEmailMarketingEnabled = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "BAR@VGS.COM",
+                            NormalizedUserName = "BAR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7XDDKAH2YGWTBDC7UVPT76DUXTLQES3E",
+                            TwoFactorEnabled = false,
+                            UserName = "bar"
                         });
-                });
-
-            modelBuilder.Entity("CategoryGame", b =>
-                {
-                    b.HasOne("VirtualGameStore.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VirtualGameStore.Models.Game", null)
-                        .WithMany()
-                        .HasForeignKey("GamesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("CategoryUser", b =>
@@ -720,21 +886,6 @@ namespace VirtualGameStore.Migrations
                     b.HasOne("VirtualGameStore.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GamePlatform", b =>
-                {
-                    b.HasOne("VirtualGameStore.Models.Game", null)
-                        .WithMany()
-                        .HasForeignKey("GamesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VirtualGameStore.Models.Platform", null)
-                        .WithMany()
-                        .HasForeignKey("PlatformsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -812,6 +963,63 @@ namespace VirtualGameStore.Migrations
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.Friendship", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.User", "Friend")
+                        .WithMany()
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Friend");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.GameCategory", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("VirtualGameStore.Models.GamePlatform", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.Platform", "Platform")
+                        .WithMany()
+                        .HasForeignKey("PlatformId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+
+                    b.Navigation("Platform");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>

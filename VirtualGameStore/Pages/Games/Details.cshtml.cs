@@ -75,7 +75,7 @@ namespace VirtualGameStore.Pages.Games
                 return Page();
             }
 
-            _context.Review.Add(Review);
+            _context.Reviews.Add(Review);
             await _context.SaveChangesAsync();
 
             return Redirect($"./Details?id={Review.GameId}&isSuccess=true");
