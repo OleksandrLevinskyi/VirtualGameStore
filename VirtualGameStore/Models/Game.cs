@@ -51,5 +51,18 @@ namespace VirtualGameStore.Models
 
             return (totalScore / reviewCount);
         }
+
+        public string ShortDescription
+        {
+            get
+            {
+                int maxLen = 100;
+                int maxAfterEllipse = maxLen - 3;
+                if (Description.Length < maxAfterEllipse) return Description;
+                int lastSpace = Description[0..maxAfterEllipse].LastIndexOf(' ');
+                if (lastSpace == -1) lastSpace = maxAfterEllipse;
+                return Description[0..lastSpace] + "...";
+            }
+        }
     }
 }

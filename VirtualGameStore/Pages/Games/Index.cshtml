@@ -25,7 +25,7 @@
                 <a class="btn btn-secondary" asp-page=".">Clear</a>
             </div>
             <button class="btn btn-info ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                More / Less
+                Filters
             </button>
         </div>
     </div>
@@ -139,7 +139,7 @@ else
                             }
                         </h5>
                         <hr class="my-1"/>
-                        <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.ShortDescription)</p>
                     </div>
                     <div @* Mid of card*@ class="my-2">
                         @foreach (var platform in item.Platforms)
@@ -154,7 +154,7 @@ else
                         <br/>
                     </div>
                     <div @* End of card *@ class="h-auto">
-                        @if (item.IsDigital)
+                        @if (!item.IsDigital)
                         {
                             <p class="mb-1">Left in stock: @Html.DisplayFor(modelItem => item.Stock)</p>
                         }

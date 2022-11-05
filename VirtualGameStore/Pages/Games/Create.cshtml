@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Game.Description" class="control-label"></label>
-                <input asp-for="Game.Description" class="form-control" />
+                <textarea asp-for="Game.Description" class="form-control"></textarea>
                 <span asp-validation-for="Game.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -37,10 +37,10 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Game.IsDigital" onchange="document.getElementById('Game_Stock').disabled = this.checked;"/> @Html.DisplayNameFor(model => model.Game.IsDigital)
+                    <input class="form-check-input" asp-for="Game.IsDigital" onchange="document.getElementById('Game_Stock_Container').hidden = this.checked;"/> @Html.DisplayNameFor(model => model.Game.IsDigital)
                 </label>
             </div>
-            <div class="form-group">
+            <div id="Game_Stock_Container" class="form-group" >
                 <label asp-for="Game.Stock" class="control-label"></label>
                 <input asp-for="Game.Stock" class="form-control" value="0"/>
                 <span asp-validation-for="Game.Stock" class="text-danger"></span>

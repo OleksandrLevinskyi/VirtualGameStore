@@ -27,7 +27,7 @@
         </div>
         <p>@Html.DisplayFor(model => model.Game.Description)</p>
     </div>
-    <div @* Right side of page *@ class="d-inline-block flex-nowrap border-start border-2 ps-2 pt-3">
+    <div @* Right side of page *@ class="d-inline-block flex-nowrap text-nowrap border-start border-2 ps-2 pt-3">
         <div>
             @if (!btnsEnabled)
             {
@@ -38,7 +38,7 @@
                 <button type="button" class="btn btn-success d-inline-block" disabled="@(!(inStock && btnsEnabled))">
                     Purchase: $@Model.Game.Price
                 </button>
-                <button type="button" class="btn btn-info d-inline-block" disabled="@(!btnsEnabled)">
+                <button type="button" class="btn btn-primary d-inline-block" disabled="@(!btnsEnabled)">
                     Wishlist
                 </button>
             </div>
