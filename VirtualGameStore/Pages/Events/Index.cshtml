@@ -26,7 +26,12 @@ else
                     <p>@Html.DisplayNameFor(model => model.Events[0].DateTime): @Html.DisplayFor(modelItem => item.DateTime)</p>
                     <p>@Html.DisplayNameFor(model => model.Events[0].AttendeeLimit): @Html.DisplayFor(modelItem => item.AttendeeLimit)</p>
 
-                    <a href="#" class="btn btn-primary mt-1">Register <i class="bi bi-cart"></i></a>
+                    <form method="post">
+                        <input asp-for="EventId" value="@item.Id" hidden/>
+                        <div class="form-group">
+                            <input type="submit" value="Register" class="btn btn-primary" />
+                        </div>
+                    </form>
                 </div>
             </div>
         }

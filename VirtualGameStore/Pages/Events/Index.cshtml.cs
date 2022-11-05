@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,8 @@ namespace VirtualGameStore.Pages.Events
             _context = context;
         }
 
+        [BindProperty]
+        public int EventId { get; set; }
         public IList<Event> Events { get; set; } = default!;
 
         public async Task OnGetAsync()
@@ -28,9 +31,36 @@ namespace VirtualGameStore.Pages.Events
             if (_context.Events != null)
             {
                 Events = await _context.Events
-                .Include(e => e.Creator).
-                ToListAsync();
+                .Include(e => e.Creator)
+                .Include(e => e.Registrations)
+                //.Where(e => !e.IsOverAttendeeLimit())
+                .ToListAsync();
             }
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            bool eventExists = await _context.Events.AnyAsync(e => e.Id == EventId);
+
+            if (!eventExists)
+            {
+                ViewData["ErrorMessage"] = "Something went wrong. Please try again.";
+
+                return Page();
+            }
+
+            Registration registration = new Registration()
+            {
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                EventId = EventId
+            };
+
+            _context.Registrations.Add(registration);
+            await _context.SaveChangesAsync();
+
+            ViewData["StatusMessage"] = "You have successfully registered for the event.";
+
+            return RedirectToPage("./Index");
         }
     }
 }
