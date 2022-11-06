@@ -44,10 +44,10 @@
         </p>
 
         <form method="post" asp-page-handler="AddToCart">
-            <div class="d-flex">
+            <div class="d-flex mb-3 flex-column flex-md-row">
                 <input type="hidden" name="id" value="@Model.Game.Id" />
 
-                <div class="form-floating mb-3 mb-md-0 me-0 me-md-2 flex-grow-1 me-2 @(Model.Game.IsDigital ? "visually-hidden" : "")">
+                <div class="form-floating mb-1 mb-md-0 me-0 me-md-2 flex-grow-1 @(Model.Game.IsDigital ? "visually-hidden" : "")">
                     <select id="quantity" name="quantity" asp-items="@Model.CartItemQuantitySelectList" class="form-select" style="min-width: 100px"></select>
                     <label for="quantity" class="control-label">Quantity</label>
                 </div>
@@ -56,7 +56,7 @@
             </div>
         </form>
 
-        <button type="button" class="btn btn-primary d-inline-block">
+        <button type="button" class="btn btn-primary d-inline-block w-100">
             Add to Wishlist
         </button>
     </div>
