@@ -105,7 +105,7 @@ namespace VirtualGameStore.Pages.Games
             return Redirect($"./Details?id={Review.GameId}&isSuccess=true");
         }
 
-        public async Task<IActionResult> OnPostAddToCardAsync(int? id, int? quantity)
+        public async Task<IActionResult> OnPostAddToCartAsync(int? id, int? quantity)
         {
             if (id == null || quantity == null)
             {
@@ -144,7 +144,7 @@ namespace VirtualGameStore.Pages.Games
 
                 TempData["SuccessMessage"] = "Game successfully added to your cart.";
                 await _context.SaveChangesAsync();
-                return RedirectToPage();
+                return RedirectToPage(new { game.Id });
             }
 
             if (!game.IsDigital)
@@ -155,13 +155,13 @@ namespace VirtualGameStore.Pages.Games
             else
             {
                 TempData["ErrorMessage"] = "You can only add a digital game to your cart one.";
-                return RedirectToPage();
+                return RedirectToPage(new { game.Id });
             }
 
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Game successfully added to your cart.";
-            return RedirectToPage();
+            return RedirectToPage(new { game.Id });
         }
     }
 }

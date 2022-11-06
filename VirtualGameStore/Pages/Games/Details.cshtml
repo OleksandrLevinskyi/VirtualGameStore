@@ -42,9 +42,20 @@
                 <span class="badge bg-dark">Digital</span>
             }
         </p>
-        <button type="button" class="btn btn-success d-inline-block" disabled="@isNotInStock">
-            Add to Cart
-        </button>
+
+        <form method="post" asp-page-handler="AddToCart">
+            <div class="d-flex">
+                <input type="hidden" name="id" value="@Model.Game.Id" />
+
+                <div class="form-floating mb-3 mb-md-0 me-0 me-md-2 flex-grow-1 me-2 @(Model.Game.IsDigital ? "visually-hidden" : "")">
+                    <select id="quantity" name="quantity" asp-items="@Model.CartItemQuantitySelectList" class="form-select" style="min-width: 100px"></select>
+                    <label for="quantity" class="control-label">Quantity</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </div>
+        </form>
+
         <button type="button" class="btn btn-primary d-inline-block">
             Add to Wishlist
         </button>
