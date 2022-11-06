@@ -142,6 +142,8 @@ namespace VirtualGameStore.Pages.Games
                     Quantity = quantity ?? 1
                 }).ToList();
 
+                game.Stock -= quantity ?? 1;
+
                 TempData["SuccessMessage"] = "Game successfully added to your cart.";
                 await _context.SaveChangesAsync();
                 return RedirectToPage(new { game.Id });
@@ -150,7 +152,7 @@ namespace VirtualGameStore.Pages.Games
             if (!game.IsDigital)
             {
                 cartItem.Quantity += quantity ?? 1;
-                // TODO: Decrease stock
+                game.Stock -= quantity ?? 1;
             }
             else
             {
