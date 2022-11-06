@@ -67,9 +67,7 @@ namespace VirtualGameStore.Pages.Cart
 
             CartItemQuantitySelectLists = CartItems.Select(i =>
             {
-                var stock = i.Game.IsDigital ? 1 : Math.Min(i.Game.Stock, 10);
-
-                return new SelectList(Enumerable.Range(1, stock), i.Quantity);
+                return new SelectList(Enumerable.Range(1, i.Game.Stock + i.Quantity), i.Quantity);
             }).ToList();
 
             return Page();
@@ -77,6 +75,7 @@ namespace VirtualGameStore.Pages.Cart
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // TODO: update stock on cart edit
             var user = await GetUser();
 
             if (user == null)
