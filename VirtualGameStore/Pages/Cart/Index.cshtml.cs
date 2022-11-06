@@ -75,7 +75,6 @@ namespace VirtualGameStore.Pages.Cart
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // TODO: update stock on cart edit
             var user = await GetUser();
 
             if (user == null)
@@ -85,11 +84,6 @@ namespace VirtualGameStore.Pages.Cart
 
             user.CartItems = CartItemCards.Aggregate(new List<CartItem>(), (list, itemCard) =>
             {
-                if (itemCard.Remove)
-                {
-                    return list;
-                }
-
                 var cartItem = user.GetCartItem(itemCard.GameId);
 
                 if (cartItem == null)
@@ -97,6 +91,13 @@ namespace VirtualGameStore.Pages.Cart
                     return list;
                 }
 
+                if (itemCard.Remove)
+                {
+                    cartItem.Game.Stock += itemCard.Quantity;
+                    return list;
+                }
+
+                cartItem.Game.Stock -= itemCard.Quantity - cartItem.Quantity;
                 cartItem.Quantity = itemCard.Quantity;
 
                 return list.Append(cartItem).ToList();
