@@ -65,11 +65,6 @@ namespace VirtualGameStore.Pages.Games
                 ViewData["DisplayReviewMessage"] = true;
             }
 
-            if (messageType == "wishlist-success")
-            {
-                ViewData["DisplayWishListMessage"] = true;
-            }
-
             ViewData["IsGameAlreadyInWishList"] = false;
             ViewData["IsAuthorized"] = User.IsInRole("Member");
 
@@ -126,7 +121,7 @@ namespace VirtualGameStore.Pages.Games
             _context.Attach(currUser).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return Redirect($"/Games/Details?id={game.Id}&messageType=wishlist-success");
+            return Redirect($"/Games/Details?id={game.Id}");
         }
     }
 }
