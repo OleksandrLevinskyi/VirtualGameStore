@@ -10,6 +10,7 @@
 <h1 class="text-center">
     @Html.DisplayFor(model => model.Game.Name)
 </h1>
+
 <hr class="mb-0" />
 
 @if (ViewBag.DisplayWishListMessage == true)
@@ -61,7 +62,7 @@
         </button>
         <form method="post" asp-page-handler="AddToWishList">
             <input type="hidden" asp-for="GameId" value="@Model.Game.Id" />
-            <input type="submit" value="Add to Wish List" class="btn btn-primary" />
+            <input type="submit" value="Add to Wish List" class="btn btn-primary mt-2" />
         </form>
     </div>
 </div>

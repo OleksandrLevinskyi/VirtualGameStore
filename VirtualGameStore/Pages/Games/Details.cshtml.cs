@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,8 @@ namespace VirtualGameStore.Pages.Games
 {
     public class DetailsModel : PageModel
     {
-        private readonly VirtualGameStore.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
         [BindProperty]
         public Review Review { get; set; }
@@ -23,9 +25,10 @@ namespace VirtualGameStore.Pages.Games
         public int GameId { get; set; }
         public Game Game { get; set; }
 
-        public DetailsModel(VirtualGameStore.Data.ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> OnGetAsync(int? id, string? messageType)
@@ -91,8 +94,7 @@ namespace VirtualGameStore.Pages.Games
 
         public async Task<IActionResult> OnPostAddToWishListAsync()
         {
-            string? currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            User? currUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == currUserId);
+            User? currUser = await _userManager.GetUserAsync(User);
             Game? game = await _context.Games.FindAsync(GameId);
 
             if (currUser == null || game == null)
