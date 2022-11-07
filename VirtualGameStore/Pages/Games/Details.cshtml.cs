@@ -75,7 +75,7 @@ namespace VirtualGameStore.Pages.Games
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAddReviewAsync()
         {
             Review.Comment = (Review.Comment + "").Trim();
             Review.AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier);

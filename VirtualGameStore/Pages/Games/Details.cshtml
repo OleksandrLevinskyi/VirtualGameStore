@@ -90,7 +90,7 @@
                             Your review will be posted after the approval from one of our employees.
                         </div>
 
-                        <form method="post">
+                        <form method="post" asp-page-handler="AddReview">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Review.GameId" />
                             <input type="hidden" asp-for="Review.AuthorId" />
