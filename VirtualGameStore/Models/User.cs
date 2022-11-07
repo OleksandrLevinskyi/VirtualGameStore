@@ -31,6 +31,11 @@ namespace VirtualGameStore.Models
             get => !FavoritePlatforms.Any() || !FavoriteCategories.Any();
         }
 
+        public bool IsGameInWishList(int gameId)
+        {
+            return WishList.Any(g => g.Id == gameId);
+        }
+
         public bool IsBirthDateValid()
         {
             if (BirthDate == null)

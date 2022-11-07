@@ -73,7 +73,7 @@ namespace VirtualGameStore.Pages.Games
 
             if (currUser != null)
             {
-                ViewData["IsGameAlreadyInWishList"] = currUser.WishList.Any(g => g.Id == Game.Id);
+                ViewData["IsGameAlreadyInWishList"] = currUser.IsGameInWishList(Game.Id);
             }
 
             return Page();
@@ -107,7 +107,7 @@ namespace VirtualGameStore.Pages.Games
                 return Redirect("/Identity/Account/Login");
             }
 
-            bool isGameAlreadyInWishList = currUser.WishList.Any(g => g.Id == game.Id);
+            bool isGameAlreadyInWishList = currUser.IsGameInWishList(GameId);
 
             if (isGameAlreadyInWishList)
             {
