@@ -17,17 +17,18 @@ namespace VirtualGameStore.Pages.Games
     {
         private readonly VirtualGameStore.Data.ApplicationDbContext _context;
 
+        [BindProperty]
+        public Review Review { get; set; }
+
+        [BindProperty]
+        public Game Game { get; set; }
+
         public DetailsModel(VirtualGameStore.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        [BindProperty]
-        public Review Review { get; set; }
-
-        public Game Game { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int? id, bool? isSuccess)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? isSuccess, bool? isAddedToWishList)
         {
             if (id == null || _context.Games == null)
             {
@@ -61,6 +62,11 @@ namespace VirtualGameStore.Pages.Games
                 ViewData["IsSuccess"] = true;
             }
 
+            if (isAddedToWishList == true)
+            {
+                ViewData["DisplayWishListMessage"] = true;
+            }
+
             ViewData["IsAuthorized"] = User.IsInRole("Member");
 
             return Page();
@@ -86,19 +92,20 @@ namespace VirtualGameStore.Pages.Games
         public async Task<IActionResult> OnPostAddToWishListAsync()
         {
             string? currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            User currUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == currUserId);
+            User? currUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == currUserId);
+            Game? game = await _context.Games.FindAsync(Game.Id);
 
-            if (currUser == null)
+            if (currUser == null || game == null)
             {
                 return Redirect("/Identity/Account/Login");
             }
 
-            currUser.WishList.Add(Game);
+            currUser.WishList.Add(game);
 
             _context.Attach(currUser).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return Redirect($"/Game/Details?id={Review.GameId}");
+            return Redirect($"/Games/Details?id={game.Id}&isAddedToWishList=true");
         }
     }
 }
