@@ -62,7 +62,14 @@
         </button>
         <form method="post" asp-page-handler="AddToWishList">
             <input type="hidden" asp-for="GameId" value="@Model.Game.Id" />
-            <input type="submit" value="Add to Wish List" class="btn btn-primary mt-2" />
+            @if (ViewBag.IsGameAlreadyInWishList == true)
+            {
+                <input type="submit" value="Remove from Wish List" class="btn btn-danger mt-2" />
+            }
+            else
+            {
+                <input type="submit" value="Add to Wish List" class="btn btn-primary mt-2" />
+            }
         </form>
     </div>
 </div>

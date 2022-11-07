@@ -70,7 +70,16 @@ namespace VirtualGameStore.Pages.Games
                 ViewData["DisplayWishListMessage"] = true;
             }
 
+            ViewData["IsGameAlreadyInWishList"] = false;
             ViewData["IsAuthorized"] = User.IsInRole("Member");
+
+            string currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            User? currUser = await _context.Users.Include(u => u.WishList).FirstOrDefaultAsync(u => u.Id == currUserId);
+
+            if (currUser != null)
+            {
+                ViewData["IsGameAlreadyInWishList"] = currUser.WishList.Any(g => g.Id == Game.Id);
+            }
 
             return Page();
         }
@@ -101,8 +110,6 @@ namespace VirtualGameStore.Pages.Games
             {
                 return Redirect("/Identity/Account/Login");
             }
-
-            currUser.WishList.Add(game);
 
             _context.Attach(currUser).State = EntityState.Modified;
             await _context.SaveChangesAsync();
