@@ -80,7 +80,25 @@ namespace VirtualGameStore.Pages.Games
             _context.Reviews.Add(Review);
             await _context.SaveChangesAsync();
 
-            return Redirect($"./Details?id={Review.GameId}&isSuccess=true");
+            return Redirect($"/Game/Details?id={Review.GameId}&isSuccess=true");
+        }
+
+        public async Task<IActionResult> OnPostAddToWishListAsync()
+        {
+            string? currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            User currUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == currUserId);
+
+            if (currUser == null)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            currUser.WishList.Add(Game);
+
+            _context.Attach(currUser).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Redirect($"/Game/Details?id={Review.GameId}");
         }
     }
 }

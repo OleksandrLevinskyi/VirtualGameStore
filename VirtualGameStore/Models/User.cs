@@ -16,7 +16,7 @@ namespace VirtualGameStore.Models
         public List<Review>? Reviews { get; set; }
         public List<Event>? Events { get; set; }
         public List<Registration>? Registrations { get; set; }
-        public List<Game> WishList { get; set; }
+        public List<Game> WishList { get; set; } = new List<Game>();
         public IEnumerable<Category> FavoriteCategories { get; set; }
         public virtual IEnumerable<PaymentOption> PaymentOptions { get; }
 
