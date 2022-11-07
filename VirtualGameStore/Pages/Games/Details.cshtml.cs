@@ -28,7 +28,7 @@ namespace VirtualGameStore.Pages.Games
             _context = context;
         }
 
-        public async Task<IActionResult> OnGetAsync(int? id, bool? isSuccess, bool? isAddedToWishList)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? isReviewAdded, bool? isAddedToWishList)
         {
             if (id == null || _context.Games == null)
             {
@@ -57,9 +57,9 @@ namespace VirtualGameStore.Pages.Games
                 Game = game;
             }
 
-            if (isSuccess == true)
+            if (isReviewAdded == true)
             {
-                ViewData["IsSuccess"] = true;
+                ViewData["DisplayReviewMessage"] = true;
             }
 
             if (isAddedToWishList == true)
@@ -86,7 +86,7 @@ namespace VirtualGameStore.Pages.Games
             _context.Reviews.Add(Review);
             await _context.SaveChangesAsync();
 
-            return Redirect($"/Game/Details?id={Review.GameId}&isSuccess=true");
+            return Redirect($"/Game/Details?id={Review.GameId}&isReviewAdded=true");
         }
 
         public async Task<IActionResult> OnPostAddToWishListAsync()
