@@ -26,6 +26,7 @@ namespace VirtualGameStore.Models
         public List<Category>? Categories { get; set; }
 
         public List<Platform>? Platforms { get; set; }
+        public List<User>? WishListUsers { get; set; }
 
         public bool IsAvailable()
         {

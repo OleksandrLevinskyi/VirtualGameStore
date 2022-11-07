@@ -368,6 +368,30 @@ namespace VirtualGameStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GameUser",
+                columns: table => new
+                {
+                    WishListId = table.Column<int>(type: "int", nullable: false),
+                    WishListUsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GameUser", x => new { x.WishListId, x.WishListUsersId });
+                    table.ForeignKey(
+                        name: "FK_GameUser_AspNetUsers_WishListUsersId",
+                        column: x => x.WishListUsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GameUser_Games_WishListId",
+                        column: x => x.WishListId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PaymentOptions",
                 columns: table => new
                 {
@@ -656,6 +680,11 @@ namespace VirtualGameStore.Migrations
                 column: "PlatformId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GameUser_WishListUsersId",
+                table: "GameUser",
+                column: "WishListUsersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PaymentOptions_UserId",
                 table: "PaymentOptions",
                 column: "UserId");
@@ -714,6 +743,9 @@ namespace VirtualGameStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "GamePlatforms");
+
+            migrationBuilder.DropTable(
+                name: "GameUser");
 
             migrationBuilder.DropTable(
                 name: "PaymentOptions");

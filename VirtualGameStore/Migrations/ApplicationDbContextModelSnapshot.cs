@@ -37,6 +37,21 @@ namespace VirtualGameStore.Migrations
                     b.ToTable("CategoryUser");
                 });
 
+            modelBuilder.Entity("GameUser", b =>
+                {
+                    b.Property<int>("WishListId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WishListUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("WishListId", "WishListUsersId");
+
+                    b.HasIndex("WishListUsersId");
+
+                    b.ToTable("GameUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -384,12 +399,7 @@ namespace VirtualGameStore.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Games");
 
@@ -893,6 +903,21 @@ namespace VirtualGameStore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GameUser", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Game", null)
+                        .WithMany()
+                        .HasForeignKey("WishListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("WishListUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -985,13 +1010,6 @@ namespace VirtualGameStore.Migrations
                     b.Navigation("Friend");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("VirtualGameStore.Models.Game", b =>
-                {
-                    b.HasOne("VirtualGameStore.Models.User", null)
-                        .WithMany("WishList")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.GameCategory", b =>
@@ -1119,8 +1137,6 @@ namespace VirtualGameStore.Migrations
                     b.Navigation("Registrations");
 
                     b.Navigation("Reviews");
-
-                    b.Navigation("WishList");
                 });
 #pragma warning restore 612, 618
         }
