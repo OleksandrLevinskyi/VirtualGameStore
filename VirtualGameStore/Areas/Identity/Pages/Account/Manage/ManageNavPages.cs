@@ -19,7 +19,7 @@ namespace  VirtualGameStore.Areas.Identity.Pages.Account.Manage
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
         public static string Addresses => "Addresses";
         public static string Preferences => "Preferences";
-
+        public static string WishList => "WishList";
         public static string PaymentOptions => "PaymentOptions";
         public static string CreatePaymentOptions => "CreatePaymentOptions";
         public static string EditPaymentOptions => "EditPaymentOptions";
@@ -41,6 +41,7 @@ namespace  VirtualGameStore.Areas.Identity.Pages.Account.Manage
         public static string CreatePaymentOptionsNavClass(ViewContext viewContext) => PageNavClass(viewContext, CreatePaymentOptions);
         public static string EditPaymentOptionsNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditPaymentOptions);
         public static string AddressesNavClass(ViewContext viewContext) => PageNavClass(viewContext, Addresses);
+        public static string WishListNavClass(ViewContext viewContext) => PageNavClass(viewContext, WishList);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {
