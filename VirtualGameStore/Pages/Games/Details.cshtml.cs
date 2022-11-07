@@ -103,12 +103,24 @@ namespace VirtualGameStore.Pages.Games
 
         public async Task<IActionResult> OnPostAddToWishListAsync()
         {
-            User? currUser = await _userManager.GetUserAsync(User);
+            string currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            User? currUser = await _context.Users.Include(u => u.WishList).FirstOrDefaultAsync(u => u.Id == currUserId);
             Game? game = await _context.Games.FindAsync(GameId);
 
             if (currUser == null || game == null)
             {
                 return Redirect("/Identity/Account/Login");
+            }
+
+            bool isGameAlreadyInWishList = currUser.WishList.Any(g => g.Id == game.Id);
+
+            if (isGameAlreadyInWishList)
+            {
+                currUser.WishList.Remove(game);
+            }
+            else
+            {
+                currUser.WishList.Add(game);
             }
 
             _context.Attach(currUser).State = EntityState.Modified;
