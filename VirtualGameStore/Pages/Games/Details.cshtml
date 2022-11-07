@@ -23,20 +23,26 @@
     <div>
         <p>@Html.DisplayFor(model => model.Game.Description)</p>
 
-        <div class="mb-2">
-            @Html.DisplayNameFor(model => model.Game.Platforms):
-            @foreach (var platform in Model.Game.Platforms)
-            {
-                <span class="badge bg-primary">@platform.Name</span>
-            }
-        </div>
-        <div class="mb-2">
-            @Html.DisplayNameFor(model => model.Game.Categories):
-            @foreach (var category in Model.Game.Categories)
-            {
-                <span class="badge bg-success">@category.Name</span>
-            }
-        </div>
+        @if (Model.Game.Platforms != null)
+        {
+            <div class="mb-2">
+                @Html.DisplayNameFor(model => model.Game.Platforms):
+                @foreach (var platform in Model.Game.Platforms)
+                {
+                    <span class="badge bg-primary">@platform.Name</span>
+                }
+            </div>
+        }
+        @if (Model.Game.Categories != null)
+        {
+            <div class="mb-2">
+                @Html.DisplayNameFor(model => model.Game.Categories):
+                @foreach (var category in Model.Game.Categories)
+                {
+                    <span class="badge bg-success">@category.Name</span>
+                }
+            </div>
+        }
     </div>
     <div>
         <h2>@Html.DisplayFor(model => model.Game.Price)</h2>
@@ -54,7 +60,7 @@
             Add to Cart
         </button>
         <form method="post" asp-page-handler="AddToWishList">
-            <input type="hidden" asp-for="Game.Id" />
+            <input type="hidden" asp-for="GameId" value="@Model.Game.Id" />
             <input type="submit" value="Add to Wish List" class="btn btn-primary" />
         </form>
     </div>
@@ -65,7 +71,7 @@
 <div>
     <h4>Reviews</h4>
 
-    @if (ViewBag.IsAuthorized)
+    @if (ViewBag.IsAuthorized == true)
     {
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#review-creation-form">
             Add Review

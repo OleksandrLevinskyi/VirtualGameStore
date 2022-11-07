@@ -19,8 +19,8 @@ namespace VirtualGameStore.Pages.Games
 
         [BindProperty]
         public Review Review { get; set; }
-
         [BindProperty]
+        public int GameId { get; set; }
         public Game Game { get; set; }
 
         public DetailsModel(VirtualGameStore.Data.ApplicationDbContext context)
@@ -28,7 +28,7 @@ namespace VirtualGameStore.Pages.Games
             _context = context;
         }
 
-        public async Task<IActionResult> OnGetAsync(int? id, bool? isReviewAdded, bool? isAddedToWishList)
+        public async Task<IActionResult> OnGetAsync(int? id, string? messageType)
         {
             if (id == null || _context.Games == null)
             {
@@ -57,12 +57,12 @@ namespace VirtualGameStore.Pages.Games
                 Game = game;
             }
 
-            if (isReviewAdded == true)
+            if (messageType == "review-success")
             {
                 ViewData["DisplayReviewMessage"] = true;
             }
 
-            if (isAddedToWishList == true)
+            if (messageType == "wishlist-success")
             {
                 ViewData["DisplayWishListMessage"] = true;
             }
@@ -86,14 +86,14 @@ namespace VirtualGameStore.Pages.Games
             _context.Reviews.Add(Review);
             await _context.SaveChangesAsync();
 
-            return Redirect($"/Game/Details?id={Review.GameId}&isReviewAdded=true");
+            return Redirect($"/Games/Details?id={Review.GameId}&messageType=review-success");
         }
 
         public async Task<IActionResult> OnPostAddToWishListAsync()
         {
             string? currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             User? currUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == currUserId);
-            Game? game = await _context.Games.FindAsync(Game.Id);
+            Game? game = await _context.Games.FindAsync(GameId);
 
             if (currUser == null || game == null)
             {
@@ -105,7 +105,7 @@ namespace VirtualGameStore.Pages.Games
             _context.Attach(currUser).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return Redirect($"/Games/Details?id={game.Id}&isAddedToWishList=true");
+            return Redirect($"/Games/Details?id={game.Id}&messageType=wishlist-success");
         }
     }
 }
