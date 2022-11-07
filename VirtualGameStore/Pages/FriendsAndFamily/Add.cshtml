@@ -16,7 +16,7 @@
                 <input asp-for="UserName" class="form-control" autocomplete="off"/>
                 <div class="card position-absolute w-100" hidden="hidden" id="suggestions-card">
                     <small class="text-secondary fst-italic bg-light ps-3">Click on an item to select it.</small>
-                    <ul class="list-group list-group-flush" id="suggestions-list"></ul>
+                    <ul class="list-group list-group-flush" id="suggestion-list"></ul>
                 </div>
                 <datalist id="available-usernames">
                     @foreach (var availableUser in Model.AvailableUsers)
@@ -44,12 +44,13 @@
 <script>
     const availableUsernames = [...document.querySelectorAll('#available-usernames value')].map(element => element.textContent.trim());
     const input = document.getElementById('UserName');
-        const suggestionList = document.getElementById('suggestions-list');
-        const suggestionCard = document.getElementById('suggestions-card');
+    const suggestionList = document.getElementById('suggestion-list');
+    const suggestionCard = document.getElementById('suggestions-card');
 
     const updateList = (value) => {
         suggestionCard.hidden = true;
         suggestionList.innerHTML = '';
+
         const suggestedUsernames = availableUsernames.filter(username => username.toUpperCase().includes(value.toUpperCase()));
 
         if (suggestedUsernames.length == 0) {
@@ -60,12 +61,14 @@
 
         suggestedUsernames.forEach(username => {
             const li = document.createElement('li');
-            li.className = 'list-group-item ';
+
+            li.className = 'list-group-item';
             li.role = 'button';
             li.textContent = username;
             li.addEventListener('mousedown', () => input.value = username);
-            li.addEventListener('mouseenter', (e) => e.target.classList.add('bg-light', 'fw-bold'))
-                li.addEventListener('mouseleave', (e) => e.target.classList.remove('bg-light', 'fw-bold'))
+            li.addEventListener('mouseenter', (e) => e.target.classList.add('bg-light', 'fw-bold'));
+            li.addEventListener('mouseleave', (e) => e.target.classList.remove('bg-light', 'fw-bold'));
+
             suggestionList.appendChild(li);
         });
     };
