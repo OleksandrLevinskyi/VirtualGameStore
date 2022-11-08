@@ -11,9 +11,21 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group mb-3">
+            <div class="form-group mb-3 position-relative">
                 <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
+                <input asp-for="UserName" class="form-control" autocomplete="off"/>
+                <div class="card position-absolute w-100" hidden="hidden" id="suggestions-card">
+                    <small class="text-secondary fst-italic bg-light ps-3">Click on an item to select it.</small>
+                    <ul class="list-group list-group-flush" id="suggestion-list"></ul>
+                </div>
+                <datalist id="available-usernames">
+                    @foreach (var availableUser in Model.AvailableUsers)
+                    {
+                        <value>
+                            @availableUser.UserName
+                        </value>
+                    }
+                </datalist>
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
@@ -21,18 +33,6 @@
                 <a asp-page="Index" class="btn btn-link">Cancel</a>
             </div>
         </form>
-        @if (Model.AvailableUsers.Any())
-        {
-            <h4>Available users</h4>
-            <ul>
-                @foreach (var availableUser in Model.AvailableUsers)
-                {
-                    <li>
-                        @availableUser.UserName
-                    </li>
-                }
-            </ul>
-        }
     </div>
 </div>
 
@@ -40,3 +40,40 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    const availableUsernames = [...document.querySelectorAll('#available-usernames value')].map(element => element.textContent.trim());
+    const input = document.getElementById('UserName');
+    const suggestionList = document.getElementById('suggestion-list');
+    const suggestionCard = document.getElementById('suggestions-card');
+
+    const updateList = (value) => {
+        suggestionCard.hidden = true;
+        suggestionList.innerHTML = '';
+
+        const suggestedUsernames = availableUsernames.filter(username => username.toUpperCase().includes(value.toUpperCase()));
+
+        if (suggestedUsernames.length == 0) {
+            return;
+        }
+
+        suggestionCard.hidden = false;
+
+        suggestedUsernames.forEach(username => {
+            const li = document.createElement('li');
+
+            li.className = 'list-group-item';
+            li.role = 'button';
+            li.textContent = username;
+            li.addEventListener('mousedown', () => input.value = username);
+            li.addEventListener('mouseenter', (e) => e.target.classList.add('bg-light', 'fw-bold'));
+            li.addEventListener('mouseleave', (e) => e.target.classList.remove('bg-light', 'fw-bold'));
+
+            suggestionList.appendChild(li);
+        });
+    };
+
+    input.addEventListener('input', (e) => updateList(e.target.value));
+    input.addEventListener('focus', (e) => updateList(e.target.value));
+    input.addEventListener('blur', (e) => suggestionCard.hidden = true);
+</script>
