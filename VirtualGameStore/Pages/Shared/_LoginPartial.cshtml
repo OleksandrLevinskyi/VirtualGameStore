@@ -2,8 +2,11 @@
 @using VirtualGameStore.Models
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject ApplicationDbContext Context
 @{
     ViewData["Color"] = User.IsInRole("Employee") ? "text-white" : "";
+    var userId = UserManager.GetUserId(User);
+    var cartItemsCount = Context.CartItems.Where(i => i.UserId == userId).ToList().Aggregate(0, (total, cartItem) => total + cartItem.Quantity);
 }
 
 <ul class="navbar-nav">
@@ -16,6 +19,15 @@
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
                 <button type="submit" class="nav-link btn btn-link @ViewBag.Color">Logout</button>
             </form>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+            <a class="nav-link @ViewBag.Color" asp-page="/Cart/Index" title="Cart">
+                Cart
+                @if (cartItemsCount > 0)
+                {
+                    <span class="badge bg-primary rounded-pill">@cartItemsCount</span>
+                }
+            </a>
         </li>
     }
     else

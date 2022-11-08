@@ -1,0 +1,198 @@
+﻿@page
+@model VirtualGameStore.Pages.Checkout.IndexModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h1 class="mb-3">@ViewData["Title"]</h1>
+
+@if (!Model.CartItems.Any())
+{
+    <p>Your cart is empty, there's nothing to checkout.</p>
+}
+else
+{
+    <h3>Items</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Game
+                </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CartItems[0].Quantity)
+                </th>
+                <th>
+                    Subtotal
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Game.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Game.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @($"{item.Game.Price * item.Quantity:C2}")
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Total</strong></td>
+                <td>
+                    <strong>@($"{Model.Total:C2}")</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <h3>Address</h3>
+    @if (Model.ShippingAddress == null || Model.BillingAddress == null)
+    {
+        <p>Please add shipping and billing addresses to continue the order</p>
+        <a asp-area="Identity" asp-page="/Account/Manage/Addresses" class="btn btn-primary">Go to your addresses</a>
+    }
+    else
+    {
+        <div class="d-md-flex">
+            <div class="card mb-3 me-0 me-md-3">
+                <div class="card-body">
+                    <h5 class="card-title">Billing Address</h5>
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.BillingAddress.Address1)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.BillingAddress.Address1)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.BillingAddress.Address2)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.BillingAddress.Address2)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.BillingAddress.City)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.BillingAddress.City)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.BillingAddress.Province)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.BillingAddress.Province)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.BillingAddress.Country)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.BillingAddress.Country)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.BillingAddress.PostalCode)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.BillingAddress.PostalCode)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Shipping Address</h5>
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.ShippingAddress.Address1)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.ShippingAddress.Address1)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.ShippingAddress.Address2)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.ShippingAddress.Address2)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.ShippingAddress.City)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.ShippingAddress.City)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.ShippingAddress.Province)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.ShippingAddress.Province)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.ShippingAddress.Country)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.ShippingAddress.Country)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.ShippingAddress.PostalCode)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.ShippingAddress.PostalCode)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <a asp-area="Identity" asp-page="/Account/Manage/Addresses" class="btn btn-secondary mb-3">Update addresses</a>
+    }
+
+    <h3>Payment Options</h3>
+    @if (!Model.CreditCards.Any())
+    {
+        <p>Please add a credit card to continue the order.</p>
+        <a asp-area="Identity" asp-page="/Account/Manage/PaymentOptions" class="btn btn-primary">Go to you payment options</a>
+    }
+    else
+    {
+        <p>Please select a credit card.</p>
+        <form method="post">
+            <div class="mb-3">
+                <div class=" d-flex flex-wrap">
+                    @foreach (var creditCard in Model.CreditCards)
+                    {
+                        <div class="form-check mb-3 me-4">
+                            <input type="radio" id="credit-card-radio-@creditCard.Id" asp-for="InputModel.CreditCardId" value="@creditCard.Id" class="form-check-input" />
+                            <label class="form-check-label" for="credit-card-radio-@creditCard.Id">
+                                <partial name="_CreditCardPartial" model="creditCard" />
+                            </label>
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="InputModel.CreditCardId" class="text-danger"></span>
+            </div>
+            @if (Model.ShippingAddress != null && Model.BillingAddress != null)
+            {
+                <button type="submit" class="btn btn-primary">Finish Checkout</button>
+            }
+        </form>
+    }
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
