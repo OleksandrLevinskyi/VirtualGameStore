@@ -3,13 +3,15 @@
 
 @{
     ViewData["Title"] = "Friends and Family";
+    ViewData["ActivePage"] = ManageNavPages.FriendsAndFamily;
+
     var getModalId = (string id) => $"modal-{id}";
 }<div class="row">
     <div class="col-lg-6 offset-lg-3">
         <h1>@ViewData["Title"]</h1>
 
         <p>
-            <a asp-page="Add">Add a member</a>
+            <a asp-page="AddFriendsAndFamily">Add a member</a>
         </p>
     </div>
 </div>
