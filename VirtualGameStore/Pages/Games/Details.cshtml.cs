@@ -47,7 +47,7 @@ namespace VirtualGameStore.Pages.Games
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IActionResult> OnGetAsync(int? id, bool? isSuccess)
+        public async Task<IActionResult> OnGetAsync(int? id, string? messageType)
         {
             if (id == null || _context.Games == null)
             {
@@ -161,7 +161,7 @@ namespace VirtualGameStore.Pages.Games
 
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return Redirect("/Identity/Account/Login");
             }
 
             var cartItem = user.GetCartItem(id);
