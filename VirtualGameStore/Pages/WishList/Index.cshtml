@@ -1,0 +1,29 @@
+@page
+@using System.Text.RegularExpressions
+@model VirtualGameStore.Pages.WishList.IndexModel
+
+@{
+    string userName = Model.WishListOwner.UserName;
+    ViewData["Title"] = $"{userName} Wish List";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+@if (!Model.WishList.Any())
+{
+    <p>@userName does not currently have any games in their wish list.</p>
+}
+else
+{
+    @foreach (var game in Model.WishList)
+    {
+        <div class="card w-50 mb-2">
+            <div class="card-body">
+                <div class="float-start">@game.Name</div>
+                <div class="float-end">
+                    <a asp-page="/Games/Details" asp-route-id="@game.Id">Go to Game Page</a>
+                </div>
+            </div>
+        </div>
+    }
+}
