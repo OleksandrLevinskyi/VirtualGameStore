@@ -23,6 +23,7 @@ namespace  VirtualGameStore.Areas.Identity.Pages.Account.Manage
         public static string PaymentOptions => "PaymentOptions";
         public static string CreatePaymentOptions => "CreatePaymentOptions";
         public static string EditPaymentOptions => "EditPaymentOptions";
+        public static string FriendsAndFamily => "FriendsAndFamily";
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -42,6 +43,7 @@ namespace  VirtualGameStore.Areas.Identity.Pages.Account.Manage
         public static string EditPaymentOptionsNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditPaymentOptions);
         public static string AddressesNavClass(ViewContext viewContext) => PageNavClass(viewContext, Addresses);
         public static string WishListNavClass(ViewContext viewContext) => PageNavClass(viewContext, WishList);
+        public static string FriendsAndFamilyNavClass(ViewContext viewContext) => PageNavClass(viewContext, FriendsAndFamily);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {

@@ -15,6 +15,10 @@ namespace VirtualGameStore.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<PaymentOption> PaymentOptions { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<GameCategory> GameCategories { get; set; }
         public DbSet<GamePlatform> GamePlatforms { get; set; }
@@ -69,6 +73,15 @@ namespace VirtualGameStore.Data
                     friendshipEntity => friendshipEntity.HasOne(f => f.Friend)
                                                         .WithMany()
                                                         .HasForeignKey(f => f.FriendId));
+
+            builder.Entity<Order>()
+                .HasOne(o => o.BillingAddress)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Order>()
+                .HasOne(o => o.ShippingAddress)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
 
             Seed(builder);
         }
@@ -243,6 +256,9 @@ namespace VirtualGameStore.Data
                 new GamePlatform() { GameId = games[2].Id, PlatformId = platforms[3].Id },
                 new GamePlatform() { GameId = games[3].Id, PlatformId = platforms[1].Id },
                 new GamePlatform() { GameId = games[3].Id, PlatformId = platforms[3].Id });
+
+            builder.Entity<OrderStatus>().HasData(OrderStatus.Processing, OrderStatus.Complete);
+
         }
     }
 }

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualGameStore", "VirtualGameStore\VirtualGameStore.csproj", "{3E813369-D506-4B43-9687-241D59EFE048}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualGameStore.Test", "VirtualGameStore.Test\VirtualGameStore.Test.csproj", "{1D7FBD3F-FDCB-4774-8DFC-D3C1DA5BA0A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualGameStore.Test", "VirtualGameStore.Test\VirtualGameStore.Test.csproj", "{1D7FBD3F-FDCB-4774-8DFC-D3C1DA5BA0A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

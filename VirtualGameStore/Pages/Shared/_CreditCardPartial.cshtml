@@ -1,0 +1,89 @@
+﻿@using Models
+@model PaymentOption
+
+<style>
+    .creditcard_container {
+        display: inline-block;
+        border-radius: 16px;
+    }
+
+    .creditcard {
+        color: #fff;
+        margin: 0;
+        background: #fff;
+        font-weight: 400;
+        font-size: 0.875em;
+        overflow: hidden;
+        display: flex;
+        background: linear-gradient(175deg, #8c8c8c, #595959);
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
+        border-radius: 1rem;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 200px;
+        width: 340px;
+    }
+
+    .creditcard .creditcard_head {
+        display: flex;
+        justify-content: space-between;
+        margin: 16px 16px 0 20px;
+    }
+
+    .creditcard .creditcard_head .creditcard_title {
+        font-weight: 600;
+        font-size: 20px;
+        margin: 0 auto 0 0;
+    }
+
+    .creditcard .creditcard_main {
+        margin: 24px 16px 0 20px;
+    }
+
+    .creditcard .creditcard_main .creditcard_number-title {
+        color: #cccccc;
+    }
+
+    .creditcard .creditcard_main .creditcard_number {
+        font-family: monospace;
+        font-size: 28px;
+    }
+
+    .creditcard .creditcard_date {
+        font-family: monospace;
+        display: flex;
+        max-width: 100px;
+        justify-content: space-between;
+        margin: 0 64px 0 auto;
+        font-size: 18px;
+    }
+
+    .creditcard .creditcard_name {
+        font-family: monospace;
+        margin: 0 0 24px 24px;
+    }
+</style>
+
+<div class="creditcard_container">
+    <div class="creditcard">
+        <div class="creditcard_head">
+            <div class="creditcard_title">Credit Card</div>
+        @*<a class="btn btn-secondary" asp-page="EditPaymentOptions" asp-route-id="@item.Id">
+        Edit
+        </a>
+        <button type="button" class="btn btn-primary btn-danger" data-bs-toggle="modal" data-bs-target="@target">
+        Delete
+        </button>*@
+        </div>
+        <div class="creditcard_main">
+            <div class="creditcard_number-title">Card number:</div>
+            <div class="creditcard_number">**** **** **** @Model.CardNumber[12..]</div>
+        </div>
+        <div class="creditcard_date">
+            @Model.ExpiryDate
+        </div>
+        <div class="creditcard_name">
+            @Model.HolderLastName, @Model.HolderFirstName
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VirtualGameStore.Data;
 using VirtualGameStore.Models;
@@ -24,6 +26,7 @@ namespace VirtualGameStore.Pages.Games
         [BindProperty]
         public int GameId { get; set; }
         public Game Game { get; set; }
+        public SelectList CartItemQuantitySelectList { get; private set; }
 
         public DetailsModel(ApplicationDbContext context, UserManager<User> userManager)
         {
@@ -31,7 +34,20 @@ namespace VirtualGameStore.Pages.Games
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> OnGetAsync(int? id, string? messageType)
+        private Task<User?> GetUser()
+        {
+            if (User.Identity == null)
+            {
+                return Task.FromResult<User?>(null);
+            }
+
+            return _context.Users
+                .Where(u => u.UserName == User.Identity.Name)
+                .Include(u => u.CartItems)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<IActionResult> OnGetAsync(int? id, bool? isSuccess)
         {
             if (id == null || _context.Games == null)
             {
@@ -75,6 +91,9 @@ namespace VirtualGameStore.Pages.Games
             {
                 ViewData["IsGameAlreadyInWishList"] = currUser.IsGameInWishList(Game.Id);
             }
+
+            var stock = game.IsDigital ? 1 : Math.Min(game.Stock, 10);
+            CartItemQuantitySelectList = new SelectList(Enumerable.Range(1, stock), 1);
 
             return Page();
         }
@@ -122,6 +141,67 @@ namespace VirtualGameStore.Pages.Games
             await _context.SaveChangesAsync();
 
             return Redirect($"/Games/Details?id={game.Id}");
+        }
+
+        public async Task<IActionResult> OnPostAddToCartAsync(int? id, int? quantity)
+        {
+            if (id == null || quantity == null)
+            {
+                return NotFound();
+            }
+
+            var game = await _context.Games.FindAsync(id);
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            var user = await GetUser();
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var cartItem = user.GetCartItem(id);
+
+            // TODO: if game is digital and user has already purchased it,
+            // show message saying it cannot be added to cart and can be downloaded
+            // in the dowloads section
+            // ALTERNATIVELY: disable "add to cart button" with a message underneath it
+
+            if (cartItem == null)
+            {
+                user.CartItems = user.CartItems.Append(new CartItem()
+                {
+                    User = user,
+                    Game = game,
+                    Quantity = quantity ?? 1
+                }).ToList();
+
+                game.Stock -= quantity ?? 1;
+
+                TempData["SuccessMessage"] = "Game successfully added to your cart.";
+                await _context.SaveChangesAsync();
+                return RedirectToPage(new { game.Id });
+            }
+
+            if (!game.IsDigital)
+            {
+                cartItem.Quantity += quantity ?? 1;
+                game.Stock -= quantity ?? 1;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "You can only add a digital game to your cart one.";
+                return RedirectToPage(new { game.Id });
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Game successfully added to your cart.";
+            return RedirectToPage(new { game.Id });
         }
     }
 }
