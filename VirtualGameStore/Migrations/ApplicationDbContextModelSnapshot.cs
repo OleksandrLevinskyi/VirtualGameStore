@@ -37,6 +37,21 @@ namespace VirtualGameStore.Migrations
                     b.ToTable("CategoryUser");
                 });
 
+            modelBuilder.Entity("GameUser", b =>
+                {
+                    b.Property<int>("WishListId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WishListUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("WishListId", "WishListUsersId");
+
+                    b.HasIndex("WishListUsersId");
+
+                    b.ToTable("GameUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1006,6 +1021,21 @@ namespace VirtualGameStore.Migrations
                     b.HasOne("VirtualGameStore.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GameUser", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Game", null)
+                        .WithMany()
+                        .HasForeignKey("WishListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("WishListUsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
