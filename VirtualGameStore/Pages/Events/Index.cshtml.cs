@@ -67,13 +67,23 @@ namespace VirtualGameStore.Pages.Events
                 return Redirect("/Events/Index?isSuccess=false");
             }
 
-            Registration registration = new Registration()
-            {
-                UserId = currUserId,
-                EventId = EventId
-            };
+            Registration? userRegisteration = registrationEvent.Registrations.FirstOrDefault(r => r.UserId == currUserId);
 
-            _context.Registrations.Add(registration);
+            if (userRegisteration != null)
+            {
+                _context.Registrations.Remove(userRegisteration);
+            }
+            else
+            {
+                Registration registration = new Registration()
+                {
+                    UserId = currUserId,
+                    EventId = EventId
+                };
+
+                _context.Registrations.Add(registration);
+            }
+
             await _context.SaveChangesAsync();
 
             return Redirect("/Events/Index?isSuccess=true");
