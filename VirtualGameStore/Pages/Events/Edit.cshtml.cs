@@ -34,7 +34,9 @@ namespace VirtualGameStore.Pages.Events
                 return NotFound();
             }
 
-            var foundEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == id);
+            var foundEvent = await _context.Events
+                .FirstOrDefaultAsync(e => e.Id == id);
+
             if (foundEvent == null)
             {
                 return NotFound();
@@ -55,6 +57,18 @@ namespace VirtualGameStore.Pages.Events
 
             Event.CreatorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             _context.Attach(Event).State = EntityState.Modified;
+
+            var foundEvent = await _context.Events
+                .Include(e => e.Registrations)
+                .FirstOrDefaultAsync(e => e.Id == Event.Id);
+
+            int registrationCount = foundEvent.Registrations.Count;
+
+            if (registrationCount > Event.AttendeeLimit)
+            {
+                ViewData["StatusMessage"] = $"Event attendee limit must be at least {registrationCount} because {registrationCount} users are already registered.";
+                return Page();
+            }
 
             try
             {
