@@ -26,15 +26,20 @@ namespace VirtualGameStore.Pages.Events
         public int EventId { get; set; }
         public IList<Event> Events { get; set; } = default!;
 
-        public async Task OnGetAsync(bool? isSuccess)
+        public async Task OnGetAsync(string? message)
         {
             string? currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (isSuccess == true)
+
+            if (message == "add")
             {
                 ViewData["StatusMessage"] = "You have successfully registered for the event.";
             }
-            else if (isSuccess == false)
+            else if (message == "remove")
+            {
+                ViewData["StatusMessage"] = "You have successfully deregistered from the event.";
+            }
+            else if (message == "fail")
             {
                 ViewData["ErrorMessage"] = "Something went wrong. Please try again.";
             }
@@ -52,6 +57,7 @@ namespace VirtualGameStore.Pages.Events
 
         public async Task<IActionResult> OnPostAsync()
         {
+            string message = "fail";
             string? currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Event? registrationEvent = await _context.Events
                 .Include(r => r.Registrations)
@@ -64,13 +70,14 @@ namespace VirtualGameStore.Pages.Events
 
             if (registrationEvent == null || registrationEvent.IsOverAttendeeLimit())
             {
-                return Redirect("/Events/Index?isSuccess=false");
+                return Redirect($"/Events/Index?message={message}");
             }
 
             Registration? userRegisteration = registrationEvent.Registrations.FirstOrDefault(r => r.UserId == currUserId);
 
             if (userRegisteration != null)
             {
+                message = "remove";
                 _context.Registrations.Remove(userRegisteration);
             }
             else
@@ -81,12 +88,13 @@ namespace VirtualGameStore.Pages.Events
                     EventId = EventId
                 };
 
+                message = "add";
                 _context.Registrations.Add(registration);
             }
 
             await _context.SaveChangesAsync();
 
-            return Redirect("/Events/Index?isSuccess=true");
+            return Redirect($"/Events/Index?message={message}");
         }
     }
 }
