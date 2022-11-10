@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model VirtualGameStore.Pages.Reports.IndexModel
 
 @{
@@ -7,15 +8,26 @@
 
 <h1>@ViewBag.Title</h1>
 <br/>
-<div class="card">
-    <div class="card-header">
-        <h4 class="m-0">Game List</h4>
+@foreach ((string name, string desc) in new[]
+{
+    (IndexModel.ReportTypes.GameList,   "Generates a report of all the games, including their price, media type, stock, categories, and platforms."),
+    (IndexModel.ReportTypes.MemberList, "Generates a report of all members, showing how many games they own and of they receive emails"),
+    (IndexModel.ReportTypes.WishList,   "Generates a report of all members, the number of games in their wishlist, and combined value of their wishlist."),
+    (IndexModel.ReportTypes.Sales,      "Generates a report of all sales, including the game (with its categories and platforms), quantity, and total earned."),
+    (IndexModel.ReportTypes.EventList,  "Generates a report of all events, their dates, and the number of people registered for them."),
+})
+{
+    <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <h4 class="m-0">@name</h4>
+            <input type="submit" value="Download" class="btn btn-primary"/>
+        </div>
+        <div class="card-body">
+            <p class="card-text">@desc</p>
+            <form method="post">
+                <input name="report" type="hidden" value="@name"/>
+            </form>
+        </div>
     </div>
-    <div class="card-body">
-        <p class="card-text">Generates a report of all the games, including their price, media type, stock, categoories, and platforms.</p>
-        <form method="post">
-            <input name="report" type="hidden" value="game_list"/>
-            <input type="submit" value="Search" class="btn btn-primary"/>
-        </form>
-    </div>
-</div>
+    <br/>
+}
