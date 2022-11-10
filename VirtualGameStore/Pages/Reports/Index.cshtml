@@ -1,0 +1,21 @@
+﻿@page
+@model VirtualGameStore.Pages.Reports.IndexModel
+
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h1>@ViewBag.Title</h1>
+<br/>
+<div class="card">
+    <div class="card-header">
+        <h4 class="m-0">Game List</h4>
+    </div>
+    <div class="card-body">
+        <p class="card-text">Generates a report of all the games, including their price, media type, stock, categoories, and platforms.</p>
+        <form method="post">
+            <input name="report" type="hidden" value="game_list"/>
+            <input type="submit" value="Search" class="btn btn-primary"/>
+        </form>
+    </div>
+</div>
