@@ -3,6 +3,7 @@ using System.Text;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,12 @@ namespace VirtualGameStore.Pages.Reports;
 public class IndexModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly UserManager<User> _userManager;
 
-    public IndexModel(ApplicationDbContext context)
+    public IndexModel(ApplicationDbContext context, UserManager<User> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
 
     public void OnGet()
@@ -30,6 +33,10 @@ public class IndexModel : PageModel
         byte[] bytes = report switch
         {
             ReportTypes.GameList => await CreateReportGameList(),
+            ReportTypes.MemberList => await CreateReportMemberList(),
+            ReportTypes.WishList => await CreateReportWishList(),
+            ReportTypes.Sales => await CreateReportSales(),
+            ReportTypes.EventList => await CreateReportEventList(),
             _ => Array.Empty<byte>()
         };
         return File(bytes, "application/octet-stream", report + ".xlsx");
@@ -58,6 +65,104 @@ public class IndexModel : PageModel
         // Make the workbook and add the report to it.
         using var workbook = new XLWorkbook();
         var worksheet = reportStyler.AddReportAsSheet(workbook, ReportTypes.Prefix + ReportTypes.GameList, games);
+
+        // Turning into a file...
+        using var memoryStream = new MemoryStream();
+        workbook.SaveAs(memoryStream);
+        return memoryStream.ToArray();
+    }
+
+    private async Task<byte[]> CreateReportMemberList()
+    {
+        var memberRole = await _context.Roles.FirstOrDefaultAsync(i => i.Name == "Member");
+        var userIdsWithMember = (await _userManager.GetUsersInRoleAsync("Member")).Select(u => u.Id);
+        var members = await _context.Users.Where(u => userIdsWithMember.Contains(u.Id)).ToListAsync();
+        var reportStyler = new ReportStyler<User>(new ReportStyler<User>.Column[]
+        {
+            new("ID", XLDataType.Text, g => g.Id),
+            new("Name", XLDataType.Text, u => $"{u.LastName}, {u.FirstName}"),
+            new("Receive Promo Emails", XLDataType.Boolean, u => u.IsEmailMarketingEnabled),
+            // TODO: Library size
+        });
+
+        // Make the workbook and add the report to it.
+        using var workbook = new XLWorkbook();
+        var worksheet = reportStyler.AddReportAsSheet(workbook, ReportTypes.Prefix + ReportTypes.MemberList, members);
+
+        // Turning into a file...
+        using var memoryStream = new MemoryStream();
+        workbook.SaveAs(memoryStream);
+        return memoryStream.ToArray();
+    }
+
+    private async Task<byte[]> CreateReportWishList()
+    {
+        var memberRole = await _context.Roles.FirstOrDefaultAsync(i => i.Name == "Member");
+        var userIdsWithMember = (await _userManager.GetUsersInRoleAsync("Member")).Select(u => u.Id);
+        var members = await _context.Users.Where(u => userIdsWithMember.Contains(u.Id)).ToListAsync();
+        var reportStyler = new ReportStyler<User>(new ReportStyler<User>.Column[]
+        {
+            new("ID", XLDataType.Text, g => g.Id),
+            new("Name", XLDataType.Text, u => $"{u.LastName}, {u.FirstName}"),
+            // TODO: Wishlist size
+            // TODO: Wishlist value
+        });
+
+        // Make the workbook and add the report to it.
+        using var workbook = new XLWorkbook();
+        var worksheet = reportStyler.AddReportAsSheet(workbook, ReportTypes.Prefix + ReportTypes.WishList, members);
+
+        // Turning into a file...
+        using var memoryStream = new MemoryStream();
+        workbook.SaveAs(memoryStream);
+        return memoryStream.ToArray();
+    }
+
+    private async Task<byte[]> CreateReportSales()
+    {
+       var sales = (await _context.OrderItems
+           .Include(i => i.Order)
+           .Where(i => i.Order.StatusId == 2) // This will no longer be a magic number after we fix status
+           .Include(i => i.Game)
+           .ThenInclude(g => g.Categories)
+           .Include(i => i.Game)
+           .ThenInclude(g => g.Platforms)
+           .ToListAsync())
+           .GroupBy(i => i.Game).ToList();
+
+        var reportStyler = new ReportStyler<IGrouping<Game, OrderItem>>(
+            new ReportStyler<IGrouping<Game, OrderItem>>.Column[]
+            {
+                new("Game", XLDataType.Text, s => s.Key.Name),
+                new("Categories", XLDataType.Text, s => string.Join(", ", s.Key.Categories!.Select(c => c.Name))),
+                new("Platforms", XLDataType.Text, s => string.Join(", ", s.Key.Platforms!.Select(p => p.Name))),
+                new("Quantity", XLDataType.Number, s => s.Sum(i => i.Quantity), "#,##0"),
+                new("Total", XLDataType.Number, s => s.Sum(i => i.Total), "$#,##0.00"),
+            });
+
+        // Make the workbook and add the report to it.
+        using var workbook = new XLWorkbook();
+        var worksheet = reportStyler.AddReportAsSheet(workbook, ReportTypes.Prefix + ReportTypes.Sales, sales);
+
+        // Turning into a file...
+        using var memoryStream = new MemoryStream();
+        workbook.SaveAs(memoryStream);
+        return memoryStream.ToArray();
+    }
+
+    private async Task<byte[]> CreateReportEventList() {
+        var events = await _context.Events
+            .Include(e => e.Registrations)
+            .ToListAsync();
+        var reportStyler = new ReportStyler<Event>(new ReportStyler<Event>.Column[] {
+            new("ID", XLDataType.Number, g => g.Id, "0"),
+            new("Name", XLDataType.Text, e => e.Name),
+            new("Date", XLDataType.DateTime, e => e.DateTime),
+            new("Registrations", XLDataType.Number, e => e.Registrations.Count, "#,##0"),
+        });
+        // Make the workbook and add the report to it.
+        using var workbook = new XLWorkbook();
+        var worksheet = reportStyler.AddReportAsSheet(workbook, ReportTypes.Prefix + ReportTypes.EventList, events);
 
         // Turning into a file...
         using var memoryStream = new MemoryStream();

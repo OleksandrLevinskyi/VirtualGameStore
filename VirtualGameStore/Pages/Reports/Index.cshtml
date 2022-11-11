@@ -18,16 +18,16 @@
 })
 {
     <div class="card">
-        <div class="card-header d-flex justify-content-between">
-            <h4 class="m-0">@name</h4>
-            <input type="submit" value="Download" class="btn btn-primary"/>
-        </div>
-        <div class="card-body">
-            <p class="card-text">@desc</p>
-            <form method="post">
+        <form method="post">
+            <div class="card-header d-flex justify-content-between">
+                <h4 class="m-0">@name</h4>
+                <input type="submit" value="Download" class="btn btn-primary"/>
+            </div>
+            <div class="card-body">
+                <p class="card-text">@desc</p>
                 <input name="report" type="hidden" value="@name"/>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
     <br/>
 }
