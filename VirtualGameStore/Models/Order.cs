@@ -9,7 +9,7 @@
         public int ShippingAddressId { get; set; }
         public int StatusId { get; set; }
 
-        public OrderStatus Status { get; set; }
+        public bool IsProcessed { get; set; }
         public Address BillingAddress { get; set; }
         public Address ShippingAddress { get; set; }
 
