@@ -2,7 +2,7 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Test
 {
-    public class ReviewsTest
+    public class RatingTest
     {
         [SetUp]
         public void Setup()

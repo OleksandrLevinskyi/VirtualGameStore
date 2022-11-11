@@ -10,7 +10,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsOverAttendeeLimit_AttendeeLimitIsOverTotalRegistrations_ReturnTrue()
+        public void IsOverAttendeeLimit_AttendeeLimitIsOverTotalRegistrations_ReturnsTrue()
         {
             Event newEvent = new Event()
             {
@@ -28,7 +28,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsOverAttendeeLimit_AttendeeLimitIsLessThanTotalRegistrations_ReturnFalse()
+        public void IsOverAttendeeLimit_AttendeeLimitIsLessThanTotalRegistrations_ReturnsFalse()
         {
             Event newEvent = new Event()
             {
