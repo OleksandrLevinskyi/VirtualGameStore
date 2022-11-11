@@ -10,7 +10,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsInFuture_EventDateTimeIsAfterNow_ReturnTrue()
+        public void IsInFuture_EventDateTimeIsAfterNow_ReturnsTrue()
         {
             Event newEvent = new Event()
             {
@@ -23,7 +23,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsInFuture_EventDateTimeIsBeforeNow_ReturnFalse()
+        public void IsInFuture_EventDateTimeIsBeforeNow_ReturnsFalse()
         {
             Event newEvent = new Event()
             {

@@ -22,7 +22,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsCaptchaValid_ProvidingCorrectCode_ReturnsTure()
+        public void IsCaptchaValid_ProvidingCorrectCode_ReturnsTrue()
         {
             var expectedCode = "D4Y6";
             var providedCode = "d4y6";

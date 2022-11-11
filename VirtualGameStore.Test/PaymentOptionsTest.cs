@@ -11,14 +11,14 @@ public class PaymentOptionsTest
     }
 
     [Test]
-    public void IsDateValid_ReturnsTrueIfMonthYearAfterNow()
+    public void IsDateValid_MonthYearAfterNow_ReturnsTrue()
     {
         var validator = new ValidFutureMonthYear();
         Assert.That(validator.IsValid("11/24"), Is.True);
     }
 
     [Test]
-    public void IsBirthDateValid_ReturnsFalseIfMonthYearBeforeNow()
+    public void IsBirthDateValid_MonthYearBeforeNow_ReturnsFalse()
     {
         var validator = new ValidFutureMonthYear();
         Assert.That(validator.IsValid("11/19"), Is.False);

@@ -10,7 +10,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void GetOverallRating_IfThereAreAnyApprovedReviews_ReturnsTheirOverallRating()
+        public void GetOverallRating_ThereAreAnyApprovedReviews_ReturnsTheirOverallRating()
         {
             Game game = new Game()
             {
@@ -30,7 +30,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void GetOverallRating_IfThereAreNoApprovedReviews_ReturnsZeroAsOverallRating()
+        public void GetOverallRating_ThereAreNoApprovedReviews_ReturnsZeroAsOverallRating()
         {
             Game game = new Game()
             {
@@ -50,7 +50,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void GetOverallRating_IfThereAreNoGameReviews_ReturnsZeroAsOverallRating()
+        public void GetOverallRating_ThereAreNoGameReviews_ReturnsZeroAsOverallRating()
         {
             Game game = new Game();
 

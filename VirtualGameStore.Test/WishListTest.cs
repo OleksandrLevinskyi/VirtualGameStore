@@ -5,7 +5,7 @@ namespace VirtualGameStore.Test
     public class WishListTest
     {
         [Test]
-        public void IsGameInWishList_GameIsInUsersWishList_ReturnTrue()
+        public void IsGameInWishList_GameIsInUsersWishList_ReturnsTrue()
         {
             Game game = new Game() { Id = 1 };
             User user = new User()
@@ -19,7 +19,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsGameInWishList_GameIsNotInUsersWishList_ReturnFalse()
+        public void IsGameInWishList_GameIsNotInUsersWishList_ReturnsFalse()
         {
             Game game = new Game() { Id = 1 };
             User user = new User();
