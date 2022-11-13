@@ -12,8 +12,8 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221111000534_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221113023803_CreateTables")]
+    partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

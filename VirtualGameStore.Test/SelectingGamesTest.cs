@@ -3,15 +3,8 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Test;
 
-public class SelectingGamesTests
+public class SelectingGamesTest
 {
-
-        
-    [SetUp]
-    public void Setup()
-    {
-    }
-
     [Test]
     public void GamesShortDesc_AlreadyShortDesc_Equal()
     {

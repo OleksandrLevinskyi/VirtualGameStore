@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VirtualGameStore.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class CreateTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
