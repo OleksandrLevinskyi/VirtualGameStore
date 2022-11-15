@@ -51,7 +51,7 @@
             }
         </p>
 
-        @if (Model.Game.Stock > 0)
+        @if (Model.Game.Stock > 0 || (Model.Game.IsDigital && !ViewBag.IsGamePurchased))
         {
             <form method="post" asp-page-handler="AddToCart">
                 <div class="d-flex mb-3 flex-column flex-md-row">
@@ -67,7 +67,7 @@
             </form>
         }
 
-        @if (Model.Game.IsDigital)
+        @if (Model.Game.IsDigital && ViewBag.IsGamePurchased)
         {
             <form method="post" asp-page-handler="Download">
                 <input type="hidden" asp-for="GameId" value="@Model.Game.Id" />

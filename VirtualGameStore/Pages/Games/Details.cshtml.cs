@@ -84,13 +84,20 @@ namespace VirtualGameStore.Pages.Games
 
             ViewData["IsGameAlreadyInWishList"] = false;
             ViewData["IsAuthorized"] = User.IsInRole("Member");
+            ViewData["IsGamePurchased"] = false;
 
             string currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            User? currUser = await _context.Users.Include(u => u.WishList).FirstOrDefaultAsync(u => u.Id == currUserId);
+            User? currUser = await _context.Users
+                .Include(u => u.WishList)
+                .Include(u => u.Orders)
+                .ThenInclude(o => o.Items)
+                .ThenInclude(i => i.Game)
+                .FirstOrDefaultAsync(u => u.Id == currUserId);
 
             if (currUser != null)
             {
                 ViewData["IsGameAlreadyInWishList"] = currUser.IsGameInWishList(Game.Id);
+                ViewData["IsGamePurchased"] = currUser.Orders.Any(o => o.Items.Any(i => i.Game.Id == Game.Id));
             }
 
             var stock = game.IsDigital ? 1 : Math.Min(game.Stock, 10);
