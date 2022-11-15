@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -96,6 +97,14 @@ namespace VirtualGameStore.Pages.Games
             CartItemQuantitySelectList = new SelectList(Enumerable.Range(1, stock), 1);
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostDownloadAsync()
+        {
+            byte[] filebytes = Encoding.ASCII.GetBytes("hello world");
+            string contentType = "text/plain";
+
+            return File(filebytes, contentType, "hello.txt");
         }
 
         public async Task<IActionResult> OnPostAddReviewAsync()

@@ -69,7 +69,9 @@
 
         @if (Model.Game.IsDigital)
         {
-            <input type="submit" value="Download" class="btn btn-success mt-2" />
+            <form method="post" asp-page-handler="Download">
+                <button type="submit" class="btn btn-success">Download</button>
+            </form>
         }
 
         <form method="post" asp-page-handler="AddToWishList">
