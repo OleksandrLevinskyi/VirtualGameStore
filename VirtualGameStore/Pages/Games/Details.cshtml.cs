@@ -117,7 +117,7 @@ namespace VirtualGameStore.Pages.Games
 
             byte[] filebytes = Encoding.ASCII.GetBytes(game.Name);
             string contentType = "text/plain";
-            string fileDownloadName = $"{game.Name.Replace(' ', '_')}.txt";
+            string fileDownloadName = game.GenerateFileName();
 
             return File(filebytes, contentType, fileDownloadName);
         }
