@@ -101,10 +101,18 @@ namespace VirtualGameStore.Pages.Games
 
         public async Task<IActionResult> OnPostDownloadAsync()
         {
-            byte[] filebytes = Encoding.ASCII.GetBytes("hello world");
-            string contentType = "text/plain";
+            Game? game = await _context.Games.FindAsync(GameId);
 
-            return File(filebytes, contentType, "hello.txt");
+            if (game == null)
+            {
+                return Page();
+            }
+
+            byte[] filebytes = Encoding.ASCII.GetBytes(game.Name);
+            string contentType = "text/plain";
+            string fileDownloadName = $"{game.Name.Replace(' ', '_')}.txt";
+
+            return File(filebytes, contentType, fileDownloadName);
         }
 
         public async Task<IActionResult> OnPostAddReviewAsync()

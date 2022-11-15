@@ -70,6 +70,7 @@
         @if (Model.Game.IsDigital)
         {
             <form method="post" asp-page-handler="Download">
+                <input type="hidden" asp-for="GameId" value="@Model.Game.Id" />
                 <button type="submit" class="btn btn-success">Download</button>
             </form>
         }
