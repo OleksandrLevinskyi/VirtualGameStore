@@ -97,7 +97,7 @@ namespace VirtualGameStore.Pages.Games
             if (currUser != null)
             {
                 ViewData["IsGameAlreadyInWishList"] = currUser.IsGameInWishList(Game.Id);
-                ViewData["IsGamePurchased"] = currUser.Orders.Any(o => o.Items.Any(i => i.Game.Id == Game.Id));
+                ViewData["IsGamePurchased"] = currUser.IsGamePurchased(Game.Id);
             }
 
             var stock = game.IsDigital ? 1 : Math.Min(game.Stock, 10);
