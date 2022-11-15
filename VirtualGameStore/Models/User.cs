@@ -38,6 +38,11 @@ namespace VirtualGameStore.Models
             return WishList.Any(g => g.Id == gameId);
         }
 
+        public bool IsGamePurchased(int gameId)
+        {
+            return Orders.Any(o => o.Items.Any(i => i.Game.Id == gameId));
+        }
+
         public bool IsBirthDateValid()
         {
             if (BirthDate == null)

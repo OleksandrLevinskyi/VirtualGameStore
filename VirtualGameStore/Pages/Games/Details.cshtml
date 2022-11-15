@@ -51,33 +51,41 @@
             }
         </p>
 
-        @if (Model.Game.Stock > 0)
-                {
-                    <form method="post" asp-page-handler="AddToCart">
-                        <div class="d-flex mb-3 flex-column flex-md-row">
-                            <input type="hidden" name="id" value="@Model.Game.Id" />
+        @if (Model.Game.Stock > 0 || (Model.Game.IsDigital && !ViewBag.IsGamePurchased))
+        {
+            <form method="post" asp-page-handler="AddToCart">
+                <div class="d-flex mb-3 flex-column flex-md-row">
+                    <input type="hidden" name="id" value="@Model.Game.Id" />
 
-                            <div class="form-floating mb-1 mb-md-0 me-0 me-md-2 flex-grow-1 @(Model.Game.IsDigital ? "visually-hidden" : "")">
-                                <select id="quantity" name="quantity" asp-items="@Model.CartItemQuantitySelectList" class="form-select" style="min-width: 100px"></select>
-                                <label for="quantity" class="control-label">Quantity</label>
-                            </div>
+                    <div class="form-floating mb-1 mb-md-0 me-0 me-md-2 flex-grow-1 @(Model.Game.IsDigital ? "visually-hidden" : "")">
+                        <select id="quantity" name="quantity" asp-items="@Model.CartItemQuantitySelectList" class="form-select" style="min-width: 100px"></select>
+                        <label for="quantity" class="control-label">Quantity</label>
+                    </div>
 
-                            <button type="submit" class="btn btn-primary">Add to Cart</button>
-                        </div>
-                    </form>
-                }
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </div>
+            </form>
+        }
 
-                <form method="post" asp-page-handler="AddToWishList">
-                            <input type="hidden" asp-for="GameId" value="@Model.Game.Id" />
-                            @if (ViewBag.IsGameAlreadyInWishList == true)
-                            {
-                                <input type="submit" value="Remove from Wish List" class="btn btn-danger mt-2" />
-                            }
-                            else
-                            {
-                                <input type="submit" value="Add to Wish List" class="btn btn-primary mt-2" />
-                            }
-                        </form>
+        @if (Model.Game.IsDigital && ViewBag.IsGamePurchased)
+        {
+            <form method="post" asp-page-handler="Download">
+                <input type="hidden" asp-for="GameId" value="@Model.Game.Id" />
+                <button type="submit" class="btn btn-success">Download</button>
+            </form>
+        }
+
+        <form method="post" asp-page-handler="AddToWishList">
+            <input type="hidden" asp-for="GameId" value="@Model.Game.Id" />
+            @if (ViewBag.IsGameAlreadyInWishList == true)
+            {
+                <input type="submit" value="Remove from Wish List" class="btn btn-danger mt-2" />
+            }
+            else
+            {
+                <input type="submit" value="Add to Wish List" class="btn btn-primary mt-2" />
+            }
+        </form>
     </div>
 </div>
 

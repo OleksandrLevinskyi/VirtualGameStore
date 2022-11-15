@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -83,19 +84,42 @@ namespace VirtualGameStore.Pages.Games
 
             ViewData["IsGameAlreadyInWishList"] = false;
             ViewData["IsAuthorized"] = User.IsInRole("Member");
+            ViewData["IsGamePurchased"] = false;
 
             string currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            User? currUser = await _context.Users.Include(u => u.WishList).FirstOrDefaultAsync(u => u.Id == currUserId);
+            User? currUser = await _context.Users
+                .Include(u => u.WishList)
+                .Include(u => u.Orders)
+                .ThenInclude(o => o.Items)
+                .ThenInclude(i => i.Game)
+                .FirstOrDefaultAsync(u => u.Id == currUserId);
 
             if (currUser != null)
             {
                 ViewData["IsGameAlreadyInWishList"] = currUser.IsGameInWishList(Game.Id);
+                ViewData["IsGamePurchased"] = currUser.IsGamePurchased(Game.Id);
             }
 
             var stock = game.IsDigital ? 1 : Math.Min(game.Stock, 10);
             CartItemQuantitySelectList = new SelectList(Enumerable.Range(1, stock), 1);
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostDownloadAsync()
+        {
+            Game? game = await _context.Games.FindAsync(GameId);
+
+            if (game == null)
+            {
+                return Page();
+            }
+
+            byte[] filebytes = Encoding.ASCII.GetBytes(game.Name);
+            string contentType = "text/plain";
+            string fileDownloadName = game.GenerateFileName();
+
+            return File(filebytes, contentType, fileDownloadName);
         }
 
         public async Task<IActionResult> OnPostAddReviewAsync()

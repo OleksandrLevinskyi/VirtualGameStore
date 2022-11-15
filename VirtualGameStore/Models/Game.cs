@@ -33,6 +33,18 @@ namespace VirtualGameStore.Models
             return Stock > 0;
         }
 
+        public string GenerateFileName()
+        {
+            string fileName = "default_file_name.txt";
+
+            if (Name != null && Name.Trim().Length != 0)
+            {
+                fileName = $"{Name.Replace(' ', '_')}.txt";
+            }
+
+            return fileName;
+        }
+
         public float GetOverallRating()
         {
             if (Reviews == null)
