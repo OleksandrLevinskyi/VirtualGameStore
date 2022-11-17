@@ -53,11 +53,10 @@ public class IndexModel : PageModel
         // to make it difficult to accidentally misalign the columns with their values.
         var reportStyler = new ReportStyler<Game>(new ReportStyler<Game>.Column[]
         {
-            new("ID", XLDataType.Number, g => g.Id, "0"),
             new("Name", XLDataType.Text, g => g.Name),
             new("Price", XLDataType.Number, g => g.Price, "$#,##0.00"),
-            new("IsDigital", XLDataType.Boolean, g => g.IsDigital),
-            new("Stock", XLDataType.Number, g => g.Stock, "#,##0"),
+            new("Format", XLDataType.Text, g => g.IsDigital ? "Digital" : "Physical"),
+            new("Stock", XLDataType.Number, g => g.IsDigital ? null! : g.Stock, "#,##0"),
             new("Categories", XLDataType.Text, g => string.Join(", ", g.Categories!.Select(c => c.Name))),
             new("Platforms", XLDataType.Text, g => string.Join(", ", g.Platforms!.Select(p => p.Name))),
         });
@@ -74,15 +73,19 @@ public class IndexModel : PageModel
 
     private async Task<byte[]> CreateReportMemberList()
     {
-        var memberRole = await _context.Roles.FirstOrDefaultAsync(i => i.Name == "Member");
         var userIdsWithMember = (await _userManager.GetUsersInRoleAsync("Member")).Select(u => u.Id);
-        var members = await _context.Users.Where(u => userIdsWithMember.Contains(u.Id)).ToListAsync();
+        var members = await _context.Users
+            .Where(u => userIdsWithMember.Contains(u.Id))
+            .Include(u => u.Orders)
+            .ThenInclude(o => o.Items)
+            .ThenInclude(i => i.Game)
+            .ToListAsync();
         var reportStyler = new ReportStyler<User>(new ReportStyler<User>.Column[]
         {
-            new("ID", XLDataType.Text, g => g.Id),
-            new("Name", XLDataType.Text, u => $"{u.LastName}, {u.FirstName}"),
+            new("Member User Name", XLDataType.Text, u => u.UserName),
+            new("Member Full Name", XLDataType.Text, u => FullName(u.FirstName, u.LastName)),
             new("Receive Promo Emails", XLDataType.Boolean, u => u.IsEmailMarketingEnabled),
-            // TODO: Library size
+            new("No. Digital Games Owned", XLDataType.Number, u => u.Orders.Sum(o => o.Items.Count(i => i.Game.IsDigital)))
         });
 
         // Make the workbook and add the report to it.
@@ -99,13 +102,16 @@ public class IndexModel : PageModel
     {
         var memberRole = await _context.Roles.FirstOrDefaultAsync(i => i.Name == "Member");
         var userIdsWithMember = (await _userManager.GetUsersInRoleAsync("Member")).Select(u => u.Id);
-        var members = await _context.Users.Where(u => userIdsWithMember.Contains(u.Id)).ToListAsync();
+        var members = await _context.Users
+            .Where(u => userIdsWithMember.Contains(u.Id))
+            .Include(u => u.WishList)
+            .ToListAsync();
         var reportStyler = new ReportStyler<User>(new ReportStyler<User>.Column[]
         {
-            new("ID", XLDataType.Text, g => g.Id),
-            new("Name", XLDataType.Text, u => $"{u.LastName}, {u.FirstName}"),
-            // TODO: Wishlist size
-            // TODO: Wishlist value
+            new("Member User Name", XLDataType.Text, u => u.UserName),
+            new("Member Full Name", XLDataType.Text, u => FullName(u.FirstName, u.LastName)),
+            new("No. Games in Wishlist", XLDataType.Number, u => u.WishList.Count, "#,##0"),
+            new("Wishlist Value", XLDataType.Number, u => u.WishList.Sum(g => g.Price), "$#,##0.00"),
         });
 
         // Make the workbook and add the report to it.
@@ -155,7 +161,6 @@ public class IndexModel : PageModel
             .Include(e => e.Registrations)
             .ToListAsync();
         var reportStyler = new ReportStyler<Event>(new ReportStyler<Event>.Column[] {
-            new("ID", XLDataType.Number, g => g.Id, "0"),
             new("Name", XLDataType.Text, e => e.Name),
             new("Date", XLDataType.DateTime, e => e.DateTime),
             new("Registrations", XLDataType.Number, e => e.Registrations.Count, "#,##0"),
@@ -168,6 +173,15 @@ public class IndexModel : PageModel
         using var memoryStream = new MemoryStream();
         workbook.SaveAs(memoryStream);
         return memoryStream.ToArray();
+    }
+
+    private static string FullName(string? firstName, string? lastName) {
+        if (string.IsNullOrEmpty(firstName))
+            return string.IsNullOrEmpty(lastName) ? "" : lastName;
+        else if (string.IsNullOrEmpty(lastName))
+            return firstName;
+        else
+            return $"{lastName}, {firstName}";
     }
 
     public struct ReportTypes

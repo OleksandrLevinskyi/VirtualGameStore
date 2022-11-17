@@ -24,6 +24,7 @@ public class ReportStyler<TD>
     private void SetXlsHeaders(IXLWorksheet ws)
     {
         SetRowValues<string>(ws, 1, ColumnDefinitions.Select(c => c.Label).ToList());
+        ws.Row(1).Style.Font.Bold = true;
     }
 
     private void SetXlsData(IXLWorksheet ws, List<TD> dataItems)
