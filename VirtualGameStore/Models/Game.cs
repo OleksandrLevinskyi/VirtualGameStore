@@ -26,10 +26,23 @@ namespace VirtualGameStore.Models
         public List<Category>? Categories { get; set; }
 
         public List<Platform>? Platforms { get; set; }
+        public List<User>? WishListUsers { get; set; }
 
         public bool IsAvailable()
         {
             return Stock > 0;
+        }
+
+        public string GenerateFileName()
+        {
+            string fileName = "default_file_name.txt";
+
+            if (Name != null && Name.Trim().Length != 0)
+            {
+                fileName = $"{Name.Replace(' ', '_')}.txt";
+            }
+
+            return fileName;
         }
 
         public float GetOverallRating()
@@ -56,11 +69,26 @@ namespace VirtualGameStore.Models
         {
             get
             {
+                if (Description == null)
+                {
+                    return "";
+                }
+
                 int maxLen = 100;
                 int maxAfterEllipse = maxLen - 3;
-                if (Description.Length < maxAfterEllipse) return Description;
+
+                if (Description.Length < maxAfterEllipse)
+                {
+                    return Description;
+                }
+
                 int lastSpace = Description[0..maxAfterEllipse].LastIndexOf(' ');
-                if (lastSpace == -1) lastSpace = maxAfterEllipse;
+
+                if (lastSpace == -1)
+                {
+                    lastSpace = maxAfterEllipse;
+                }
+
                 return Description[0..lastSpace] + "...";
             }
         }

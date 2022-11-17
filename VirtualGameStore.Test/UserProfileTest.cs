@@ -10,7 +10,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsBirthDateValid_ReturnsTrueIfBirthDateIsBeforeToday()
+        public void IsBirthDateValid_BirthDateIsBeforeToday_ReturnsTrue()
         {
             var user = new User()
             {
@@ -23,7 +23,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsBirthDateValid_ReturnsFalseIfBirthDateIsAfterToday()
+        public void IsBirthDateValid_BirthDateIsAfterToday_ReturnsFalse()
         {
             var user = new User()
             {

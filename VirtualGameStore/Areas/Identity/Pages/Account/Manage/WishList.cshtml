@@ -1,0 +1,28 @@
+@page
+@using System.Text.RegularExpressions
+@model VirtualGameStore.Pages.Profile.WishList.IndexModel
+
+@{
+    ViewData["Title"] = "Wish List";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+@if (!Model.WishList.Any())
+{
+    <p>There are no games in your with list. Navigate to <a asp-page="/Games/Index">Games page</a> to add some.</p>
+}
+else
+{
+    @foreach (var game in Model.WishList)
+    {
+        <div class="card w-50 mb-2">
+            <div class="card-body">
+                <div class="float-start">@game.Name</div>
+                <div class="float-end">
+                    <a asp-page="/Games/Details" asp-route-id="@game.Id">Go to Game Page</a>
+                </div>
+            </div>
+        </div>
+    }
+}

@@ -10,7 +10,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsAvailable_ReturnsTrueIfStockIsGreaterThanZero()
+        public void IsAvailable_StockIsGreaterThanZero_ReturnsTrue()
         {
             Game game = new Game()
             {
@@ -23,7 +23,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsAvailable_ReturnsFalseIfStockIsZero()
+        public void IsAvailable_StockIsZero_ReturnsFalse()
         {
             Game game = new Game()
             {

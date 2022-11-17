@@ -18,5 +18,10 @@ namespace VirtualGameStore.Models
         public DateTime DateTime { get; set; }
         public Game? Game { get; set; }
         public User? Author { get; set; }
+
+        public bool IsCommentProvided()
+        {
+            return Comment != null;
+        }
     }
 }

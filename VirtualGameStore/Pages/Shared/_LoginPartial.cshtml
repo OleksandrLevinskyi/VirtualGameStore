@@ -20,15 +20,18 @@
                 <button type="submit" class="nav-link btn btn-link @ViewBag.Color">Logout</button>
             </form>
         </li>
-        <li class="nav-item d-flex align-items-center">
-            <a class="nav-link @ViewBag.Color" asp-page="/Cart/Index" title="Cart">
-                Cart
-                @if (cartItemsCount > 0)
-                {
-                    <span class="badge bg-primary rounded-pill">@cartItemsCount</span>
-                }
-            </a>
-        </li>
+        @if (User.IsInRole("Member"))
+        {
+            <li class="nav-item d-flex align-items-center">
+                <a class="nav-link @ViewBag.Color" asp-page="/Cart/Index" title="Cart">
+                    Cart
+                    @if (cartItemsCount > 0)
+                    {
+                        <span class="badge bg-primary rounded-pill">@cartItemsCount</span>
+                    }
+                </a>
+            </li>
+        }
     }
     else
     {

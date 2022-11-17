@@ -2,7 +2,7 @@ using VirtualGameStore.Models;
 
 namespace VirtualGameStore.Test
 {
-    public class EventsTest
+    public class RegistrationTest
     {
         [SetUp]
         public void Setup()
@@ -10,7 +10,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsOverAttendeeLimit_ReturnsTrueIfAttendeeLimitIsOverTotalRegistrations()
+        public void IsOverAttendeeLimit_AttendeeLimitIsOverTotalRegistrations_ReturnsTrue()
         {
             Event newEvent = new Event()
             {
@@ -28,7 +28,7 @@ namespace VirtualGameStore.Test
         }
 
         [Test]
-        public void IsOverAttendeeLimit_ReturnsFalseIfAttendeeLimitIsLessThanTotalRegistrations()
+        public void IsOverAttendeeLimit_AttendeeLimitIsLessThanTotalRegistrations_ReturnsFalse()
         {
             Event newEvent = new Event()
             {
@@ -42,32 +42,6 @@ namespace VirtualGameStore.Test
             bool isOverAttendeeLimit = newEvent.IsOverAttendeeLimit();
 
             Assert.False(isOverAttendeeLimit);
-        }
-
-        [Test]
-        public void IsInFuture_ReturnsTrueIfEventDateTimeIsAfterNow()
-        {
-            Event newEvent = new Event()
-            {
-                DateTime = DateTime.Now.AddDays(1)
-            };
-
-            bool isNewEventInFuture = newEvent.IsInFuture();
-
-            Assert.True(isNewEventInFuture);
-        }
-
-        [Test]
-        public void IsInFuture_ReturnsFalseIfEventDateTimeIsBeforeNow()
-        {
-            Event newEvent = new Event()
-            {
-                DateTime = DateTime.Now.AddDays(-1)
-            };
-
-            bool isNewEventInFuture = newEvent.IsInFuture();
-
-            Assert.False(isNewEventInFuture);
         }
     }
 }

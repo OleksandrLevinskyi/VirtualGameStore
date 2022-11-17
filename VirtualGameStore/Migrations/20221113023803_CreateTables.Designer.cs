@@ -12,8 +12,8 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221106205354_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221113023803_CreateTables")]
+    partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,21 @@ namespace VirtualGameStore.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("CategoryUser");
+                });
+
+            modelBuilder.Entity("GameUser", b =>
+                {
+                    b.Property<int>("WishListId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WishListUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("WishListId", "WishListUsersId");
+
+                    b.HasIndex("WishListUsersId");
+
+                    b.ToTable("GameUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -618,6 +633,9 @@ namespace VirtualGameStore.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsProcessed")
+                        .HasColumnType("bit");
+
                     b.Property<int>("ShippingAddressId")
                         .HasColumnType("int");
 
@@ -633,8 +651,6 @@ namespace VirtualGameStore.Migrations
                     b.HasIndex("BillingAddressId");
 
                     b.HasIndex("ShippingAddressId");
-
-                    b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
 
@@ -668,35 +684,6 @@ namespace VirtualGameStore.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("VirtualGameStore.Models.OrderStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OrderStatuses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Processing"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Complete"
-                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
@@ -1012,6 +999,21 @@ namespace VirtualGameStore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GameUser", b =>
+                {
+                    b.HasOne("VirtualGameStore.Models.Game", null)
+                        .WithMany()
+                        .HasForeignKey("WishListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VirtualGameStore.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("WishListUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1177,12 +1179,6 @@ namespace VirtualGameStore.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("VirtualGameStore.Models.OrderStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("VirtualGameStore.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
@@ -1192,8 +1188,6 @@ namespace VirtualGameStore.Migrations
                     b.Navigation("BillingAddress");
 
                     b.Navigation("ShippingAddress");
-
-                    b.Navigation("Status");
 
                     b.Navigation("User");
                 });

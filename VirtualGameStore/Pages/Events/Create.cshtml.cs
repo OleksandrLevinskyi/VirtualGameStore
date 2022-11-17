@@ -25,7 +25,6 @@ namespace VirtualGameStore.Pages.Events
 
         public IActionResult OnGet()
         {
-            ViewData["CreatorId"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 

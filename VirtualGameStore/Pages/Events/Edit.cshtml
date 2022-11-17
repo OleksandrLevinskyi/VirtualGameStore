@@ -11,6 +11,13 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
+            @if (ViewBag.StatusMessage != null)
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewBag.StatusMessage
+                </div>
+            }
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Event.Id" />
             <div class="form-group">

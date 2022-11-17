@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,20 +19,21 @@ namespace VirtualGameStore.Pages.Games
 {
     public class DetailsModel : PageModel
     {
-        private readonly VirtualGameStore.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
 
-        public DetailsModel(VirtualGameStore.Data.ApplicationDbContext context, UserManager<User> userManager)
+        [BindProperty]
+        public Review Review { get; set; }
+        [BindProperty]
+        public int GameId { get; set; }
+        public Game Game { get; set; }
+        public SelectList CartItemQuantitySelectList { get; private set; }
+
+        public DetailsModel(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
-
-        [BindProperty]
-        public Review Review { get; set; }
-
-        public Game Game { get; set; }
-        public SelectList CartItemQuantitySelectList { get; private set; }
 
         private Task<User?> GetUser()
         {
@@ -46,7 +48,7 @@ namespace VirtualGameStore.Pages.Games
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IActionResult> OnGetAsync(int? id, bool? isSuccess)
+        public async Task<IActionResult> OnGetAsync(int? id, string? messageType)
         {
             if (id == null || _context.Games == null)
             {
@@ -75,12 +77,28 @@ namespace VirtualGameStore.Pages.Games
                 Game = game;
             }
 
-            if (isSuccess == true)
+            if (messageType == "review-success")
             {
-                ViewData["IsSuccess"] = true;
+                ViewData["DisplayReviewMessage"] = true;
             }
 
+            ViewData["IsGameAlreadyInWishList"] = false;
             ViewData["IsAuthorized"] = User.IsInRole("Member");
+            ViewData["IsGamePurchased"] = false;
+
+            string currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            User? currUser = await _context.Users
+                .Include(u => u.WishList)
+                .Include(u => u.Orders)
+                .ThenInclude(o => o.Items)
+                .ThenInclude(i => i.Game)
+                .FirstOrDefaultAsync(u => u.Id == currUserId);
+
+            if (currUser != null)
+            {
+                ViewData["IsGameAlreadyInWishList"] = currUser.IsGameInWishList(Game.Id);
+                ViewData["IsGamePurchased"] = currUser.IsGamePurchased(Game.Id);
+            }
 
             var stock = game.IsDigital ? 1 : Math.Min(game.Stock, 10);
             CartItemQuantitySelectList = new SelectList(Enumerable.Range(1, stock), 1);
@@ -88,7 +106,23 @@ namespace VirtualGameStore.Pages.Games
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostDownloadAsync()
+        {
+            Game? game = await _context.Games.FindAsync(GameId);
+
+            if (game == null)
+            {
+                return Page();
+            }
+
+            byte[] filebytes = Encoding.ASCII.GetBytes(game.Name);
+            string contentType = "text/plain";
+            string fileDownloadName = game.GenerateFileName();
+
+            return File(filebytes, contentType, fileDownloadName);
+        }
+
+        public async Task<IActionResult> OnPostAddReviewAsync()
         {
             Review.Comment = (Review.Comment + "").Trim();
             Review.AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -102,7 +136,35 @@ namespace VirtualGameStore.Pages.Games
             _context.Reviews.Add(Review);
             await _context.SaveChangesAsync();
 
-            return Redirect($"./Details?id={Review.GameId}&isSuccess=true");
+            return Redirect($"/Games/Details?id={Review.GameId}&messageType=review-success");
+        }
+
+        public async Task<IActionResult> OnPostAddToWishListAsync()
+        {
+            string currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            User? currUser = await _context.Users.Include(u => u.WishList).FirstOrDefaultAsync(u => u.Id == currUserId);
+            Game? game = await _context.Games.FindAsync(GameId);
+
+            if (currUser == null || game == null)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            bool isGameAlreadyInWishList = currUser.IsGameInWishList(GameId);
+
+            if (isGameAlreadyInWishList)
+            {
+                currUser.WishList.Remove(game);
+            }
+            else
+            {
+                currUser.WishList.Add(game);
+            }
+
+            _context.Attach(currUser).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Redirect($"/Games/Details?id={game.Id}");
         }
 
         public async Task<IActionResult> OnPostAddToCartAsync(int? id, int? quantity)
@@ -123,7 +185,7 @@ namespace VirtualGameStore.Pages.Games
 
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return Redirect("/Identity/Account/Login");
             }
 
             var cartItem = user.GetCartItem(id);
