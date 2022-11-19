@@ -199,38 +199,38 @@ namespace VirtualGameStore.Data
                 new Game()
                 {
                     Id = 1,
-                    Name = "Pacman",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    Name = "Minecraft Dungeons",
+                    Description = "Fight your way through an exciting action-adventure game, inspired by classic dungeon crawlers and set in the Minecraft universe!",
                     IsDigital = false,
-                    Price = 15.89,
+                    Price = 25.99,
                     Stock = 15
                 },
                 new Game()
                 {
                     Id = 2,
-                    Name = "Tetris",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    Name = "Among Us",
+                    Description = "An online and local party game of teamwork and betrayal for 4-15 players...in space!",
                     IsDigital = false,
-                    Price = 10.26,
-                    Stock = 10
+                    Price = 5.69,
+                    Stock = 5
                 },
                 new Game()
                 {
                     Id = 3,
-                    Name = "Wii Sports",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    Name = "Sonic Frontiers",
+                    Description = "Experience Sonic like never before!",
                     IsDigital = true,
-                    Price = 40.5,
-                    Stock = 1
+                    Price = 79.99,
+                    Stock = 0
                 },
                 new Game()
                 {
                     Id = 4,
-                    Name = "Sonic the HedgeHog",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                    Name = "Lego Worlds",
+                    Description = "Experience a galaxy of Worlds made entirely from LEGO bricks. EXPLORE gigantic landscapes, DISCOVER countless surprises, and CREATE anything you can imagine by building with LEGO bricks.",
                     IsDigital = true,
-                    Price = 3,
-                    Stock = 1
+                    Price = 29.99,
+                    Stock = 0
                 }
             };
 
