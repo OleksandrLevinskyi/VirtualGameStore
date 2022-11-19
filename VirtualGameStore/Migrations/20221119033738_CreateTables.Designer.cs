@@ -12,7 +12,7 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221113023803_CreateTables")]
+    [Migration("20221119033738_CreateTables")]
     partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -386,6 +386,35 @@ namespace VirtualGameStore.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Events");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AttendeeLimit = 5,
+                            CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
+                            DateTime = new DateTime(2022, 11, 23, 22, 37, 38, 160, DateTimeKind.Local).AddTicks(6021),
+                            Description = "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.",
+                            Name = "Winter Hackathon 2022"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AttendeeLimit = 16,
+                            CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
+                            DateTime = new DateTime(2023, 2, 2, 12, 37, 38, 160, DateTimeKind.Local).AddTicks(6076),
+                            Description = "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!",
+                            Name = "Holiday Trivia"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AttendeeLimit = 1,
+                            CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
+                            DateTime = new DateTime(2022, 11, 20, 3, 37, 38, 160, DateTimeKind.Local).AddTicks(6080),
+                            Description = "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.",
+                            Name = "Dungeons & Dragons"
+                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Friendship", b =>
@@ -436,38 +465,38 @@ namespace VirtualGameStore.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            Description = "Fight your way through an exciting action-adventure game, inspired by classic dungeon crawlers and set in the Minecraft universe!",
                             IsDigital = false,
-                            Name = "Pacman",
-                            Price = 15.890000000000001,
+                            Name = "Minecraft Dungeons",
+                            Price = 25.989999999999998,
                             Stock = 15
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            Description = "An online and local party game of teamwork and betrayal for 4-15 players...in space!",
                             IsDigital = false,
-                            Name = "Tetris",
-                            Price = 10.26,
-                            Stock = 10
+                            Name = "Among Us",
+                            Price = 5.6900000000000004,
+                            Stock = 5
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            Description = "Experience Sonic like never before!",
                             IsDigital = true,
-                            Name = "Wii Sports",
-                            Price = 40.5,
-                            Stock = 1
+                            Name = "Sonic Frontiers",
+                            Price = 79.989999999999995,
+                            Stock = 0
                         },
                         new
                         {
                             Id = 4,
-                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            Description = "Experience a galaxy of Worlds made entirely from LEGO bricks. EXPLORE gigantic landscapes, DISCOVER countless surprises, and CREATE anything you can imagine by building with LEGO bricks.",
                             IsDigital = true,
-                            Name = "Sonic the HedgeHog",
-                            Price = 3.0,
-                            Stock = 1
+                            Name = "Lego Worlds",
+                            Price = 29.989999999999998,
+                            Stock = 0
                         });
                 });
 

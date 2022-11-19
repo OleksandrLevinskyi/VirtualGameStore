@@ -255,6 +255,36 @@ namespace VirtualGameStore.Data
                 new GamePlatform() { GameId = games[2].Id, PlatformId = platforms[3].Id },
                 new GamePlatform() { GameId = games[3].Id, PlatformId = platforms[1].Id },
                 new GamePlatform() { GameId = games[3].Id, PlatformId = platforms[3].Id });
+
+            var events = new List<Event>()
+            {
+                new Event(){
+                    Id=1,
+                    Name="Winter Hackathon 2022",
+                    Description="The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.",
+                    AttendeeLimit=5,
+                    CreatorId=employeeUser.Id,
+                    DateTime=DateTime.Now.AddDays(5)
+                },
+                new Event(){
+                    Id=2,
+                    Name="Holiday Trivia",
+                    Description="Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!",
+                    AttendeeLimit=16,
+                    CreatorId=employeeUser.Id,
+                    DateTime=DateTime.Now.AddDays(75).AddHours(14)
+                },
+                new Event(){
+                    Id=3,
+                    Name="Dungeons & Dragons",
+                    Description="We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.",
+                    AttendeeLimit=1,
+                    CreatorId=employeeUser.Id,
+                    DateTime=DateTime.Now.AddDays(1).AddHours(5)
+                },
+            };
+
+            builder.Entity<Event>().HasData(events);
         }
     }
 }

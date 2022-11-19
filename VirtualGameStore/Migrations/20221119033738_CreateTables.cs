@@ -623,10 +623,10 @@ namespace VirtualGameStore.Migrations
                 columns: new[] { "Id", "Description", "IsDigital", "Name", "Price", "Stock" },
                 values: new object[,]
                 {
-                    { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", false, "Pacman", 15.890000000000001, 15 },
-                    { 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", false, "Tetris", 10.26, 10 },
-                    { 3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", true, "Wii Sports", 40.5, 1 },
-                    { 4, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", true, "Sonic the HedgeHog", 3.0, 1 }
+                    { 1, "Fight your way through an exciting action-adventure game, inspired by classic dungeon crawlers and set in the Minecraft universe!", false, "Minecraft Dungeons", 25.989999999999998, 15 },
+                    { 2, "An online and local party game of teamwork and betrayal for 4-15 players...in space!", false, "Among Us", 5.6900000000000004, 5 },
+                    { 3, "Experience Sonic like never before!", true, "Sonic Frontiers", 79.989999999999995, 0 },
+                    { 4, "Experience a galaxy of Worlds made entirely from LEGO bricks. EXPLORE gigantic landscapes, DISCOVER countless surprises, and CREATE anything you can imagine by building with LEGO bricks.", true, "Lego Worlds", 29.989999999999998, 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -659,6 +659,16 @@ namespace VirtualGameStore.Migrations
                     { "9a86cc44-771d-426d-b702-c4a4a93c348f", "76742c46-0008-4749-af77-5d129b6d88b1" },
                     { "9a86cc44-771d-426d-b702-c4a4a93c348f", "9a44a14a-47fb-4196-8a45-57fa557fb992" },
                     { "9a86cc44-771d-426d-b702-c4a4a93c348f", "d5dafa9f-92a4-43dc-9652-02cf3860d621" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Events",
+                columns: new[] { "Id", "AttendeeLimit", "CreatorId", "DateTime", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, 5, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 23, 22, 37, 38, 160, DateTimeKind.Local).AddTicks(6021), "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.", "Winter Hackathon 2022" },
+                    { 2, 16, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2023, 2, 2, 12, 37, 38, 160, DateTimeKind.Local).AddTicks(6076), "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!", "Holiday Trivia" },
+                    { 3, 1, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 20, 3, 37, 38, 160, DateTimeKind.Local).AddTicks(6080), "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.", "Dungeons & Dragons" }
                 });
 
             migrationBuilder.InsertData(
