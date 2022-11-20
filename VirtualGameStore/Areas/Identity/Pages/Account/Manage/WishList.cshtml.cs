@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,11 @@ namespace VirtualGameStore.Pages.Profile.WishList
 
             if (currUser != null)
             {
+                string wishListUrl = $"https://{Request.Host}/WishList/Index?id={currUser.Id}";
+                string twitterLink = $"https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20my%20Game%20Store%20Wishlist:&url={wishListUrl}";
+
+                ViewData["TwitterLink"] = twitterLink;
+
                 WishList = currUser.WishList;
             }
         }
