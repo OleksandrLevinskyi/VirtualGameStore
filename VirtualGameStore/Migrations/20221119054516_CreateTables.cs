@@ -666,9 +666,9 @@ namespace VirtualGameStore.Migrations
                 columns: new[] { "Id", "AttendeeLimit", "CreatorId", "DateTime", "Description", "Name" },
                 values: new object[,]
                 {
-                    { 1, 5, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 23, 22, 37, 38, 160, DateTimeKind.Local).AddTicks(6021), "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.", "Winter Hackathon 2022" },
-                    { 2, 16, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2023, 2, 2, 12, 37, 38, 160, DateTimeKind.Local).AddTicks(6076), "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!", "Holiday Trivia" },
-                    { 3, 1, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 20, 3, 37, 38, 160, DateTimeKind.Local).AddTicks(6080), "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.", "Dungeons & Dragons" }
+                    { 1, 5, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 24, 0, 45, 15, 869, DateTimeKind.Local).AddTicks(7176), "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.", "Winter Hackathon 2022" },
+                    { 2, 16, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2023, 2, 2, 14, 45, 15, 869, DateTimeKind.Local).AddTicks(7212), "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!", "Holiday Trivia" },
+                    { 3, 1, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 20, 5, 45, 15, 869, DateTimeKind.Local).AddTicks(7214), "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.", "Dungeons & Dragons" }
                 });
 
             migrationBuilder.InsertData(

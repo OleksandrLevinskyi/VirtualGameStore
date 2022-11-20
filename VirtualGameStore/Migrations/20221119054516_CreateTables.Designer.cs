@@ -12,7 +12,7 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221119033738_CreateTables")]
+    [Migration("20221119054516_CreateTables")]
     partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -393,7 +393,7 @@ namespace VirtualGameStore.Migrations
                             Id = 1,
                             AttendeeLimit = 5,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2022, 11, 23, 22, 37, 38, 160, DateTimeKind.Local).AddTicks(6021),
+                            DateTime = new DateTime(2022, 11, 24, 0, 45, 15, 869, DateTimeKind.Local).AddTicks(7176),
                             Description = "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.",
                             Name = "Winter Hackathon 2022"
                         },
@@ -402,7 +402,7 @@ namespace VirtualGameStore.Migrations
                             Id = 2,
                             AttendeeLimit = 16,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2023, 2, 2, 12, 37, 38, 160, DateTimeKind.Local).AddTicks(6076),
+                            DateTime = new DateTime(2023, 2, 2, 14, 45, 15, 869, DateTimeKind.Local).AddTicks(7212),
                             Description = "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!",
                             Name = "Holiday Trivia"
                         },
@@ -411,7 +411,7 @@ namespace VirtualGameStore.Migrations
                             Id = 3,
                             AttendeeLimit = 1,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2022, 11, 20, 3, 37, 38, 160, DateTimeKind.Local).AddTicks(6080),
+                            DateTime = new DateTime(2022, 11, 20, 5, 45, 15, 869, DateTimeKind.Local).AddTicks(7214),
                             Description = "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.",
                             Name = "Dungeons & Dragons"
                         });

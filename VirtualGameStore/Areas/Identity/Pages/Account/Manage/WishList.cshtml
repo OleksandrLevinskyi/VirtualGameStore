@@ -4,9 +4,11 @@
 
 @{
     ViewData["Title"] = "Wish List";
+    string wishListUrl = $"localhost:8000/WishList/Index?id={User.Identity.Name}";
+    string twitterLink = $"https://twitter.com/intent/tweet?text=My%20CVGS%20Wishlist:&url={wishListUrl}";
 }
 
-<h3>@ViewData["Title"]</h3>
+<h3>@ViewData["Title"] <a href="@twitterLink" class="btn btn-secondary me-2">Share on Twitter</a></h3>
 
 @if (!Model.WishList.Any())
 {
