@@ -114,6 +114,7 @@
             <th>
                 Quantity
             </th>
+            <th>Digital Download</th>
             <th>
                 Subtotal
             </th>
@@ -133,6 +134,19 @@
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
                 <td>
+                    @if (item.Game.IsDigital)
+                    {
+                        <form method="post">
+                            <input type="hidden" name="Id" value="@item.GameId" />
+                            <button type="submit" class="btn btn-success">Download</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <text>Physical Game</text>
+                    }
+                </td>
+                <td>
                     @($"{item.UnitPrice * item.Quantity:C2}")
                 </td>
             </tr>
@@ -140,7 +154,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3"><strong>Total</strong></td>
+            <td colspan="4"><strong>Total</strong></td>
             <td>
                 <strong>@($"{Model.Order.Total:C2}")</strong>
             </td>
