@@ -1,0 +1,45 @@
+﻿@page
+@model VirtualGameStore.Pages.Orders.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Unprocessed Orders</h1>
+
+@if (!Model.Orders.Any())
+{
+    <p>There are no unprocessed orders at the moment.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>User</th>
+                <th>Games</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Orders)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.UserName)
+                    </td>
+                    <td>
+                        @string.Join(", ", item.Items.Select(item => item.Game.Name))
+                    </td>
+                    <td>
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-primary">Ship Items</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
