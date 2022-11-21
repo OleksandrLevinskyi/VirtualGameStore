@@ -90,6 +90,8 @@ namespace VirtualGameStore.Pages.Checkout
                 UnitPrice = cartItem.Game.Price,
             }).ToList();
 
+            var hasOnlyDigitalGames = orderItems.All(item => item.Game.IsDigital);
+
             var order = new Order()
             {
                 User = user,
@@ -97,6 +99,7 @@ namespace VirtualGameStore.Pages.Checkout
                 CreatedAt = DateTime.Now,
                 ShippingAddress = user.ShippingAddress!.Copy(),
                 BillingAddress = user.BillingAddress!.Copy(),
+                IsProcessed = hasOnlyDigitalGames
             };
 
             user.CartItems = Enumerable.Empty<CartItem>().ToList();
