@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using VirtualGameStore.Data;
 using VirtualGameStore.Models;
 
@@ -49,7 +50,7 @@ namespace VirtualGameStore.Pages.Checkout
             BillingAddress = user.BillingAddress;
         }
 
-        public async Task<IActionResult> OnGet(int id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             var user = await GetUser();
 
@@ -70,6 +71,22 @@ namespace VirtualGameStore.Pages.Checkout
             Load(user);
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            var game = await _context.Games.FindAsync(id);
+
+            if (game == null)
+            {
+                return Page();
+            }
+
+            byte[] filebytes = Encoding.ASCII.GetBytes(game.Name);
+            string contentType = "text/plain";
+            string fileDownloadName = game.GenerateFileName();
+
+            return File(filebytes, contentType, fileDownloadName);
         }
     }
 }

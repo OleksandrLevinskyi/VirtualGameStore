@@ -93,7 +93,10 @@ namespace VirtualGameStore.Pages.Cart
 
                 if (itemCard.Remove)
                 {
-                    cartItem.Game.Stock += itemCard.Quantity;
+                    if (!cartItem.Game.IsDigital)
+                    {
+                        cartItem.Game.Stock += itemCard.Quantity;
+                    }
                     return list;
                 }
 

@@ -1,15 +1,15 @@
 ﻿@page
-@model VirtualGameStore.Pages.Checkout.ConfirmationModel
+@model VirtualGameStore.Pages.Orders.DetailsModel
 
 @{
-    ViewData["Title"] = "Order Confirmed";
+    ViewData["Title"] = "Order Details";
 }
 
 <h1 class="mb-3">@ViewData["Title"]</h1>
-<p>Thanks for ordering with us!</p>
-<h2>Order details</h2>
-<p>Order date: <strong>@Model.Order.CreatedAt.ToString("yyyy-MM-dd")</strong></p>
-<p>Order status: <strong>@(Model.Order.IsProcessed ? "Processed" : "Processing")</strong></p>
+<h3>User: <strong>@Model.Order.User.UserName</strong></h3>
+<p><strong>@Model.Order.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</strong></p>
+<p>Status: <strong>@(Model.Order.IsProcessed ? "Processed" : "Processing")</strong></p>
+
 <h3>Address</h3>
 
 <div class="d-md-flex">
@@ -114,7 +114,9 @@
             <th>
                 Quantity
             </th>
-            <th>Digital Download</th>
+            <th>
+                Format
+            </th>
             <th>
                 Subtotal
             </th>
@@ -134,17 +136,7 @@
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
                 <td>
-                    @if (item.Game.IsDigital)
-                    {
-                        <form method="post">
-                            <input type="hidden" name="Id" value="@item.GameId" />
-                            <button type="submit" class="btn btn-success">Download</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <text>Physical Game</text>
-                    }
+                    @(item.Game.IsDigital ? "Digital" : "Physical")
                 </td>
                 <td>
                     @($"{item.UnitPrice * item.Quantity:C2}")
@@ -161,3 +153,10 @@
         </tr>
     </tfoot>
 </table>
+
+@if (!Model.Order.IsProcessed)
+{
+    <form method="post" asp-route-id="@Model.Order.Id">
+        <button class="btn btn-primary">Mark order as processed</button>
+    </form>
+}
