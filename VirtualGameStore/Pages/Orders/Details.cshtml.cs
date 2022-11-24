@@ -61,6 +61,7 @@ namespace VirtualGameStore.Pages.Orders
 
             await _context.SaveChangesAsync();
 
+            TempData["SuccessMessage"] = "Order processed successfully.";
             return RedirectToPage("Index");
         }
     }
