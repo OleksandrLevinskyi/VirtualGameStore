@@ -79,7 +79,11 @@ namespace VirtualGameStore.Pages.Games
 
             if (messageType == "review-success")
             {
-                ViewData["DisplayReviewMessage"] = true;
+                ViewData["ReviewMessageConfirmation"] = "Your review will be displayed after an approval from one of our employees. Thank you!";
+            }
+            else if (messageType == "review-success-approved")
+            {
+                ViewData["ReviewMessageConfirmation"] = "Thank you for rating a game!";
             }
 
             ViewData["IsGameAlreadyInWishList"] = false;
@@ -124,6 +128,8 @@ namespace VirtualGameStore.Pages.Games
 
         public async Task<IActionResult> OnPostAddReviewAsync()
         {
+            string messageType = "review-success";
+
             Review.Comment = (Review.Comment + "").Trim();
             Review.AuthorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Review.DateTime = DateTime.Now;
@@ -133,10 +139,16 @@ namespace VirtualGameStore.Pages.Games
                 return Page();
             }
 
+            if (Review.Comment == "")
+            {
+                Review.IsApproved = true;
+                messageType = "review-success-approved";
+            }
+
             _context.Reviews.Add(Review);
             await _context.SaveChangesAsync();
 
-            return Redirect($"/Games/Details?id={Review.GameId}&messageType=review-success");
+            return Redirect($"/Games/Details?id={Review.GameId}&messageType={messageType}");
         }
 
         public async Task<IActionResult> OnPostAddToWishListAsync()
