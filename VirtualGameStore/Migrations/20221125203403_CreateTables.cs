@@ -586,6 +586,11 @@ namespace VirtualGameStore.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Addresses",
+                columns: new[] { "Id", "Address1", "Address2", "City", "Country", "PostalCode", "Province" },
+                values: new object[] { 1, "104 Road Dr", "Apartment #4", "Kitchener", "Canada", "L1L 1L1", "Ontario" });
+
+            migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
@@ -666,9 +671,9 @@ namespace VirtualGameStore.Migrations
                 columns: new[] { "Id", "AttendeeLimit", "CreatorId", "DateTime", "Description", "Name" },
                 values: new object[,]
                 {
-                    { 1, 5, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 24, 0, 45, 15, 869, DateTimeKind.Local).AddTicks(7176), "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.", "Winter Hackathon 2022" },
-                    { 2, 16, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2023, 2, 2, 14, 45, 15, 869, DateTimeKind.Local).AddTicks(7212), "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!", "Holiday Trivia" },
-                    { 3, 1, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 20, 5, 45, 15, 869, DateTimeKind.Local).AddTicks(7214), "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.", "Dungeons & Dragons" }
+                    { 1, 5, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 30, 15, 34, 2, 666, DateTimeKind.Local).AddTicks(8876), "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.", "Winter Hackathon 2022" },
+                    { 2, 16, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2023, 2, 9, 5, 34, 2, 666, DateTimeKind.Local).AddTicks(8913), "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!", "Holiday Trivia" },
+                    { 3, 1, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 26, 20, 34, 2, 666, DateTimeKind.Local).AddTicks(8916), "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.", "Dungeons & Dragons" }
                 });
 
             migrationBuilder.InsertData(
@@ -699,6 +704,47 @@ namespace VirtualGameStore.Migrations
                     { 3, 4 },
                     { 4, 2 },
                     { 4, 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "GameUser",
+                columns: new[] { "WishListId", "WishListUsersId" },
+                values: new object[,]
+                {
+                    { 1, "76742c46-0008-4749-af77-5d129b6d88b1" },
+                    { 1, "d5dafa9f-92a4-43dc-9652-02cf3860d621" },
+                    { 2, "d5dafa9f-92a4-43dc-9652-02cf3860d621" },
+                    { 3, "d5dafa9f-92a4-43dc-9652-02cf3860d621" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "Id", "BillingAddressId", "CreatedAt", "IsProcessed", "ShippingAddressId", "StatusId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2022, 11, 25, 14, 34, 2, 666, DateTimeKind.Local).AddTicks(8986), false, 1, 2, "d5dafa9f-92a4-43dc-9652-02cf3860d621" },
+                    { 2, 1, new DateTime(2022, 11, 25, 13, 34, 2, 666, DateTimeKind.Local).AddTicks(9073), false, 1, 2, "76742c46-0008-4749-af77-5d129b6d88b1" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "OrderItems",
+                columns: new[] { "Id", "GameId", "OrderId", "Quantity", "UnitPrice" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, 2, 25.989999999999998 },
+                    { 2, 2, 1, 1, 5.6900000000000004 },
+                    { 3, 2, 2, 1, 5.6900000000000004 },
+                    { 4, 3, 2, 1, 79.989999999999995 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Registrations",
+                columns: new[] { "Id", "DateTimeRegistered", "EventId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2022, 11, 23, 15, 34, 2, 666, DateTimeKind.Local).AddTicks(8936), 2, "d5dafa9f-92a4-43dc-9652-02cf3860d621" },
+                    { 2, new DateTime(2022, 11, 24, 9, 34, 2, 666, DateTimeKind.Local).AddTicks(8943), 2, "76742c46-0008-4749-af77-5d129b6d88b1" },
+                    { 3, new DateTime(2022, 11, 23, 14, 34, 2, 666, DateTimeKind.Local).AddTicks(8947), 3, "d5dafa9f-92a4-43dc-9652-02cf3860d621" }
                 });
 
             migrationBuilder.CreateIndex(

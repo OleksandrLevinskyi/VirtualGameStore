@@ -50,6 +50,28 @@ namespace VirtualGameStore.Migrations
                     b.HasIndex("WishListUsersId");
 
                     b.ToTable("GameUser");
+
+                    b.HasData(
+                        new
+                        {
+                            WishListId = 1,
+                            WishListUsersId = "d5dafa9f-92a4-43dc-9652-02cf3860d621"
+                        },
+                        new
+                        {
+                            WishListId = 2,
+                            WishListUsersId = "d5dafa9f-92a4-43dc-9652-02cf3860d621"
+                        },
+                        new
+                        {
+                            WishListId = 3,
+                            WishListUsersId = "d5dafa9f-92a4-43dc-9652-02cf3860d621"
+                        },
+                        new
+                        {
+                            WishListId = 1,
+                            WishListUsersId = "76742c46-0008-4749-af77-5d129b6d88b1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -276,6 +298,18 @@ namespace VirtualGameStore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Addresses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address1 = "104 Road Dr",
+                            Address2 = "Apartment #4",
+                            City = "Kitchener",
+                            Country = "Canada",
+                            PostalCode = "L1L 1L1",
+                            Province = "Ontario"
+                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.CartItem", b =>
@@ -391,7 +425,7 @@ namespace VirtualGameStore.Migrations
                             Id = 1,
                             AttendeeLimit = 5,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2022, 11, 24, 0, 45, 15, 869, DateTimeKind.Local).AddTicks(7176),
+                            DateTime = new DateTime(2022, 11, 30, 15, 34, 2, 666, DateTimeKind.Local).AddTicks(8876),
                             Description = "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.",
                             Name = "Winter Hackathon 2022"
                         },
@@ -400,7 +434,7 @@ namespace VirtualGameStore.Migrations
                             Id = 2,
                             AttendeeLimit = 16,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2023, 2, 2, 14, 45, 15, 869, DateTimeKind.Local).AddTicks(7212),
+                            DateTime = new DateTime(2023, 2, 9, 5, 34, 2, 666, DateTimeKind.Local).AddTicks(8913),
                             Description = "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!",
                             Name = "Holiday Trivia"
                         },
@@ -409,7 +443,7 @@ namespace VirtualGameStore.Migrations
                             Id = 3,
                             AttendeeLimit = 1,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2022, 11, 20, 5, 45, 15, 869, DateTimeKind.Local).AddTicks(7214),
+                            DateTime = new DateTime(2022, 11, 26, 20, 34, 2, 666, DateTimeKind.Local).AddTicks(8916),
                             Description = "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.",
                             Name = "Dungeons & Dragons"
                         });
@@ -682,6 +716,28 @@ namespace VirtualGameStore.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BillingAddressId = 1,
+                            CreatedAt = new DateTime(2022, 11, 25, 14, 34, 2, 666, DateTimeKind.Local).AddTicks(8986),
+                            IsProcessed = false,
+                            ShippingAddressId = 1,
+                            StatusId = 2,
+                            UserId = "d5dafa9f-92a4-43dc-9652-02cf3860d621"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BillingAddressId = 1,
+                            CreatedAt = new DateTime(2022, 11, 25, 13, 34, 2, 666, DateTimeKind.Local).AddTicks(9073),
+                            IsProcessed = false,
+                            ShippingAddressId = 1,
+                            StatusId = 2,
+                            UserId = "76742c46-0008-4749-af77-5d129b6d88b1"
+                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.OrderItem", b =>
@@ -711,6 +767,40 @@ namespace VirtualGameStore.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            GameId = 1,
+                            OrderId = 1,
+                            Quantity = 2,
+                            UnitPrice = 25.989999999999998
+                        },
+                        new
+                        {
+                            Id = 2,
+                            GameId = 2,
+                            OrderId = 1,
+                            Quantity = 1,
+                            UnitPrice = 5.6900000000000004
+                        },
+                        new
+                        {
+                            Id = 3,
+                            GameId = 2,
+                            OrderId = 2,
+                            Quantity = 1,
+                            UnitPrice = 5.6900000000000004
+                        },
+                        new
+                        {
+                            Id = 4,
+                            GameId = 3,
+                            OrderId = 2,
+                            Quantity = 1,
+                            UnitPrice = 79.989999999999995
+                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.PaymentOption", b =>
@@ -811,6 +901,29 @@ namespace VirtualGameStore.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Registrations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateTimeRegistered = new DateTime(2022, 11, 23, 15, 34, 2, 666, DateTimeKind.Local).AddTicks(8936),
+                            EventId = 2,
+                            UserId = "d5dafa9f-92a4-43dc-9652-02cf3860d621"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateTimeRegistered = new DateTime(2022, 11, 24, 9, 34, 2, 666, DateTimeKind.Local).AddTicks(8943),
+                            EventId = 2,
+                            UserId = "76742c46-0008-4749-af77-5d129b6d88b1"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateTimeRegistered = new DateTime(2022, 11, 23, 14, 34, 2, 666, DateTimeKind.Local).AddTicks(8947),
+                            EventId = 3,
+                            UserId = "d5dafa9f-92a4-43dc-9652-02cf3860d621"
+                        });
                 });
 
             modelBuilder.Entity("VirtualGameStore.Models.Review", b =>

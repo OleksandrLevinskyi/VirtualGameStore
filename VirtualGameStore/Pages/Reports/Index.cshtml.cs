@@ -172,7 +172,7 @@ public class IndexModel : PageModel
         {
             new("Name", XLDataType.Text, e => e.Name),
             new("Date", XLDataType.DateTime, e => e.DateTime.Date),
-            new("Time", XLDataType.DateTime, e => e.DateTime.TimeOfDay),
+            new("Time", XLDataType.DateTime, e => e.DateTime.TimeOfDay, "H:mm"),
             new("Registrations", XLDataType.Number, e => e.Registrations.Count, "#,##0"),
         });
         // Make the workbook and add the report to it.
