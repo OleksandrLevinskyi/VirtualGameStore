@@ -51,7 +51,7 @@ namespace VirtualGameStore.Pages.Events
                 .Include(e => e.Registrations)
                 .ToListAsync();
 
-                Events = Events.Where(e => !e.IsOverAttendeeLimit() || e.Registrations.Any(r => r.UserId == currUserId)).ToList();
+                Events = Events.Where(e => (!e.IsOverAttendeeLimit() || e.Registrations.Any(r => r.UserId == currUserId)) && e.IsInFuture()).ToList();
             }
         }
 
