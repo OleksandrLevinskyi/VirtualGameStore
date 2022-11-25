@@ -68,12 +68,17 @@ namespace VirtualGameStore.Pages.Events
                 return Redirect("/Identity/Account/Login");
             }
 
-            if (registrationEvent == null || registrationEvent.IsOverAttendeeLimit())
+            if (registrationEvent == null)
             {
                 return Redirect($"/Events/Index?message={message}");
             }
 
             Registration? userRegisteration = registrationEvent.Registrations.FirstOrDefault(r => r.UserId == currUserId);
+
+            if(registrationEvent.IsOverAttendeeLimit() && userRegisteration == null)
+            {
+                return Redirect($"/Events/Index?message={message}");
+            }
 
             if (userRegisteration != null)
             {
