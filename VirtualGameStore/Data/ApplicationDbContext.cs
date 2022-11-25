@@ -164,7 +164,7 @@ namespace VirtualGameStore.Data
 
             var memberUser3 = new User()
             {
-                Id = "76742c46-0008-4749-af77-5d129b6d88b1",
+                Id = "c1bf3565-0603-45bb-8994-a41612ff7da5",
                 UserName = "rjohnson",
                 FirstName = "Rosa",
                 LastName = "Johnson",
@@ -173,8 +173,8 @@ namespace VirtualGameStore.Data
                 NormalizedEmail = "RJOHNSON@VGS.COM",
                 EmailConfirmed = true,
                 PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", // Password1!
-                SecurityStamp = "7XDDKAH2YGWTBDC7UVPT76DUXTLQES3E",
-                ConcurrencyStamp = "0c6c0c5a-52ea-4b4c-89cc-8130611f1e54",
+                SecurityStamp = "KKZPX3W76NI7XNOST4IYIHAH4UIF2QYP",
+                ConcurrencyStamp = "15ac61f3-86df-4243-be66-d8d65db46861",
                 LockoutEnabled = true
             };
 

@@ -12,7 +12,7 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221119054516_CreateTables")]
+    [Migration("20221125043422_CreateTables")]
     partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -393,7 +393,7 @@ namespace VirtualGameStore.Migrations
                             Id = 1,
                             AttendeeLimit = 5,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2022, 11, 24, 0, 45, 15, 869, DateTimeKind.Local).AddTicks(7176),
+                            DateTime = new DateTime(2022, 11, 29, 23, 34, 21, 942, DateTimeKind.Local).AddTicks(3368),
                             Description = "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.",
                             Name = "Winter Hackathon 2022"
                         },
@@ -402,7 +402,7 @@ namespace VirtualGameStore.Migrations
                             Id = 2,
                             AttendeeLimit = 16,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2023, 2, 2, 14, 45, 15, 869, DateTimeKind.Local).AddTicks(7212),
+                            DateTime = new DateTime(2023, 2, 8, 13, 34, 21, 942, DateTimeKind.Local).AddTicks(3406),
                             Description = "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!",
                             Name = "Holiday Trivia"
                         },
@@ -411,7 +411,7 @@ namespace VirtualGameStore.Migrations
                             Id = 3,
                             AttendeeLimit = 1,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2022, 11, 20, 5, 45, 15, 869, DateTimeKind.Local).AddTicks(7214),
+                            DateTime = new DateTime(2022, 11, 26, 4, 34, 21, 942, DateTimeKind.Local).AddTicks(3408),
                             Description = "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.",
                             Name = "Dungeons & Dragons"
                         });
@@ -982,34 +982,57 @@ namespace VirtualGameStore.Migrations
                             Id = "d5dafa9f-92a4-43dc-9652-02cf3860d621",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "0f4fa02d-33c6-48e6-b573-7218fa00c9a2",
-                            Email = "foo@vgs.com",
+                            Email = "msmith@vgs.com",
                             EmailConfirmed = true,
+                            FirstName = "Mark",
                             IsEmailMarketingEnabled = false,
+                            LastName = "Smith",
                             LockoutEnabled = true,
-                            NormalizedEmail = "FOO@VGS.COM",
-                            NormalizedUserName = "FOO",
+                            NormalizedEmail = "MSMITH@VGS.COM",
+                            NormalizedUserName = "MSMITH",
                             PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "WQ7TGOMDYEUVSMNVX2G35VKZ4MPGODG4",
                             TwoFactorEnabled = false,
-                            UserName = "foo"
+                            UserName = "msmith"
                         },
                         new
                         {
                             Id = "76742c46-0008-4749-af77-5d129b6d88b1",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "0c6c0c5a-52ea-4b4c-89cc-8130611f1e54",
-                            Email = "bar@vgs.com",
+                            Email = "bjacobs@vgs.com",
                             EmailConfirmed = true,
+                            FirstName = "Bob",
                             IsEmailMarketingEnabled = false,
+                            LastName = "Jacobs",
                             LockoutEnabled = true,
-                            NormalizedEmail = "BAR@VGS.COM",
-                            NormalizedUserName = "BAR",
+                            NormalizedEmail = "BJACOBS@VGS.COM",
+                            NormalizedUserName = "BJACOBS",
                             PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7XDDKAH2YGWTBDC7UVPT76DUXTLQES3E",
                             TwoFactorEnabled = false,
-                            UserName = "bar"
+                            UserName = "bjacobs"
+                        },
+                        new
+                        {
+                            Id = "c1bf3565-0603-45bb-8994-a41612ff7da5",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "15ac61f3-86df-4243-be66-d8d65db46861",
+                            Email = "rjohnson@vgs.com",
+                            EmailConfirmed = true,
+                            FirstName = "Rosa",
+                            IsEmailMarketingEnabled = false,
+                            LastName = "Johnson",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "RJOHNSON@VGS.COM",
+                            NormalizedUserName = "RJOHNSON",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "KKZPX3W76NI7XNOST4IYIHAH4UIF2QYP",
+                            TwoFactorEnabled = false,
+                            UserName = "rjohnson"
                         });
                 });
 
