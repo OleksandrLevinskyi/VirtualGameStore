@@ -17,7 +17,7 @@ public class ReportStyler<TD>
         var ws = workbook.Worksheets.Add(name);
         SetXlsHeaders(ws);
         SetXlsData(ws, data);
-        SetXlsFormatting(ws);
+        SetXlsFormatting(ws, data.Count);
         return ws;
     }
 
@@ -34,16 +34,23 @@ public class ReportStyler<TD>
             SetRowValues<object>(ws, ++i, ColumnDefinitions.Select(c => c.Value(item)).ToList());
     }
 
-    private void SetXlsFormatting(IXLWorksheet ws)
+    private void SetXlsFormatting(IXLWorksheet ws, int rowCount)
     {
         int len = ColumnDefinitions.Length;
         for (int i = 0; i < len; i++)
         {
             var columnDef = ColumnDefinitions[i];
-            var columnRange = ws.Range(2, i + 1, len, i + 1);
-            columnRange.DataType = columnDef.DataType;
-            if (columnDef.NumberFormat is not null)
-                columnRange.Style.NumberFormat.Format = columnDef.NumberFormat;
+            var columnRange = ws.Range(2, i + 1, rowCount + 2, i + 1);
+            var columnNums = columnRange.Cells();
+            if (columnDef.DataType == XLDataType.Number) {
+                columnNums = columnRange.Cells(c => IsNumericType(c.Value));
+                columnRange.Cells(c => !IsNumericType(c.Value)).Style.Alignment.Horizontal =
+                    XLAlignmentHorizontalValues.Center;
+            }
+
+            columnNums.DataType = columnDef.DataType;
+            if (columnDef.NumberFormat is not null) 
+                columnNums.Style.NumberFormat.Format = columnDef.NumberFormat;
         }
 
         ws.Columns().AdjustToContents();
@@ -54,6 +61,25 @@ public class ReportStyler<TD>
     {
         for (var i = 0; i < values.Count; i++)
             ws.Cell(row, i + 1).Value = values[i];
+    }
+    
+    private static bool IsNumericType(object o)
+    {
+        return Type.GetTypeCode(o.GetType()) switch
+        {
+            TypeCode.Byte => true,
+            TypeCode.SByte => true,
+            TypeCode.UInt16 => true,
+            TypeCode.UInt32 => true,
+            TypeCode.UInt64 => true,
+            TypeCode.Int16 => true,
+            TypeCode.Int32 => true,
+            TypeCode.Int64 => true,
+            TypeCode.Decimal => true,
+            TypeCode.Double => true,
+            TypeCode.Single => true,
+            _ => false
+        };
     }
 
     public struct Column

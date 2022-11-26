@@ -186,7 +186,8 @@ namespace VirtualGameStore.Data
                 new IdentityUserRole<string>() { UserId = employeeUser.Id, RoleId = employeeRole.Id },
                 new IdentityUserRole<string>() { UserId = memberUser.Id, RoleId = memberRole.Id },
                 new IdentityUserRole<string>() { UserId = memberUser1.Id, RoleId = memberRole.Id },
-                new IdentityUserRole<string>() { UserId = memberUser2.Id, RoleId = memberRole.Id });
+                new IdentityUserRole<string>() { UserId = memberUser2.Id, RoleId = memberRole.Id },
+                new IdentityUserRole<string>() { UserId = memberUser3.Id, RoleId = memberRole.Id });
 
             builder.Entity<Gender>().HasData(
                 new Gender() { Id = 1, Name = "Male" },
@@ -305,6 +306,113 @@ namespace VirtualGameStore.Data
             };
 
             builder.Entity<Event>().HasData(events);
+
+            var eventRegistrations = new List<Registration>() {
+                new Registration() {
+                    Id = 1,
+                    UserId = memberUser1.Id,
+                    EventId = 2,
+                    DateTimeRegistered = DateTime.Now.AddDays(-2),
+                },
+                new Registration() {
+                    Id = 2,
+                    UserId = memberUser2.Id,
+                    EventId = 2,
+                    DateTimeRegistered = DateTime.Now.AddDays(-1).AddHours(-6),
+                },
+                new Registration() {
+                    Id = 3,
+                    UserId = memberUser1.Id,
+                    EventId = 3,
+                    DateTimeRegistered = DateTime.Now.AddDays(-2).AddHours(-1),
+                }
+            };
+
+            builder.Entity<Address>().HasData(new Address()
+            {
+                Id = 1,
+                Address1 = "104 Road Dr",
+                Address2 = "Apartment #4",
+                City = "Kitchener",
+                Province = "Ontario",
+                PostalCode = "L1L 1L1",
+                Country = "Canada",
+            });
+
+            builder.Entity<Registration>().HasData(eventRegistrations);
+
+            int orderId = 0, orderItemId = 0;
+            var orders = new List<(Order, List<OrderItem>)>() {
+                (new Order() {
+                    Id = ++orderId,
+                    UserId = memberUser1.Id,
+                    CreatedAt = DateTime.Now.AddHours(-1),
+                    StatusId = 2,
+                    BillingAddressId = 1,
+                    ShippingAddressId = 1,
+                }, new List<OrderItem>() {
+                    new OrderItem() {
+                        Id = ++orderItemId,
+                        OrderId = orderId,
+                        GameId = games[0].Id,
+                        Quantity = 2,
+                        UnitPrice = games[0].Price,
+                    },
+                    new OrderItem() {
+                        Id = ++orderItemId,
+                        OrderId = orderId,
+                        GameId = games[1].Id,
+                        Quantity = 1,
+                        UnitPrice = games[1].Price,
+                    },
+                }),
+                (new Order() {
+                    Id = ++orderId,
+                    UserId = memberUser1.Id,
+                    CreatedAt = DateTime.Now.AddHours(-2),
+                    StatusId = 2,
+                    BillingAddressId = 1,
+                    ShippingAddressId = 1,
+                }, new List<OrderItem>() {
+                    new OrderItem() {
+                        Id = ++orderItemId,
+                        OrderId = orderId,
+                        GameId = games[1].Id,
+                        Quantity = 1,
+                        UnitPrice = games[1].Price,
+                    },
+                    new OrderItem() {
+                        Id = ++orderItemId,
+                        OrderId = orderId,
+                        GameId = games[2].Id,
+                        Quantity = 1,
+                        UnitPrice = games[2].Price,
+                    },
+                })
+            };
+
+            builder.Entity<Order>().HasData(orders.Select(o => o.Item1));
+            builder.Entity<OrderItem>().HasData(orders.SelectMany(o => o.Item2));
+
+
+            builder.Entity("GameUser").HasData(
+                new GameUser(1, memberUser1.Id),
+                new GameUser(2, memberUser1.Id),
+                new GameUser(3, memberUser1.Id),
+                new GameUser(1, memberUser2.Id)
+            );
+        }
+
+        class GameUser
+        {
+            public int WishListId { get; init; }
+            public string WishListUsersId { get; init; }
+
+            public GameUser(int wishListId, string wishListUsersId)
+            {
+                WishListId = wishListId;
+                WishListUsersId = wishListUsersId;
+            }
         }
     }
 }
