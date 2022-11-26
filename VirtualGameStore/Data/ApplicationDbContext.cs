@@ -310,25 +310,26 @@ namespace VirtualGameStore.Data
             var eventRegistrations = new List<Registration>() {
                 new Registration() {
                     Id = 1,
-                    UserId = fooUser.Id,
+                    UserId = memberUser1.Id,
                     EventId = 2,
                     DateTimeRegistered = DateTime.Now.AddDays(-2),
                 },
                 new Registration() {
                     Id = 2,
-                    UserId = barUser.Id,
+                    UserId = memberUser2.Id,
                     EventId = 2,
                     DateTimeRegistered = DateTime.Now.AddDays(-1).AddHours(-6),
                 },
                 new Registration() {
                     Id = 3,
-                    UserId = fooUser.Id,
+                    UserId = memberUser1.Id,
                     EventId = 3,
                     DateTimeRegistered = DateTime.Now.AddDays(-2).AddHours(-1),
                 }
             };
 
-            builder.Entity<Address>().HasData(new Address() {
+            builder.Entity<Address>().HasData(new Address()
+            {
                 Id = 1,
                 Address1 = "104 Road Dr",
                 Address2 = "Apartment #4",
@@ -344,7 +345,7 @@ namespace VirtualGameStore.Data
             var orders = new List<(Order, List<OrderItem>)>() {
                 (new Order() {
                     Id = ++orderId,
-                    UserId = fooUser.Id,
+                    UserId = memberUser1.Id,
                     CreatedAt = DateTime.Now.AddHours(-1),
                     StatusId = 2,
                     BillingAddressId = 1,
@@ -367,7 +368,7 @@ namespace VirtualGameStore.Data
                 }),
                 (new Order() {
                     Id = ++orderId,
-                    UserId = barUser.Id,
+                    UserId = memberUser1.Id,
                     CreatedAt = DateTime.Now.AddHours(-2),
                     StatusId = 2,
                     BillingAddressId = 1,
@@ -395,18 +396,20 @@ namespace VirtualGameStore.Data
 
 
             builder.Entity("GameUser").HasData(
-                new GameUser(1, fooUser.Id),
-                new GameUser(2, fooUser.Id),
-                new GameUser(3, fooUser.Id),
-                new GameUser(1, barUser.Id)
+                new GameUser(1, memberUser1.Id),
+                new GameUser(2, memberUser1.Id),
+                new GameUser(3, memberUser1.Id),
+                new GameUser(1, memberUser2.Id)
             );
         }
 
-        class GameUser {
-            public int    WishListId      { get; init; }
+        class GameUser
+        {
+            public int WishListId { get; init; }
             public string WishListUsersId { get; init; }
 
-            public GameUser(int wishListId, string wishListUsersId) {
+            public GameUser(int wishListId, string wishListUsersId)
+            {
                 WishListId = wishListId;
                 WishListUsersId = wishListUsersId;
             }
