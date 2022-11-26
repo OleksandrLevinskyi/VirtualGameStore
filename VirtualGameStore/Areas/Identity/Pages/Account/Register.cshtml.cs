@@ -77,6 +77,7 @@ namespace VirtualGameStore.Areas.Identity.Pages.Account
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&])[A-Za-z\d#$^+=!*()@%&]+$", ErrorMessage = "The {0} should have at least one of the following: lower case letter, upper case letter, number, special character #$^+=!*()@%&.")]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
