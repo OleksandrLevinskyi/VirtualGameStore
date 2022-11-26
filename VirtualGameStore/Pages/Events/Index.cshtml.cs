@@ -51,7 +51,7 @@ namespace VirtualGameStore.Pages.Events
                 .Include(e => e.Registrations)
                 .ToListAsync();
 
-                Events = Events.Where(e => !e.IsOverAttendeeLimit() || e.Registrations.Any(r => r.UserId == currUserId)).ToList();
+                Events = Events.Where(e => (!e.IsOverAttendeeLimit() || e.Registrations.Any(r => r.UserId == currUserId)) && e.IsInFuture()).ToList();
             }
         }
 
@@ -68,12 +68,17 @@ namespace VirtualGameStore.Pages.Events
                 return Redirect("/Identity/Account/Login");
             }
 
-            if (registrationEvent == null || registrationEvent.IsOverAttendeeLimit())
+            if (registrationEvent == null)
             {
                 return Redirect($"/Events/Index?message={message}");
             }
 
             Registration? userRegisteration = registrationEvent.Registrations.FirstOrDefault(r => r.UserId == currUserId);
+
+            if(registrationEvent.IsOverAttendeeLimit() && userRegisteration == null)
+            {
+                return Redirect($"/Events/Index?message={message}");
+            }
 
             if (userRegisteration != null)
             {
