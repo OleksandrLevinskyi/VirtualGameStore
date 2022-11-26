@@ -130,13 +130,15 @@ namespace VirtualGameStore.Data
                 LockoutEnabled = true
             };
 
-            var fooUser = new User()
+            var memberUser1 = new User()
             {
                 Id = "d5dafa9f-92a4-43dc-9652-02cf3860d621",
-                UserName = "foo",
-                NormalizedUserName = "FOO",
-                Email = "foo@vgs.com",
-                NormalizedEmail = "FOO@VGS.COM",
+                UserName = "msmith",
+                FirstName = "Mark",
+                LastName = "Smith",
+                NormalizedUserName = "MSMITH",
+                Email = "msmith@vgs.com",
+                NormalizedEmail = "MSMITH@VGS.COM",
                 EmailConfirmed = true,
                 PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", // Password1!
                 SecurityStamp = "WQ7TGOMDYEUVSMNVX2G35VKZ4MPGODG4",
@@ -144,13 +146,15 @@ namespace VirtualGameStore.Data
                 LockoutEnabled = true
             };
 
-            var barUser = new User()
+            var memberUser2 = new User()
             {
                 Id = "76742c46-0008-4749-af77-5d129b6d88b1",
-                UserName = "bar",
-                NormalizedUserName = "BAR",
-                Email = "bar@vgs.com",
-                NormalizedEmail = "BAR@VGS.COM",
+                UserName = "bjacobs",
+                FirstName = "Bob",
+                LastName = "Jacobs",
+                NormalizedUserName = "BJACOBS",
+                Email = "bjacobs@vgs.com",
+                NormalizedEmail = "BJACOBS@VGS.COM",
                 EmailConfirmed = true,
                 PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", // Password1!
                 SecurityStamp = "7XDDKAH2YGWTBDC7UVPT76DUXTLQES3E",
@@ -158,15 +162,31 @@ namespace VirtualGameStore.Data
                 LockoutEnabled = true
             };
 
+            var memberUser3 = new User()
+            {
+                Id = "c1bf3565-0603-45bb-8994-a41612ff7da5",
+                UserName = "rjohnson",
+                FirstName = "Rosa",
+                LastName = "Johnson",
+                NormalizedUserName = "RJOHNSON",
+                Email = "rjohnson@vgs.com",
+                NormalizedEmail = "RJOHNSON@VGS.COM",
+                EmailConfirmed = true,
+                PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", // Password1!
+                SecurityStamp = "KKZPX3W76NI7XNOST4IYIHAH4UIF2QYP",
+                ConcurrencyStamp = "15ac61f3-86df-4243-be66-d8d65db46861",
+                LockoutEnabled = true
+            };
+
             builder.Entity<IdentityRole>().HasData(employeeRole, memberRole);
 
-            builder.Entity<User>().HasData(employeeUser, memberUser, fooUser, barUser);
+            builder.Entity<User>().HasData(employeeUser, memberUser, memberUser1, memberUser2, memberUser3);
 
             builder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>() { UserId = employeeUser.Id, RoleId = employeeRole.Id },
                 new IdentityUserRole<string>() { UserId = memberUser.Id, RoleId = memberRole.Id },
-                new IdentityUserRole<string>() { UserId = fooUser.Id, RoleId = memberRole.Id },
-                new IdentityUserRole<string>() { UserId = barUser.Id, RoleId = memberRole.Id });
+                new IdentityUserRole<string>() { UserId = memberUser1.Id, RoleId = memberRole.Id },
+                new IdentityUserRole<string>() { UserId = memberUser2.Id, RoleId = memberRole.Id });
 
             builder.Entity<Gender>().HasData(
                 new Gender() { Id = 1, Name = "Male" },

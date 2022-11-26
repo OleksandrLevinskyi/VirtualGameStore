@@ -600,9 +600,10 @@ namespace VirtualGameStore.Migrations
                 values: new object[,]
                 {
                     { "5abf56ec-8224-42b1-965d-a11bd8d818c7", 0, null, null, "5e2e9d4a-d8e2-4200-8e13-ef777407f2ca", "employee@vgs.com", true, null, null, false, null, false, null, "EMPLOYEE@VGS.COM", "EMPLOYEE", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "IOHH3QAG6CBJWWO4LDGAJTSSACV2KNDI", null, false, "employee" },
-                    { "76742c46-0008-4749-af77-5d129b6d88b1", 0, null, null, "0c6c0c5a-52ea-4b4c-89cc-8130611f1e54", "bar@vgs.com", true, null, null, false, null, true, null, "BAR@VGS.COM", "BAR", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "7XDDKAH2YGWTBDC7UVPT76DUXTLQES3E", null, false, "bar" },
+                    { "76742c46-0008-4749-af77-5d129b6d88b1", 0, null, null, "0c6c0c5a-52ea-4b4c-89cc-8130611f1e54", "bjacobs@vgs.com", true, "Bob", null, false, "Jacobs", true, null, "BJACOBS@VGS.COM", "BJACOBS", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "7XDDKAH2YGWTBDC7UVPT76DUXTLQES3E", null, false, "bjacobs" },
                     { "9a44a14a-47fb-4196-8a45-57fa557fb992", 0, null, null, "d91ba7e7-903d-453c-8caf-3ad1907f96c6", "member@vgs.com", true, null, null, false, null, true, null, "MEMBER@VGS.COM", "MEMBER", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "HNGZXUROYPX527M6RHWO6OPYCETU2WVK", null, false, "member" },
-                    { "d5dafa9f-92a4-43dc-9652-02cf3860d621", 0, null, null, "0f4fa02d-33c6-48e6-b573-7218fa00c9a2", "foo@vgs.com", true, null, null, false, null, true, null, "FOO@VGS.COM", "FOO", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "WQ7TGOMDYEUVSMNVX2G35VKZ4MPGODG4", null, false, "foo" }
+                    { "c1bf3565-0603-45bb-8994-a41612ff7da5", 0, null, null, "15ac61f3-86df-4243-be66-d8d65db46861", "rjohnson@vgs.com", true, "Rosa", null, false, "Johnson", true, null, "RJOHNSON@VGS.COM", "RJOHNSON", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "KKZPX3W76NI7XNOST4IYIHAH4UIF2QYP", null, false, "rjohnson" },
+                    { "d5dafa9f-92a4-43dc-9652-02cf3860d621", 0, null, null, "0f4fa02d-33c6-48e6-b573-7218fa00c9a2", "msmith@vgs.com", true, "Mark", null, false, "Smith", true, null, "MSMITH@VGS.COM", "MSMITH", "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", null, false, "WQ7TGOMDYEUVSMNVX2G35VKZ4MPGODG4", null, false, "msmith" }
                 });
 
             migrationBuilder.InsertData(
@@ -666,9 +667,9 @@ namespace VirtualGameStore.Migrations
                 columns: new[] { "Id", "AttendeeLimit", "CreatorId", "DateTime", "Description", "Name" },
                 values: new object[,]
                 {
-                    { 1, 5, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 24, 0, 45, 15, 869, DateTimeKind.Local).AddTicks(7176), "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.", "Winter Hackathon 2022" },
-                    { 2, 16, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2023, 2, 2, 14, 45, 15, 869, DateTimeKind.Local).AddTicks(7212), "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!", "Holiday Trivia" },
-                    { 3, 1, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 20, 5, 45, 15, 869, DateTimeKind.Local).AddTicks(7214), "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.", "Dungeons & Dragons" }
+                    { 1, 5, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 29, 23, 34, 21, 942, DateTimeKind.Local).AddTicks(3368), "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.", "Winter Hackathon 2022" },
+                    { 2, 16, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2023, 2, 8, 13, 34, 21, 942, DateTimeKind.Local).AddTicks(3406), "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!", "Holiday Trivia" },
+                    { 3, 1, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 26, 4, 34, 21, 942, DateTimeKind.Local).AddTicks(3408), "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.", "Dungeons & Dragons" }
                 });
 
             migrationBuilder.InsertData(
