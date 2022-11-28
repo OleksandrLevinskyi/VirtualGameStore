@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using VirtualGameStore.Models;
+using VirtualGameStore.Models.ValidationAttributes;
+using Microsoft.AspNetCore.Http;
 
 namespace VirtualGameStore.Data
 {
@@ -87,6 +91,29 @@ namespace VirtualGameStore.Data
 
         private static void Seed(ModelBuilder builder)
         {
+            Address address1 = new Address()
+            {
+                Id = 1,
+                Address1 = "104 Road Dr",
+                City = "Kitchener",
+                Province = "Ontario",
+                PostalCode = "L1L 1L1",
+                Country = "Canada"
+            };
+
+            Address address2 = new Address()
+            {
+                Id = 2,
+                Address1 = "12 King Street",
+                City = "Waterloo",
+                Province = "Ontario",
+                PostalCode = "B1B 1L1",
+                Country = "Canada"
+            };
+
+
+            builder.Entity<Address>().HasData(address1, address2);
+
             var employeeRole = new IdentityRole()
             {
                 Id = "afe877ff-cf81-4bff-9d50-66238d3a1b9e",
@@ -143,7 +170,7 @@ namespace VirtualGameStore.Data
                 PasswordHash = "AQAAAAEAACcQAAAAEGiel0OKEa5+pKsFTlka1xHjptYHOzHiRtImi2E8QYR4dgXVvcAFZm1AA7wKbxO9ew==", // Password1!
                 SecurityStamp = "WQ7TGOMDYEUVSMNVX2G35VKZ4MPGODG4",
                 ConcurrencyStamp = "0f4fa02d-33c6-48e6-b573-7218fa00c9a2",
-                LockoutEnabled = true
+                LockoutEnabled = true,
             };
 
             var memberUser2 = new User()
@@ -181,6 +208,18 @@ namespace VirtualGameStore.Data
             builder.Entity<IdentityRole>().HasData(employeeRole, memberRole);
 
             builder.Entity<User>().HasData(employeeUser, memberUser, memberUser1, memberUser2, memberUser3);
+
+            PaymentOption paymentOption = new PaymentOption()
+            {
+                Id = 1,
+                UserId = memberUser.Id,
+                CardNumber = "4839203948547382",
+                ExpiryDate = "12/28",
+                HolderFirstName = "John",
+                HolderLastName = "Smith"
+            };
+
+            builder.Entity<PaymentOption>().HasData(paymentOption);
 
             builder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>() { UserId = employeeUser.Id, RoleId = employeeRole.Id },
@@ -328,17 +367,6 @@ namespace VirtualGameStore.Data
                 }
             };
 
-            builder.Entity<Address>().HasData(new Address()
-            {
-                Id = 1,
-                Address1 = "104 Road Dr",
-                Address2 = "Apartment #4",
-                City = "Kitchener",
-                Province = "Ontario",
-                PostalCode = "L1L 1L1",
-                Country = "Canada",
-            });
-
             builder.Entity<Registration>().HasData(eventRegistrations);
 
             int orderId = 0, orderItemId = 0;
@@ -348,8 +376,8 @@ namespace VirtualGameStore.Data
                     UserId = memberUser1.Id,
                     CreatedAt = DateTime.Now.AddHours(-1),
                     StatusId = 2,
-                    BillingAddressId = 1,
-                    ShippingAddressId = 1,
+                    BillingAddressId = address2.Id,
+                    ShippingAddressId = address2.Id,
                 }, new List<OrderItem>() {
                     new OrderItem() {
                         Id = ++orderItemId,
@@ -371,8 +399,8 @@ namespace VirtualGameStore.Data
                     UserId = memberUser1.Id,
                     CreatedAt = DateTime.Now.AddHours(-2),
                     StatusId = 2,
-                    BillingAddressId = 1,
-                    ShippingAddressId = 1,
+                    BillingAddressId = address2.Id,
+                    ShippingAddressId = address2.Id,
                 }, new List<OrderItem>() {
                     new OrderItem() {
                         Id = ++orderItemId,
