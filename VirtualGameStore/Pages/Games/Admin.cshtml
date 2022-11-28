@@ -11,7 +11,8 @@
     <a asp-page="Create">Create New</a>
 </p>
 
-@if (!Model.Games.Any()){
+@if (!Model.Games.Any())
+{
     <p>No games available. Please add a new game.</p>
 }
 else
@@ -28,7 +29,7 @@ else
                 <th>
                     @Html.DisplayNameFor(model => model.Games[0].Price)
                 </th>
-                <th>
+                <th style="width: 100px;">
                     @Html.DisplayNameFor(model => model.Games[0].IsDigital)
                 </th>
                 <th>
@@ -62,7 +63,14 @@ else
                         @Html.DisplayFor(modelItem => item.IsDigital)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Stock)
+                        @if (item.IsDigital)
+                        {
+                            <span>N/A</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        }
                     </td>
                     <td>
                         @foreach (var platform in item.Platforms)
