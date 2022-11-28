@@ -16,6 +16,7 @@ namespace VirtualGameStore.Models
         public string Description { get; set; }
 
         [ValidDateTime]
+        [Display(Name = "Date/Time")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy hh:mm tt}")]
         public DateTime DateTime { get; set; }
 
