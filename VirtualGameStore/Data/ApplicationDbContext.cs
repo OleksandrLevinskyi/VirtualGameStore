@@ -375,7 +375,7 @@ namespace VirtualGameStore.Data
                     Id = ++orderId,
                     UserId = memberUser1.Id,
                     CreatedAt = DateTime.Now.AddHours(-1),
-                    StatusId = 2,
+                    IsProcessed = true,
                     BillingAddressId = address2.Id,
                     ShippingAddressId = address2.Id,
                 }, new List<OrderItem>() {
@@ -398,7 +398,7 @@ namespace VirtualGameStore.Data
                     Id = ++orderId,
                     UserId = memberUser1.Id,
                     CreatedAt = DateTime.Now.AddHours(-2),
-                    StatusId = 2,
+                    IsProcessed = true,
                     BillingAddressId = address2.Id,
                     ShippingAddressId = address2.Id,
                 }, new List<OrderItem>() {
