@@ -170,7 +170,7 @@ public class IndexModel : PageModel
             .ToListAsync();
         var reportStyler = new ReportStyler<Event>(new ReportStyler<Event>.Column[]
         {
-            new("Name", XLDataType.Text, e => e.Name),
+            new("Event Name", XLDataType.Text, e => e.Name),
             new("Date", XLDataType.DateTime, e => e.DateTime.Date),
             new("Time", XLDataType.DateTime, e => e.DateTime.TimeOfDay, "H:mm"),
             new("Registrations", XLDataType.Number, e => e.Registrations.Count, "#,##0"),
