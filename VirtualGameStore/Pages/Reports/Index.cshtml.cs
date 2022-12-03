@@ -87,7 +87,7 @@ public class IndexModel : PageModel
         {
             new("User Name", XLDataType.Text, u => u.UserName),
             new("Full Name", XLDataType.Text, u => FullName(u.FirstName, u.LastName)),
-            new("Receive Promo Emails", XLDataType.Text, u => u.IsEmailMarketingEnabled ? "YES" : "NO"),
+            new("Receive Promo Emails", XLDataType.Text, u => u.IsEmailMarketingEnabled ? "Yes" : "No"),
             new("No. Games Owned", XLDataType.Number,
                 u => u.Orders.Sum(o => o.Items.Sum(i => i.Game.IsDigital ? 1 : i.Quantity)),"#,##0")
         });
@@ -132,7 +132,7 @@ public class IndexModel : PageModel
     {
         var sales = (await _context.OrderItems
                 .Include(i => i.Order)
-                .Where(i => i.Order.StatusId == 2) // This will no longer be a magic number after we fix status
+                .Where(i => i.Order.IsProcessed)
                 .Include(i => i.Game)
                 .ThenInclude(g => g.Categories)
                 .Include(i => i.Game)
@@ -170,7 +170,7 @@ public class IndexModel : PageModel
             .ToListAsync();
         var reportStyler = new ReportStyler<Event>(new ReportStyler<Event>.Column[]
         {
-            new("Name", XLDataType.Text, e => e.Name),
+            new("Event Name", XLDataType.Text, e => e.Name),
             new("Date", XLDataType.DateTime, e => e.DateTime.Date),
             new("Time", XLDataType.DateTime, e => e.DateTime.TimeOfDay, "H:mm"),
             new("Registrations", XLDataType.Number, e => e.Registrations.Count, "#,##0"),
