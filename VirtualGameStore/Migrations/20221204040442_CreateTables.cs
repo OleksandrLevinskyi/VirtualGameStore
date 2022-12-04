@@ -428,7 +428,6 @@ namespace VirtualGameStore.Migrations
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BillingAddressId = table.Column<int>(type: "int", nullable: false),
                     ShippingAddressId = table.Column<int>(type: "int", nullable: false),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
                     IsProcessed = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -677,9 +676,9 @@ namespace VirtualGameStore.Migrations
                 columns: new[] { "Id", "AttendeeLimit", "CreatorId", "DateTime", "Description", "Name" },
                 values: new object[,]
                 {
-                    { 1, 5, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 12, 2, 20, 6, 42, 184, DateTimeKind.Local).AddTicks(3143), "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.", "Winter Hackathon 2022" },
-                    { 2, 16, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2023, 2, 11, 10, 6, 42, 184, DateTimeKind.Local).AddTicks(3182), "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!", "Holiday Trivia" },
-                    { 3, 1, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 11, 29, 1, 6, 42, 184, DateTimeKind.Local).AddTicks(3184), "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.", "Dungeons & Dragons" }
+                    { 1, 5, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 12, 8, 23, 4, 41, 727, DateTimeKind.Local).AddTicks(7728), "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.", "Winter Hackathon 2022" },
+                    { 2, 16, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2023, 2, 17, 13, 4, 41, 727, DateTimeKind.Local).AddTicks(7765), "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!", "Holiday Trivia" },
+                    { 3, 1, "5abf56ec-8224-42b1-965d-a11bd8d818c7", new DateTime(2022, 12, 5, 4, 4, 41, 727, DateTimeKind.Local).AddTicks(7767), "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.", "Dungeons & Dragons" }
                 });
 
             migrationBuilder.InsertData(
@@ -725,11 +724,11 @@ namespace VirtualGameStore.Migrations
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "Id", "BillingAddressId", "CreatedAt", "IsProcessed", "ShippingAddressId", "StatusId", "UserId" },
+                columns: new[] { "Id", "BillingAddressId", "CreatedAt", "IsProcessed", "ShippingAddressId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 2, new DateTime(2022, 11, 27, 19, 6, 42, 184, DateTimeKind.Local).AddTicks(3229), false, 2, 2, "d5dafa9f-92a4-43dc-9652-02cf3860d621" },
-                    { 2, 2, new DateTime(2022, 11, 27, 18, 6, 42, 184, DateTimeKind.Local).AddTicks(3292), false, 2, 2, "d5dafa9f-92a4-43dc-9652-02cf3860d621" }
+                    { 1, 2, new DateTime(2022, 12, 3, 22, 4, 41, 727, DateTimeKind.Local).AddTicks(7835), true, 2, "d5dafa9f-92a4-43dc-9652-02cf3860d621" },
+                    { 2, 2, new DateTime(2022, 12, 3, 21, 4, 41, 727, DateTimeKind.Local).AddTicks(7902), true, 2, "d5dafa9f-92a4-43dc-9652-02cf3860d621" }
                 });
 
             migrationBuilder.InsertData(
@@ -753,9 +752,9 @@ namespace VirtualGameStore.Migrations
                 columns: new[] { "Id", "DateTimeRegistered", "EventId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 11, 25, 20, 6, 42, 184, DateTimeKind.Local).AddTicks(3200), 2, "d5dafa9f-92a4-43dc-9652-02cf3860d621" },
-                    { 2, new DateTime(2022, 11, 26, 14, 6, 42, 184, DateTimeKind.Local).AddTicks(3204), 2, "76742c46-0008-4749-af77-5d129b6d88b1" },
-                    { 3, new DateTime(2022, 11, 25, 19, 6, 42, 184, DateTimeKind.Local).AddTicks(3207), 3, "d5dafa9f-92a4-43dc-9652-02cf3860d621" }
+                    { 1, new DateTime(2022, 12, 1, 23, 4, 41, 727, DateTimeKind.Local).AddTicks(7807), 2, "d5dafa9f-92a4-43dc-9652-02cf3860d621" },
+                    { 2, new DateTime(2022, 12, 2, 17, 4, 41, 727, DateTimeKind.Local).AddTicks(7812), 2, "76742c46-0008-4749-af77-5d129b6d88b1" },
+                    { 3, new DateTime(2022, 12, 1, 22, 4, 41, 727, DateTimeKind.Local).AddTicks(7815), 3, "d5dafa9f-92a4-43dc-9652-02cf3860d621" }
                 });
 
             migrationBuilder.CreateIndex(

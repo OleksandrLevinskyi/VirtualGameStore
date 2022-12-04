@@ -12,7 +12,7 @@ using VirtualGameStore.Data;
 namespace VirtualGameStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221128010642_CreateTables")]
+    [Migration("20221204040442_CreateTables")]
     partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -440,7 +440,7 @@ namespace VirtualGameStore.Migrations
                             Id = 1,
                             AttendeeLimit = 5,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2022, 12, 2, 20, 6, 42, 184, DateTimeKind.Local).AddTicks(3143),
+                            DateTime = new DateTime(2022, 12, 8, 23, 4, 41, 727, DateTimeKind.Local).AddTicks(7728),
                             Description = "The Growth Hacking Hackathon is an event where designers, developers and marketers come together to create tools to help accelerate growth.",
                             Name = "Winter Hackathon 2022"
                         },
@@ -449,7 +449,7 @@ namespace VirtualGameStore.Migrations
                             Id = 2,
                             AttendeeLimit = 16,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2023, 2, 11, 10, 6, 42, 184, DateTimeKind.Local).AddTicks(3182),
+                            DateTime = new DateTime(2023, 2, 17, 13, 4, 41, 727, DateTimeKind.Local).AddTicks(7765),
                             Description = "Come join us for some virtual pub trivia! Show up solo or with a team — and join the league to be eligible for big prizes!",
                             Name = "Holiday Trivia"
                         },
@@ -458,7 +458,7 @@ namespace VirtualGameStore.Migrations
                             Id = 3,
                             AttendeeLimit = 1,
                             CreatorId = "5abf56ec-8224-42b1-965d-a11bd8d818c7",
-                            DateTime = new DateTime(2022, 11, 29, 1, 6, 42, 184, DateTimeKind.Local).AddTicks(3184),
+                            DateTime = new DateTime(2022, 12, 5, 4, 4, 41, 727, DateTimeKind.Local).AddTicks(7767),
                             Description = "We will be playing an adventure provided in this fantastic series of separate stories set in the Forgotten Realms library itself, known as Candlekeep.",
                             Name = "Dungeons & Dragons"
                         });
@@ -715,9 +715,6 @@ namespace VirtualGameStore.Migrations
                     b.Property<int>("ShippingAddressId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -737,20 +734,18 @@ namespace VirtualGameStore.Migrations
                         {
                             Id = 1,
                             BillingAddressId = 2,
-                            CreatedAt = new DateTime(2022, 11, 27, 19, 6, 42, 184, DateTimeKind.Local).AddTicks(3229),
-                            IsProcessed = false,
+                            CreatedAt = new DateTime(2022, 12, 3, 22, 4, 41, 727, DateTimeKind.Local).AddTicks(7835),
+                            IsProcessed = true,
                             ShippingAddressId = 2,
-                            StatusId = 2,
                             UserId = "d5dafa9f-92a4-43dc-9652-02cf3860d621"
                         },
                         new
                         {
                             Id = 2,
                             BillingAddressId = 2,
-                            CreatedAt = new DateTime(2022, 11, 27, 18, 6, 42, 184, DateTimeKind.Local).AddTicks(3292),
-                            IsProcessed = false,
+                            CreatedAt = new DateTime(2022, 12, 3, 21, 4, 41, 727, DateTimeKind.Local).AddTicks(7902),
+                            IsProcessed = true,
                             ShippingAddressId = 2,
-                            StatusId = 2,
                             UserId = "d5dafa9f-92a4-43dc-9652-02cf3860d621"
                         });
                 });
@@ -932,21 +927,21 @@ namespace VirtualGameStore.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeRegistered = new DateTime(2022, 11, 25, 20, 6, 42, 184, DateTimeKind.Local).AddTicks(3200),
+                            DateTimeRegistered = new DateTime(2022, 12, 1, 23, 4, 41, 727, DateTimeKind.Local).AddTicks(7807),
                             EventId = 2,
                             UserId = "d5dafa9f-92a4-43dc-9652-02cf3860d621"
                         },
                         new
                         {
                             Id = 2,
-                            DateTimeRegistered = new DateTime(2022, 11, 26, 14, 6, 42, 184, DateTimeKind.Local).AddTicks(3204),
+                            DateTimeRegistered = new DateTime(2022, 12, 2, 17, 4, 41, 727, DateTimeKind.Local).AddTicks(7812),
                             EventId = 2,
                             UserId = "76742c46-0008-4749-af77-5d129b6d88b1"
                         },
                         new
                         {
                             Id = 3,
-                            DateTimeRegistered = new DateTime(2022, 11, 25, 19, 6, 42, 184, DateTimeKind.Local).AddTicks(3207),
+                            DateTimeRegistered = new DateTime(2022, 12, 1, 22, 4, 41, 727, DateTimeKind.Local).AddTicks(7815),
                             EventId = 3,
                             UserId = "d5dafa9f-92a4-43dc-9652-02cf3860d621"
                         });
