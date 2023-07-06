@@ -2,6 +2,7 @@
 This project is a system for selling games.
 
 User Documentation (for more information on how the app works): [https://bit.ly/3O3sKHy](https://bit.ly/3O3sKHy)
+
 Gallery (app screenshots from User Documentation): [https://bit.ly/44vqwGf](https://bit.ly/44vqwGf)
 
 ## Local environment variables
